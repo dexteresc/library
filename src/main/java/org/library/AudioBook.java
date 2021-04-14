@@ -1,12 +1,23 @@
 package org.library;
 
-public class AudioBook extends Article{ // Not prioritizing
+/**
+ * Audiobook type of article
+ */
+public class AudioBook extends Article { // Not prioritizing
     // Should we add this to db?
-    String narrator = "John Smith";
+    String narrator;
     // Feedback needed
-    int hours = 1;
-    int minutes = 10;
+    int hours;
+    int minutes;
 
+    /**
+     * @param id       The id of the article
+     * @param title    The title of the article
+     * @param year     The year of the article
+     * @param narrator The narrator of the audiobook
+     * @param hours    Hour length
+     * @param minutes  Minute length
+     */
     public AudioBook(int id, String title, int year, String narrator, int hours, int minutes) {
         super(id, title, year);
         this.narrator = narrator;

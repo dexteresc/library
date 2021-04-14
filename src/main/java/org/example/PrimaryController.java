@@ -26,18 +26,19 @@ public class PrimaryController {
     public ListView<String> categoriesView;
     public VBox libView;
     public StackPane libStackPane;
-    public ScrollPane scrollPane;
     public BorderPane mainPane;
 
+    /**
+     * Switches scene to login
+     *
+     * @throws IOException if fxml doesn't exist in resources
+     */
     @FXML
     public void switchToLogin() throws IOException {
         App.setRoot("login");
     }
 
-    @FXML
     public void initialize() {
-        scrollPane.setFitToWidth(true);
-
         for (Article article : allArticles()) {
             BorderPane borderPane = new BorderPane();
             Label label = new Label(article.getTitle());
@@ -50,16 +51,21 @@ public class PrimaryController {
     }
     // Lite hjälp med detta error. Kan inte ta bort module-info.java utan error :)
     // Går annars att lösa genom att dra in allt under example (?)
-    @FXML
+
+    /**
+     * Get all articles in the library
+     *
+     * @return ArrayList of articles
+     */
     public ArrayList<Article> allArticles() {
         ArrayList<Article> articles = new ArrayList<>();
         Connection conn = LibraryOverseer.createDBConnection();
 
-        try{
+        try {
             assert conn != null;
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery("select * from artikel");
-            while (rs.next()){
+            while (rs.next()) {
                 int id = rs.getInt("artikelID");
                 String title = rs.getString("titel");
                 int year = rs.getInt("ar");
@@ -68,7 +74,7 @@ public class PrimaryController {
                 Double physical_location = rs.getDouble("fysiskPlats");
                 int inStock = rs.getInt("antal");
 
-                Book book = new Book(id,title,year,isbn,authors,physical_location,inStock);
+                Book book = new Book(id, title, year, isbn, authors, physical_location, inStock);
                 articles.add(book);
             }
         } catch (Exception e) {
