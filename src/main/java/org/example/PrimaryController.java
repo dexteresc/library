@@ -47,6 +47,8 @@ public class PrimaryController {
             BorderPane.setAlignment(label, Pos.CENTER_LEFT);
             borderPane.setRight(button);
             libView.getChildren().add(borderPane);
+
+
         }
     }
     // Lite hjälp med detta error. Kan inte ta bort module-info.java utan error :)
