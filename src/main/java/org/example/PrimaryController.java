@@ -41,13 +41,7 @@ public class PrimaryController {
     public void initialize() {
         connection = LibraryOverseer.createDBConnection();
         for (Article article : LibraryOverseer.allArticles(connection)) {
-            BorderPane borderPane = new BorderPane();
-            Label label = new Label(article.getTitle());
-            Button button = new Button("Låna");
-            borderPane.setLeft(label);
-            BorderPane.setAlignment(label, Pos.CENTER_LEFT);
-            borderPane.setRight(button);
-            libView.getChildren().add(borderPane);
+            libModuleCreate(article);
         }
     }
 
@@ -55,17 +49,17 @@ public class PrimaryController {
     public void search() {
         libView.getChildren().clear();
         for (Article article : Objects.requireNonNull(LibraryOverseer.searchArticle(searchBar.textProperty().getValue().toLowerCase().strip(), connection))) {
-            BorderPane borderPane = new BorderPane();
-            Label label = new Label(article.getTitle());
-            Button button = new Button("Låna");
-            borderPane.setLeft(label);
-            BorderPane.setAlignment(label, Pos.CENTER_LEFT);
-            borderPane.setRight(button);
-            libView.getChildren().add(borderPane);
+            libModuleCreate(article);
         }
     }
-    // Lite hjälp med detta error. Kan inte ta bort module-info.java utan error :)
-    // Går annars att lösa genom att dra in allt under example (?)
 
-
+    private void libModuleCreate(Article article) { // might be a better way to solve this.
+        BorderPane borderPane = new BorderPane();
+        Label label = new Label(article.getTitle());
+        Button button = new Button("Låna");
+        borderPane.setLeft(label);
+        BorderPane.setAlignment(label, Pos.CENTER_LEFT);
+        borderPane.setRight(button);
+        libView.getChildren().add(borderPane);
+    }
 }
