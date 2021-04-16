@@ -32,7 +32,7 @@
          <right>
             <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <left>
-                  <Button fx:id="registerButton" mnemonicParsing="false" onAction="#switchToLogin" styleClass="colorButton" stylesheets="@stylesheet.css" text="Register" BorderPane.alignment="CENTER">
+                  <Button fx:id="registerButton" mnemonicParsing="false" onAction="#switchToRegister" styleClass="colorButton" stylesheets="@stylesheet.css" text="Register" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets left="50.0" />
                      </BorderPane.margin>

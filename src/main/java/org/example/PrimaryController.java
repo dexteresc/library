@@ -1,5 +1,6 @@
 package org.example;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -37,6 +38,10 @@ public class PrimaryController {
     public void switchToLogin() throws IOException {
         App.setRoot("login");
     }
+    @FXML
+    public void switchToRegister() throws IOException {
+        App.setRoot("register");
+    }
 
     public void initialize() {
         connection = LibraryOverseer.createDBConnection();
@@ -62,4 +67,6 @@ public class PrimaryController {
         borderPane.setRight(button);
         libView.getChildren().add(borderPane);
     }
+
+
 }
