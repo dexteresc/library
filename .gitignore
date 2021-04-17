@@ -1,1 +1,7 @@
 /src/main/java/org/library/test.java
+
+// Ignore finder metadata files
+.DS_Store
+
+// Ignore build output
+target/
