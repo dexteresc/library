@@ -12,15 +12,13 @@ public class Account {
     public Account() {}
 
     /**
-     * Create a new account instance using a ResultSet
+     * Create a new account instance using a result set.
      * @param resultSet ResultSet used to initialize account fields.
      */
-    public static Account fromResultSet(ResultSet resultSet) throws SQLException {
-        Account account = new Account();
-        account.email = resultSet.getString("email");
-        account.givenName = resultSet.getString("givenName");
-        account.familyName = resultSet.getString("familyName");
-        return account;
+    public Account(ResultSet resultSet) throws SQLException {
+        this.email = resultSet.getString("email");
+        this.givenName = resultSet.getString("givenName");
+        this.familyName = resultSet.getString("familyName");
     }
 
 }
