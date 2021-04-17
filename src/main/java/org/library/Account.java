@@ -21,4 +21,8 @@ public class Account {
         this.familyName = resultSet.getString("familyName");
     }
 
+    public String getEmail() {
+        return email;
+    }
+
 }
