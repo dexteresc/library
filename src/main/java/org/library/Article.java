@@ -1,11 +1,19 @@
 package org.library;
 
+/**
+ * An article
+ */
 public class Article {
     // Need feedback
-    int id = 0;
-    String title = "Odyssey";
-    int year = 2001;
+    int id;
+    String title;
+    int year;
 
+    /**
+     * @param id    The id of the article
+     * @param title The title of the article
+     * @param year Year of article
+     */
     public Article(int id, String title, int year) {
         this.id = id;
         this.title = title;

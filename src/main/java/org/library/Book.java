@@ -1,11 +1,25 @@
 package org.library;
 
+/**
+ * Book type of article
+ */
 public class Book extends Article {
-    String isbn = "01010101010101010101";
+    String isbn;
     String[] authors;
-    Double physical_location = 13.01;
-    int inStock = 1;
+    Double physical_location;
+    int inStock;
 
+    /**
+     * Book Constructor
+     *
+     * @param id                Id of article
+     * @param title             Title of article
+     * @param year              Year of article
+     * @param isbn              The books isbn
+     * @param authors           The books author(s)
+     * @param physical_location The physical location of the book inside the library
+     * @param inStock           The amount of books in the library
+     */
     public Book(int id, String title, int year, String isbn, String[] authors, Double physical_location, int inStock) {
         super(id, title, year);
         this.isbn = isbn;

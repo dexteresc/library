@@ -60,3 +60,7 @@
     -fx-alignment: center;
     -fx-spacing: 10;
 }
+
+.libraryScrollPane {
+    -fx-fit-to-width: true;
+}
