@@ -9,7 +9,17 @@ public class Account {
     private String familyName;
     private String email;
 
-    public Account() {}
+    /**
+     * Create a new account instance.
+     * @param givenName account holder's given name.
+     * @param familyName account holder's family name.
+     * @param email account holder's email.
+     */
+    public Account(String givenName, String familyName, String email) {
+        this.givenName = givenName;
+        this.familyName = familyName;
+        this.email = email;
+    }
 
     /**
      * Create a new account instance using a result set.
