@@ -43,6 +43,11 @@ public class AccountManager {
             throw new Exception("Failed to query database.");
         }
 
+        if (resultSet.next() == false) {
+            // User not found
+            throw new Exception("Invalid username or password.");
+        }
+
         String passwordHash;
         try {
             passwordHash = resultSet.getString("passwordHash");
@@ -82,4 +87,5 @@ public class AccountManager {
             throw new Exception("Failed to query database.");
         }
     }
+
 }
