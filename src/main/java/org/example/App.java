@@ -4,13 +4,10 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.library.User;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 /**
  * JavaFX App

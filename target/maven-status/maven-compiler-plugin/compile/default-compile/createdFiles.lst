@@ -1,7 +1,0 @@
-org\library\Book.class
-org\library\AudioBook.class
-org\example\App.class
-org\example\PrimaryController.class
-org\library\Article.class
-org\example\LoginController.class
-org\library\LibraryOverseer.class
