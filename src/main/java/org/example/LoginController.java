@@ -23,8 +23,9 @@ public class LoginController {
     public BorderPane header;
     public PasswordField passwordField;
     public TextField usernameField;
+    Label errorLabel = new Label("Username or password is wrong.");
 
-    private final User user = App.getUser();
+    private final User user = App.getUser(); // Get user from App
     public VBox loginBox;
 
     @FXML
@@ -32,28 +33,40 @@ public class LoginController {
         App.setRoot("primary");
     }
 
+    public void goRegister() throws IOException {
+        App.setRoot("register");
+    }
 
-    public void goRegister(ActionEvent actionEvent) {
-
+    public void initialize() {
+        errorLabel.getStyleClass().add("errorLabel");
     }
 
     @FXML
     private void logIn() {
         String username = usernameField.textProperty().getValue();
         String password = passwordField.textProperty().getValue();
-        System.out.println(username + " " + password);
-        if (username.strip().equals("")) {
-            usernameField.getStyleClass().add("fieldError");
-        } else if (password.strip().equals("")) {
-            passwordField.getStyleClass().add("fieldError");
+
+        if (username.strip().equals("") || password.strip().equals("")) { // Check if empty
+            if (username.strip().equals("")) {
+                usernameField.getStyleClass().add("fieldError"); // Add red border
+            }
+            if (password.strip().equals("")) {
+                passwordField.getStyleClass().add("fieldError"); // Add red border
+            }
+            if (!(loginBox.getChildren().contains(errorLabel))) {
+                loginBox.getChildren().add(errorLabel); // Add error label
+            }
+            passwordField.clear(); // Clear password field
         } else {
-            if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
+            passwordField.getStyleClass().remove("fieldError"); // Remove red border if condition is filled
+            usernameField.getStyleClass().remove("fieldError"); // Remove red border if condition is filled
+            if (username.equals(user.getUsername()) && password.equals(user.getPassword())) { // TODO: Check for username in db (LibraryOverseer)
                 user.setLoggedIn(true);
             } else {
-                Label errorLabel = new Label("Username or password is wrong.");
-                errorLabel.getStyleClass().add("errorLabel");
-                loginBox.getChildren().add(errorLabel);
-                passwordField.clear();
+                if (!(loginBox.getChildren().contains(errorLabel))) {
+                    loginBox.getChildren().add(errorLabel); // Add error label
+                }
+                passwordField.clear(); // Clear password field
             }
         }
     }
