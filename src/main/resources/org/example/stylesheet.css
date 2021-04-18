@@ -51,6 +51,9 @@
     -fx-font-weight: bold;
     -fx-padding: 8 10;
 }
+.titleLabel {
+    -fx-font-size: 16px;
+}
 
 .categoryView {
     -fx-background-color: #FFFFFF;
@@ -63,4 +66,14 @@
 
 .libraryScrollPane {
     -fx-fit-to-width: true;
+}
+
+.authorLabel {
+    -fx-text-fill: #858585;
+}
+.errorLabel {
+    -fx-text-fill: #f25252;
+}
+.fieldError {
+    -fx-border-color: #f25252;
 }
