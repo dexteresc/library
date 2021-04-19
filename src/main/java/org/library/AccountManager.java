@@ -125,4 +125,10 @@ public class AccountManager {
         return account;
     }
 
+    // TODO: Get account by email
+
+    // TODO: Get all accounts
+
+    // TODO: Update account
+    
 }
