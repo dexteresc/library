@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.library.AccountManager;
 import org.library.AuthenticationModel;
-import org.library.User;
 
 import java.io.IOException;
 
