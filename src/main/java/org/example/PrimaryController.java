@@ -13,6 +13,7 @@ import org.library.*;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -30,7 +31,7 @@ public class PrimaryController {
 
 
     private Connection connection;
-    User user = App.getUser(); // is this wrong?
+    Account account = App.getAccount();
 
     /**
      * Switches scene to login
@@ -45,8 +46,8 @@ public class PrimaryController {
     public void initialize() {
         connection = LibraryOverseer.createDBConnection(); // Create db connection
 
-        promptSearchDecor();
-        if (user.isLoggedIn()) {
+        promptSearchDecor("Search through the library.");
+        if (!(account == null)) {
             headerButtonBox.getChildren().clear();
             Button myPage = new Button("Mina sidor");
             headerButtonBox.setCenter(myPage);
@@ -60,12 +61,18 @@ public class PrimaryController {
     @FXML
     public void searchResult() {
         libView.getChildren().clear();
-        if (!(searchBar.textProperty().getValue().strip().equals(""))) {
-            for (Article article : Objects.requireNonNull(LibraryOverseer.searchArticle(searchBar.textProperty().getValue().toLowerCase().strip(), connection))) {
-                libModuleCreate(article);
+        String searchInput = searchBar.textProperty().getValue().strip();
+        if (!(searchInput.equals(""))) {
+            ArrayList<Article> searchArray = Objects.requireNonNull(LibraryOverseer.searchArticle(searchBar.textProperty().getValue().toLowerCase().strip(), connection));
+            if (searchArray.isEmpty()) {
+                promptSearchDecor("No result for: \"" + searchInput + "\"");
+            } else {
+                for (Article article : searchArray) {
+                    libModuleCreate(article);
+                }
             }
         } else {
-            promptSearchDecor();
+            promptSearchDecor("Search through the library.");
         }
     }
 
@@ -76,7 +83,7 @@ public class PrimaryController {
         Button borrowButton = new Button("Låna");
 
         if (article instanceof Book) {
-            String[] authors = ((Book) article).getAuthors();
+            String[] authors = ((Book) article).getAuthors().toArray(new String[0]); // FIX
             String authorString = Arrays.toString(authors);
             authorString = authorString.replaceAll("\\[", "").replaceAll("]", "");
             Label authorLabel = new Label(authorString);
@@ -98,14 +105,12 @@ public class PrimaryController {
             borderPane.setLeft(title);
             borderPane.setRight(borrowButton);
             libView.getChildren().add(borderPane);
-        } else {
-            promptSearchDecor();
         }
     }
 
-    private void promptSearchDecor() {
+    private void promptSearchDecor(String text) {
         BorderPane borderPane = new BorderPane();
-        Label label = new Label("Search through the library.");
+        Label label = new Label(text);
         borderPane.setCenter(label);
         libView.getChildren().add(borderPane);
     }

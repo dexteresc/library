@@ -30,34 +30,22 @@ public class LibraryOverseer { // Database currently incomplete. Might rename cl
         }
     }
 
-    /**
-     * Get all articles in the library
-     *
-     * @return ArrayList of articles
-     */
-    public static ArrayList<Article> allArticles(Connection connection) {
-
-        try {
-            assert connection != null;
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from artikel");
-            createArticleObject(articles, rs);
-            System.out.println(articles);
-        } catch (Exception e) {
-            System.out.println("Something went wrong in allArticles()");
-        }
-
-        return articles;
-    }
-
     public static ArrayList<Article> searchArticle(String statement, Connection connection) {
         statement = "%" + statement + "%";
         ArrayList<Article> articleArrayList = new ArrayList<>();
         try {
             // TODO: Search author name without specifying
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from artikel where titel like ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("select a.artikelID, namn, titel, ar, ISBN, fysiskPlats, antal\n" +
+                    "from artikel_forfattare\n" +
+                    "join artikel a on a.artikelID = artikel_forfattare.artikelID\n" +
+                    "join forfattare f on f.forfattareID = artikel_forfattare.forfattareID\n" +
+                    "where a.artikelID in (select a.artikelID\n" +
+                    "                    from artikel_forfattare\n" +
+                    "                        join artikel a on a.artikelID = artikel_forfattare.artikelID\n" +
+                    "                        join forfattare f on artikel_forfattare.forfattareID = f.forfattareID\n" +
+                    "                    where (titel like ? or namn like ?))");
             preparedStatement.setString(1, statement);
-            System.out.println(preparedStatement);
+            preparedStatement.setString(2, statement);
             ResultSet resultSet = preparedStatement.executeQuery();
             createArticleObject(articleArrayList, resultSet);
             System.out.println(articleArrayList);
@@ -70,17 +58,29 @@ public class LibraryOverseer { // Database currently incomplete. Might rename cl
     }
 
     private static void createArticleObject(ArrayList<Article> articleList, ResultSet resultSet) throws SQLException {
+        ArrayList<Integer> idList = new ArrayList<>();
         while (resultSet.next()) {
             int id = resultSet.getInt("artikelID");
-            String title = resultSet.getString("titel");
-            int year = resultSet.getInt("ar");
-            String isbn = resultSet.getString("ISBN");
-            String[] authors = {"Not yet", "Just Testing Bruv"};
-            Double physical_location = resultSet.getDouble("fysiskPlats");
-            int inStock = resultSet.getInt("antal");
+            if (idList.contains(id)) {
+                for (Article article :
+                        articleList) {
+                    if (id == article.getId() && article instanceof Book) {
+                        ((Book) article).getAuthors().add(resultSet.getString("namn"));
+                    }
+                }
+            } else {
+                ArrayList<String> authors = new ArrayList<>();
+                authors.add(resultSet.getString("namn"));
+                String title = resultSet.getString("titel");
+                int year = resultSet.getInt("ar");
+                String isbn = resultSet.getString("ISBN");
+                Double physical_location = resultSet.getDouble("fysiskPlats");
+                int inStock = resultSet.getInt("antal");
+                idList.add(id);
+                Book book = new Book(id, title, year, isbn, authors, physical_location, inStock);
+                articleList.add(book);
+            }
 
-            Book book = new Book(id, title, year, isbn, authors, physical_location, inStock);
-            articleList.add(book);
         }
     } // Might not be necessary. Need help
 }
