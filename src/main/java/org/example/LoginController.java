@@ -1,6 +1,5 @@
 package org.example;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import org.library.User;
+import org.library.Account;
 
 import java.io.IOException;
 
@@ -25,7 +24,7 @@ public class LoginController {
     public TextField usernameField;
     Label errorLabel = new Label("Username or password is wrong.");
 
-    private final User user = App.getUser(); // Get user from App
+    private final Account account = App.getAccount(); // Get user from App
     public VBox loginBox;
 
     @FXML
@@ -46,6 +45,7 @@ public class LoginController {
         String username = usernameField.textProperty().getValue();
         String password = passwordField.textProperty().getValue();
 
+        /*
         if (username.strip().equals("") || password.strip().equals("")) { // Check if empty
             if (username.strip().equals("")) {
                 usernameField.getStyleClass().add("fieldError"); // Add red border
@@ -60,8 +60,8 @@ public class LoginController {
         } else {
             passwordField.getStyleClass().remove("fieldError"); // Remove red border if condition is filled
             usernameField.getStyleClass().remove("fieldError"); // Remove red border if condition is filled
-            if (username.equals(user.getUsername()) && password.equals(user.getPassword())) { // TODO: Check for username in db (LibraryOverseer)
-                user.setLoggedIn(true);
+            if (username.equals(account.getUsername()) && password.equals(account.getPassword())) { // TODO: Check for username in db (LibraryOverseer)
+                account.setLoggedIn(true);
             } else {
                 if (!(loginBox.getChildren().contains(errorLabel))) {
                     loginBox.getChildren().add(errorLabel); // Add error label
@@ -69,5 +69,7 @@ public class LoginController {
                 passwordField.clear(); // Clear password field
             }
         }
+
+         */
     }
 }

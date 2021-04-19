@@ -1,11 +1,13 @@
 package org.library;
 
+import java.util.ArrayList;
+
 /**
  * Book type of article
  */
 public class Book extends Article {
     String isbn;
-    String[] authors;
+    ArrayList<String> authors;
     Double physical_location;
     int inStock;
 
@@ -20,7 +22,7 @@ public class Book extends Article {
      * @param physical_location The physical location of the book inside the library
      * @param inStock           The amount of books in the library
      */
-    public Book(int id, String title, int year, String isbn, String[] authors, Double physical_location, int inStock) {
+    public Book(int id, String title, int year, String isbn, ArrayList<String> authors, Double physical_location, int inStock) {
         super(id, title, year);
         this.isbn = isbn;
         this.authors = authors;
@@ -36,11 +38,11 @@ public class Book extends Article {
         this.isbn = isbn;
     }
 
-    public String[] getAuthors() {
+    public ArrayList<String> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(String[] authors) {
+    public void setAuthors(ArrayList<String> authors) {
         this.authors = authors;
     }
 
