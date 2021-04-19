@@ -5,19 +5,16 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import org.library.Article;
-import org.library.Book;
-import org.library.LibraryOverseer;
+import org.library.*;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class PrimaryController {
     public Label homeButton;
@@ -27,6 +24,13 @@ public class PrimaryController {
     public VBox libView;
     public StackPane libStackPane;
     public BorderPane mainPane;
+    public TextField searchBar;
+    public Button searchButton;
+    public BorderPane headerButtonBox;
+
+
+    private Connection connection;
+    User user = App.getUser(); // is this wrong?
 
     /**
      * Switches scene to login
@@ -39,47 +43,70 @@ public class PrimaryController {
     }
 
     public void initialize() {
-        for (Article article : allArticles()) {
-            BorderPane borderPane = new BorderPane();
-            Label label = new Label(article.getTitle());
-            Button button = new Button("Låna");
-            borderPane.setLeft(label);
-            BorderPane.setAlignment(label, Pos.CENTER_LEFT);
-            borderPane.setRight(button);
-            libView.getChildren().add(borderPane);
+        connection = LibraryOverseer.createDBConnection(); // Create db connection
+
+        promptSearchDecor();
+        if (user.isLoggedIn()) {
+            headerButtonBox.getChildren().clear();
+            Button myPage = new Button("Mina sidor");
+            headerButtonBox.setCenter(myPage);
+        }
+
+        // Load Categories
+        // TODO: Implement
+
+    }
+
+    @FXML
+    public void searchResult() {
+        libView.getChildren().clear();
+        if (!(searchBar.textProperty().getValue().strip().equals(""))) {
+            for (Article article : Objects.requireNonNull(LibraryOverseer.searchArticle(searchBar.textProperty().getValue().toLowerCase().strip(), connection))) {
+                libModuleCreate(article);
+            }
+        } else {
+            promptSearchDecor();
         }
     }
-    // Lite hjälp med detta error. Kan inte ta bort module-info.java utan error :)
-    // Går annars att lösa genom att dra in allt under example (?)
 
-    /**
-     * Get all articles in the library
-     *
-     * @return ArrayList of articles
-     */
-    public ArrayList<Article> allArticles() {
-        ArrayList<Article> articles = new ArrayList<>();
-        Connection conn = LibraryOverseer.createDBConnection();
+    private void libModuleCreate(Article article) { // should find a better way to solve this.
+        BorderPane borderPane = new BorderPane();
+        Label title = new Label(article.getTitle());
+        title.getStyleClass().add("titleLabel");
+        Button borrowButton = new Button("Låna");
 
-        try {
-            assert conn != null;
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery("select * from artikel");
-            while (rs.next()) {
-                int id = rs.getInt("artikelID");
-                String title = rs.getString("titel");
-                int year = rs.getInt("ar");
-                String isbn = rs.getString("ISBN");
-                String[] authors = {"Not yet"};
-                Double physical_location = rs.getDouble("fysiskPlats");
-                int inStock = rs.getInt("antal");
-
-                Book book = new Book(id, title, year, isbn, authors, physical_location, inStock);
-                articles.add(book);
-            }
-        } catch (Exception e) {
-            System.out.println("Something went wrong in allArticles()");
+        if (article instanceof Book) {
+            String[] authors = ((Book) article).getAuthors();
+            String authorString = Arrays.toString(authors);
+            authorString = authorString.replaceAll("\\[", "").replaceAll("]", "");
+            Label authorLabel = new Label(authorString);
+            authorLabel.getStyleClass().add("authorLabel");
+            String inStock = "Antal kvar: " + ((Book) article).getInStock();
+            Label inStockLabel = new Label(inStock);
+            VBox leftVBox = new VBox();
+            VBox rightVBox = new VBox();
+            leftVBox.getChildren().add(title);
+            leftVBox.getChildren().add(authorLabel);
+            leftVBox.setAlignment(Pos.CENTER_LEFT);
+            rightVBox.getChildren().add(inStockLabel);
+            rightVBox.getChildren().add(borrowButton);
+            rightVBox.setAlignment(Pos.CENTER_RIGHT);
+            borderPane.setLeft(leftVBox);
+            borderPane.setRight(rightVBox);
+            libView.getChildren().add(borderPane);
+        } else if (article instanceof AudioBook) {
+            borderPane.setLeft(title);
+            borderPane.setRight(borrowButton);
+            libView.getChildren().add(borderPane);
+        } else {
+            promptSearchDecor();
         }
-        return articles;
+    }
+
+    private void promptSearchDecor() {
+        BorderPane borderPane = new BorderPane();
+        Label label = new Label("Search through the library.");
+        borderPane.setCenter(label);
+        libView.getChildren().add(borderPane);
     }
 }
