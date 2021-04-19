@@ -1,7 +1,5 @@
 package org.library;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class Account {
 
@@ -21,18 +19,28 @@ public class Account {
         this.email = email;
     }
 
-    /**
-     * Create a new account instance using a result set.
-     * @param resultSet ResultSet used to initialize account fields.
-     */
-    public Account(ResultSet resultSet) throws SQLException {
-        this.email = resultSet.getString("email");
-        this.givenName = resultSet.getString("givenName");
-        this.familyName = resultSet.getString("familyName");
+    public String getGivenName() {
+        return givenName;
+    }
+
+    public void setGivenName(String givenName) {
+        this.givenName = givenName;
+    }
+
+    public String getFamilyName() {
+        return familyName;
+    }
+
+    public void setFamilyName(String familyName) {
+        this.familyName = familyName;
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

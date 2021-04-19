@@ -18,7 +18,7 @@ public class AccountManager {
     public AccountManager() {}
 
     private Connection getConnection() {
-        return null;
+        return LibraryOverseer.createDBConnection();
     }
 
     /**
@@ -57,7 +57,11 @@ public class AccountManager {
 
         BCrypt.Result result = verifier.verify(password.toCharArray(), passwordHash);
         if (result.verified) {
-            return new Account(resultSet);
+            return new Account(
+                resultSet.getString("givenName"),
+                resultSet.getString("familyName"),
+                resultSet.getString("email")
+            );
         }
 
         throw new Exception("Invalid username or password.");
