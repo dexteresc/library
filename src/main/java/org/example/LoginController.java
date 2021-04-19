@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import org.library.AuthenticationModel;
 import org.library.User;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class LoginController {
     public TextField usernameField;
     Label errorLabel = new Label("Username or password is wrong.");
 
-    private final User user = App.getUser(); // Get user from App
+    private AuthenticationModel authenticationModel;
     public VBox loginBox;
 
     @FXML
@@ -38,6 +39,19 @@ public class LoginController {
     }
 
     public void initialize() {
+        if (this.authenticationModel == null) {
+            this.authenticationModel = App.getAuthenticationModel();
+        }
+
+        // Check if user is already logged in
+        if (this.authenticationModel.isAuthenticated()) {
+            try {
+                this.goHome();
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
         errorLabel.getStyleClass().add("errorLabel");
     }
 
@@ -60,13 +74,18 @@ public class LoginController {
         } else {
             passwordField.getStyleClass().remove("fieldError"); // Remove red border if condition is filled
             usernameField.getStyleClass().remove("fieldError"); // Remove red border if condition is filled
-            if (username.equals(user.getUsername()) && password.equals(user.getPassword())) { // TODO: Check for username in db (LibraryOverseer)
-                user.setLoggedIn(true);
-            } else {
-                if (!(loginBox.getChildren().contains(errorLabel))) {
-                    loginBox.getChildren().add(errorLabel); // Add error label
+
+            // Attempt login
+            try {
+                this.authenticationModel.login(username, password); // Throws error if unsuccessful
+                // Login successful
+                this.goHome();
+            } catch (Exception e) {
+                if (!this.loginBox.getChildren().contains(this.errorLabel)) {
+                    this.loginBox.getChildren().add(errorLabel); // Add error label if it is not already present
                 }
-                passwordField.clear(); // Clear password field
+                this.errorLabel.setText(e.getMessage()); // Set the error message
+                this.passwordField.clear();
             }
         }
     }
