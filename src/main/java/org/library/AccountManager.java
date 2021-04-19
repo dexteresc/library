@@ -11,6 +11,7 @@ public class AccountManager {
 
     private static final String LOGIN_STATEMENT = "SELECT * FROM users WHERE email = ? LIMIT 1";
     private static final String SET_PASSWORD_STATEMENT = "UPDATE users SET passwordHash = ? WHERE email = ? LIMIT 1";
+    private static final String CREATE_ACCOUNT_STATEMENT = "INSERT INTO users (givenName, familyName, email) VALUES (?, ?, ?)";
 
     private final BCrypt.Hasher hasher = BCrypt.with(BCrypt.Version.VERSION_2B);
     private final BCrypt.Verifyer verifier = BCrypt.verifyer(BCrypt.Version.VERSION_2B);
@@ -90,6 +91,38 @@ public class AccountManager {
         } catch (SQLException e) {
             throw new Exception("Failed to query database.");
         }
+    }
+
+
+    /**
+     * Create an account.
+     * @param givenName account holder's given name.
+     * @param familyName account holder's family name.
+     * @param email account holder's email.
+     * @param password account password.
+     */
+    public Account createAccount(String givenName, String familyName, String email, String password) throws Exception {
+        Connection connection = this.getConnection();
+
+        if (connection == null) {
+            throw new Exception("Failed to retrieve database connection.");
+        }
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ACCOUNT_STATEMENT);
+            preparedStatement.setString(1, givenName);
+            preparedStatement.setString(2, familyName);
+            preparedStatement.setString(3, email);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new Exception("Failed to query database.");
+        }
+
+        Account account = new Account(givenName, familyName, email);
+
+        this.setPassword(account, password);
+
+        return account;
     }
 
 }
