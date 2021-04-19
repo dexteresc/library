@@ -1,5 +1,7 @@
 package org.library;
 
+import javafx.beans.value.ObservableValue;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -83,5 +85,44 @@ public class LibraryOverseer { // Database currently incomplete. Might rename cl
 
         }
     } // Might not be necessary. Need help
+
+    public static ArrayList<String> getGenres(Connection connection) {
+        ArrayList<String> genreList = new ArrayList<>();
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from genre");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                genreList.add(resultSet.getString("namn"));
+            }
+            return genreList;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<Article> selectGenre(String genreName, Connection connection) {
+        System.out.println(genreName);
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("select a.artikelID, namn, titel, ar, ISBN, fysiskPlats, antal\n" +
+                    "from artikel a\n" +
+                    "join artikel_genre ag on a.artikelID = ag.artikelID\n" +
+                    "join artikel_forfattare af on a.artikelID = af.artikelID\n" +
+                    "join forfattare f on f.forfattareID = af.forfattareID\n" +
+                    "where ag.genreID = (select genreID from genre where namn = ?)");
+            preparedStatement.setString(1, genreName);
+            ArrayList<Article> articleArrayList = new ArrayList<>();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            createArticleObject(articleArrayList, resultSet);
+            articles = articleArrayList;
+
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+
+        return articles;
+    }
 }
 

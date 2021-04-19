@@ -1,11 +1,13 @@
 package org.example;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -28,6 +30,7 @@ public class PrimaryController {
     public TextField searchBar;
     public Button searchButton;
     public BorderPane headerButtonBox;
+    public ScrollPane scrollPane;
 
 
     private Connection connection;
@@ -54,8 +57,17 @@ public class PrimaryController {
         }
 
         // Load Categories
-        // TODO: Implement
-
+        ObservableList<String> items = FXCollections.observableArrayList(LibraryOverseer.getGenres(connection));
+        categoriesView.setItems(items);
+        categoriesView.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            libView.getChildren().clear();
+            ArrayList<Article> articles = LibraryOverseer.selectGenre(t1, connection);
+            System.out.println(articles);
+            for (Article article :
+                    articles) {
+                libModuleCreate(article);
+            }
+        });
     }
 
     @FXML
