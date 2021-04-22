@@ -30,7 +30,7 @@ public class PrimaryController {
 
 
     private Connection connection;
-    User user = App.getUser(); // is this wrong?
+    private AuthenticationModel authenticationModel;
 
     /**
      * Switches scene to login
@@ -46,7 +46,13 @@ public class PrimaryController {
         connection = LibraryOverseer.createDBConnection(); // Create db connection
 
         promptSearchDecor();
-        if (user.isLoggedIn()) {
+
+        // Configure authentication model
+        if (this.authenticationModel == null) {
+            this.authenticationModel = App.getAuthenticationModel();
+        }
+
+        if (this.authenticationModel.isAuthenticated()) {
             headerButtonBox.getChildren().clear();
             Button myPage = new Button("Mina sidor");
             headerButtonBox.setCenter(myPage);
