@@ -63,9 +63,13 @@ public class PrimaryController {
             libView.getChildren().clear();
             ArrayList<Article> articles = LibraryOverseer.selectGenre(t1, connection);
             System.out.println(articles);
+            if (!articles.isEmpty()){
             for (Article article :
                     articles) {
                 libModuleCreate(article);
+            }
+            }else {
+                promptSearchDecor("No articles in " + categoriesView.getSelectionModel().selectedItemProperty().getValue());
             }
         });
     }
