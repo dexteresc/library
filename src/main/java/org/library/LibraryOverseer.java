@@ -53,8 +53,8 @@ public class LibraryOverseer { // Database currently incomplete. Might rename cl
             System.out.println(articleArrayList);
             articles = articleArrayList;
             return articles;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -84,7 +84,8 @@ public class LibraryOverseer { // Database currently incomplete. Might rename cl
             }
 
         }
-    } // Might not be necessary. Need help
+        resultSet.close(); // idfk
+    }
 
     public static ArrayList<String> getGenres(Connection connection) {
         ArrayList<String> genreList = new ArrayList<>();

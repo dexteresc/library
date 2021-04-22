@@ -1,13 +1,11 @@
 package org.example;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -15,7 +13,6 @@ import org.library.*;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -30,11 +27,10 @@ public class PrimaryController {
     public TextField searchBar;
     public Button searchButton;
     public BorderPane headerButtonBox;
-    public ScrollPane scrollPane;
 
 
     private Connection connection;
-    Account account = App.getAccount();
+    private AuthenticationModel authenticationModel;
 
     /**
      * Switches scene to login
@@ -49,46 +45,33 @@ public class PrimaryController {
     public void initialize() {
         connection = LibraryOverseer.createDBConnection(); // Create db connection
 
-        promptSearchDecor("Search through the library.");
-        if (!(account == null)) {
+        promptSearchDecor();
+
+        // Configure authentication model
+        if (this.authenticationModel == null) {
+            this.authenticationModel = App.getAuthenticationModel();
+        }
+
+        if (this.authenticationModel.isAuthenticated()) {
             headerButtonBox.getChildren().clear();
             Button myPage = new Button("Mina sidor");
             headerButtonBox.setCenter(myPage);
         }
 
         // Load Categories
-        ObservableList<String> items = FXCollections.observableArrayList(LibraryOverseer.getGenres(connection));
-        categoriesView.setItems(items);
-        categoriesView.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
-            libView.getChildren().clear();
-            ArrayList<Article> articles = LibraryOverseer.selectGenre(t1, connection);
-            System.out.println(articles);
-            if (!articles.isEmpty()){
-            for (Article article :
-                    articles) {
-                libModuleCreate(article);
-            }
-            }else {
-                promptSearchDecor("No articles in " + categoriesView.getSelectionModel().selectedItemProperty().getValue());
-            }
-        });
+        // TODO: Implement
+
     }
 
     @FXML
     public void searchResult() {
         libView.getChildren().clear();
-        String searchInput = searchBar.textProperty().getValue().strip();
-        if (!(searchInput.equals(""))) {
-            ArrayList<Article> searchArray = Objects.requireNonNull(LibraryOverseer.searchArticle(searchBar.textProperty().getValue().toLowerCase().strip(), connection));
-            if (searchArray.isEmpty()) {
-                promptSearchDecor("No result for: \"" + searchInput + "\"");
-            } else {
-                for (Article article : searchArray) {
-                    libModuleCreate(article);
-                }
+        if (!(searchBar.textProperty().getValue().strip().equals(""))) {
+            for (Article article : Objects.requireNonNull(LibraryOverseer.searchArticle(searchBar.textProperty().getValue().toLowerCase().strip(), connection))) {
+                libModuleCreate(article);
             }
         } else {
-            promptSearchDecor("Search through the library.");
+            promptSearchDecor();
         }
     }
 
@@ -99,7 +82,7 @@ public class PrimaryController {
         Button borrowButton = new Button("Låna");
 
         if (article instanceof Book) {
-            String[] authors = ((Book) article).getAuthors().toArray(new String[0]); // FIX
+            String[] authors = ((Book) article).getAuthors().toArray(new String[0]);
             String authorString = Arrays.toString(authors);
             authorString = authorString.replaceAll("\\[", "").replaceAll("]", "");
             Label authorLabel = new Label(authorString);
@@ -121,12 +104,14 @@ public class PrimaryController {
             borderPane.setLeft(title);
             borderPane.setRight(borrowButton);
             libView.getChildren().add(borderPane);
+        } else {
+            promptSearchDecor();
         }
     }
 
-    private void promptSearchDecor(String text) {
+    private void promptSearchDecor() {
         BorderPane borderPane = new BorderPane();
-        Label label = new Label(text);
+        Label label = new Label("Search through the library.");
         borderPane.setCenter(label);
         libView.getChildren().add(borderPane);
     }

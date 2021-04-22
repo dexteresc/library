@@ -5,7 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.library.Account;
+import org.library.AccountManager;
+import org.library.AuthenticationModel;
 
 import java.io.IOException;
 
@@ -15,15 +16,10 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
-    private static Account account;
-
-    public static Account getAccount() {
-        return account;
-    }
+    private static AuthenticationModel authenticationModel = new AuthenticationModel(new AccountManager());
 
     @Override
     public void start(Stage stage) throws IOException {
-        account = null;
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
         stage.show();
@@ -40,5 +36,9 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public static AuthenticationModel getAuthenticationModel() {
+        return authenticationModel;
     }
 }
