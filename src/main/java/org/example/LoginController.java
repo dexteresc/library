@@ -16,7 +16,6 @@ import java.io.IOException;
  * Controller for the login page
  */
 public class LoginController {
-    public Text homeButton;
     public Button registerButton;
     public Button loginButton;
     public BorderPane header;
@@ -44,8 +43,6 @@ public class LoginController {
     private void logIn() {
         String username = usernameField.textProperty().getValue();
         String password = passwordField.textProperty().getValue();
-
-        /*
         if (username.strip().equals("") || password.strip().equals("")) { // Check if empty
             if (username.strip().equals("")) {
                 usernameField.getStyleClass().add("fieldError"); // Add red border
@@ -60,8 +57,8 @@ public class LoginController {
         } else {
             passwordField.getStyleClass().remove("fieldError"); // Remove red border if condition is filled
             usernameField.getStyleClass().remove("fieldError"); // Remove red border if condition is filled
-            if (username.equals(account.getUsername()) && password.equals(account.getPassword())) { // TODO: Check for username in db (LibraryOverseer)
-                account.setLoggedIn(true);
+            if (true){
+
             } else {
                 if (!(loginBox.getChildren().contains(errorLabel))) {
                     loginBox.getChildren().add(errorLabel); // Add error label
@@ -69,7 +66,5 @@ public class LoginController {
                 passwordField.clear(); // Clear password field
             }
         }
-
-         */
     }
 }
