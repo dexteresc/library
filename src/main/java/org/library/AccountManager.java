@@ -39,13 +39,19 @@ public class AccountManager {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(LOGIN_STATEMENT);
             preparedStatement.setString(1, email);
+            preparedStatement.closeOnCompletion();
             resultSet = preparedStatement.executeQuery();
         } catch (SQLException e) {
             throw new Exception("Failed to query database.");
+        } finally {
+            if (!connection.isClosed()) {
+                connection.close();
+            }
         }
 
         if (resultSet.next() == false) {
             // User not found
+            resultSet.close();
             throw new Exception("Invalid username or password.");
         }
 
@@ -87,9 +93,14 @@ public class AccountManager {
             PreparedStatement preparedStatement = connection.prepareStatement(SET_PASSWORD_STATEMENT);
             preparedStatement.setString(1, passwordHash);
             preparedStatement.setString(2, account.getEmail());
+            preparedStatement.closeOnCompletion();
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new Exception("Failed to query database.");
+        } finally {
+            if (!connection.isClosed()) {
+                connection.close();
+            }
         }
     }
 
@@ -113,9 +124,14 @@ public class AccountManager {
             preparedStatement.setString(1, givenName);
             preparedStatement.setString(2, familyName);
             preparedStatement.setString(3, email);
+            preparedStatement.closeOnCompletion();
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new Exception("Failed to query database.");
+        } finally {
+            if (!connection.isClosed()) {
+                connection.close();
+            }
         }
 
         Account account = new Account(givenName, familyName, email);
