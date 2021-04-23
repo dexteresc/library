@@ -50,7 +50,7 @@ public class LoginController {
             }
         }
 
-        errorLabel.getStyleClass().add("errorLabel"); // Styling
+        errorLabel.getStyleClass().add("errorLabel");
     }
 
     @FXML

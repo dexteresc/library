@@ -27,11 +27,10 @@ public class PrimaryController {
     public TextField searchBar;
     public Button searchButton;
     public BorderPane headerButtonBox;
-    public ScrollPane scrollPane;
 
 
     private Connection connection;
-    Account account = App.getAccount();
+    private AuthenticationModel authenticationModel;
 
     /**
      * Switches scene to login
@@ -47,7 +46,12 @@ public class PrimaryController {
         connection = LibraryOverseer.createDBConnection(); // Create db connection
 
         promptSearchDecor("Search through the library.");
-        if (!(account == null)) {
+        // Configure authentication model
+        if (this.authenticationModel == null) {
+            this.authenticationModel = App.getAuthenticationModel();
+        }
+
+        if (this.authenticationModel.isAuthenticated()) {
             headerButtonBox.getChildren().clear();
             Button myPage = new Button("Mina sidor");
             headerButtonBox.setCenter(myPage);
@@ -74,15 +78,9 @@ public class PrimaryController {
     @FXML
     public void searchResult() {
         libView.getChildren().clear();
-        String searchInput = searchBar.textProperty().getValue().strip();
-        if (!(searchInput.equals(""))) {
-            ArrayList<Article> searchArray = Objects.requireNonNull(LibraryOverseer.searchArticle(searchBar.textProperty().getValue().toLowerCase().strip(), connection));
-            if (searchArray.isEmpty()) {
-                promptSearchDecor("No result for: \"" + searchInput + "\"");
-            } else {
-                for (Article article : searchArray) {
-                    libModuleCreate(article);
-                }
+        if (!(searchBar.textProperty().getValue().strip().equals(""))) {
+            for (Article article : Objects.requireNonNull(LibraryOverseer.searchArticle(searchBar.textProperty().getValue().toLowerCase().strip(), connection))) {
+                libModuleCreate(article);
             }
         } else {
             promptSearchDecor("Search through the library.");
