@@ -10,7 +10,7 @@ public class AuthenticationModel {
 
     /**
      * Creates a new instance of AuthenticationModel.
-     * @param accountManager An instance of AccountManager for fetching and retrieving accounts.
+     * @param accountManager An instance of AccountManager for managing accounts.
      */
     public AuthenticationModel(AccountManager accountManager) {
         this.accountManager = accountManager;

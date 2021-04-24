@@ -11,15 +11,14 @@ public class AccountManager {
 
     private static final String LOGIN_STATEMENT = "SELECT * FROM users WHERE email = ? LIMIT 1";
     private static final String SET_PASSWORD_STATEMENT = "UPDATE users SET passwordHash = ? WHERE email = ? LIMIT 1";
-    private static final String CREATE_ACCOUNT_STATEMENT = "INSERT INTO users (givenName, familyName, email) VALUES (?, ?, ?)";
 
     private final BCrypt.Hasher hasher = BCrypt.with(BCrypt.Version.VERSION_2B);
     private final BCrypt.Verifyer verifier = BCrypt.verifyer(BCrypt.Version.VERSION_2B);
 
-    public AccountManager() {}
+    private AccountRepository accountRepository;
 
-    private Connection getConnection() {
-        return LibraryOverseer.createDBConnection();
+    public AccountManager(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
     }
 
     /**
@@ -29,49 +28,45 @@ public class AccountManager {
      * @exception Exception thrown if an invalid username or password is provided.
      */
     public Account authenticate(String email, String password) throws Exception {
-        Connection connection = this.getConnection();
+        Database database = accountRepository.getDatabase();
+        Account account;
 
-        if (connection == null) {
-            throw new Exception("Failed to retrieve database connection.");
-        }
-
-        ResultSet resultSet;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(LOGIN_STATEMENT);
-            preparedStatement.setString(1, email);
-            preparedStatement.closeOnCompletion();
-            resultSet = preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            throw new Exception("Failed to query database.");
-        } finally {
-            if (!connection.isClosed()) {
-                connection.close();
-            }
-        }
+            account = database.query(
+                    LOGIN_STATEMENT,
+                    ps -> {
+                        ps.setString(1, email);
+                    },
+                    rs -> {
+                        // Check if the provided password is a match.
+                        BCrypt.Result verificationResult = verifier.verify(
+                                password.toCharArray(),
+                                rs.getString("passwordHash")
+                        );
 
-        if (resultSet.next() == false) {
-            // User not found
-            resultSet.close();
-            throw new Exception("Invalid username or password.");
-        }
+                        if (!verificationResult.verified) {
+                            // The password was not a match, or there was an error related to hash formatting.
+                            // Might be worth checking if verification result returns an invalid format message for debugging.
+                            throw new Exception();
+                        }
 
-        String passwordHash;
-        try {
-            passwordHash = resultSet.getString("passwordHash");
-        } catch (SQLException e) {
-            throw new Exception("Invalid username or password.");
-        }
-
-        BCrypt.Result result = verifier.verify(password.toCharArray(), passwordHash);
-        if (result.verified) {
-            return new Account(
-                resultSet.getString("givenName"),
-                resultSet.getString("familyName"),
-                resultSet.getString("email")
+                        // Initialize the requested account.
+                        return new Account(
+                                rs.getString("givenName"),
+                                rs.getString("familyName"),
+                                rs.getString("email")
+                        );
+                    }
             );
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            // Throw new exception to mask the underlying cause.
+            // This is to prevent exposing registered users through brute-force attacks.
+            throw new Exception("Invalid username or password.");
         }
 
-        throw new Exception("Invalid username or password.");
+        return account;
     }
 
     /**
@@ -82,26 +77,15 @@ public class AccountManager {
      * @throws Exception
      */
     public boolean setPassword(Account account, String password) throws Exception {
-        Connection connection = this.getConnection();
-
-        if (connection == null) {
-            throw new Exception("Failed to retrieve database connection.");
-        }
-
         String passwordHash = hasher.hashToString(12, password.toCharArray());
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SET_PASSWORD_STATEMENT);
-            preparedStatement.setString(1, passwordHash);
-            preparedStatement.setString(2, account.getEmail());
-            preparedStatement.closeOnCompletion();
-            return preparedStatement.executeUpdate() > 0;
-        } catch (SQLException e) {
-            throw new Exception("Failed to query database.");
-        } finally {
-            if (!connection.isClosed()) {
-                connection.close();
-            }
-        }
+        return accountRepository.getDatabase().query(
+                SET_PASSWORD_STATEMENT,
+                ps -> {
+                    ps.setString(1, passwordHash);
+                    ps.setString(2, account.getEmail());
+                },
+                rs -> rs.rowUpdated()
+        );
     }
 
 
@@ -112,38 +96,10 @@ public class AccountManager {
      * @param email account holder's email.
      * @param password account password.
      */
-    public Account createAccount(String givenName, String familyName, String email, String password) throws Exception {
-        Connection connection = this.getConnection();
-
-        if (connection == null) {
-            throw new Exception("Failed to retrieve database connection.");
-        }
-
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ACCOUNT_STATEMENT);
-            preparedStatement.setString(1, givenName);
-            preparedStatement.setString(2, familyName);
-            preparedStatement.setString(3, email);
-            preparedStatement.closeOnCompletion();
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            throw new Exception("Failed to query database.");
-        } finally {
-            if (!connection.isClosed()) {
-                connection.close();
-            }
-        }
-
-        Account account = new Account(givenName, familyName, email);
-
-        this.setPassword(account, password);
-
-        return account;
+    public boolean createAccount(String givenName, String familyName, String email, String password) throws Exception {
+        String passwordHash = hasher.hashToString(12, password.toCharArray());
+        return this.accountRepository.create(givenName, familyName, email, passwordHash);
     }
-
-    // TODO: Get account by email
-
-    // TODO: Get all accounts
 
     // TODO: Update account
     
