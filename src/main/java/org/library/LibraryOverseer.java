@@ -10,7 +10,7 @@ public class LibraryOverseer { // Database currently incomplete. Might rename cl
 
     private static final String dbhost = "jdbc:mysql://localhost:3306/biblan3";
     private static final String username = "root";
-    private static final String password = "";//test.getPwd();
+    private static final String password = test.getPwd();
 
     static ArrayList<Article> articles = new ArrayList<>();
 
