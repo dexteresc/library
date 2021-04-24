@@ -51,6 +51,7 @@ public class Database {
 
         if (resultSet.getFetchSize() < 1) {
             // No result
+            throw new Exception("Query did not return any results.");
         }
 
         // Move result set cursor to the first item
