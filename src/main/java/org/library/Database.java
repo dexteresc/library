@@ -17,7 +17,7 @@ public class Database {
 
     public Database() { }
 
-    public Connection getConnection() throws Exception {
+    private Connection getConnection() throws Exception {
         return DriverManager.getConnection(dbhost, username, password);
     }
 
@@ -62,6 +62,39 @@ public class Database {
                 resultSet.close();
             }
 
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+    }
+
+    /**
+     * Executes a generic query against the database.
+     * @param statement A string containing a prepared statement.
+     * @param configuration A lambda expression that configures the prepared statement.
+     * @return A boolean indicating whether or not the query was successful.
+     * @throws Exception If there were no results, or if any database-related errors occur, or if the transformation throws an error.
+     */
+    public boolean perform(String statement, Configuration<PreparedStatement> configuration) throws Exception {
+        // Declare and set to null to ensure that cleanup can occur, even if an exception is thrown.
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = this.getConnection();
+            preparedStatement = connection.prepareStatement(statement);
+
+            // Apply prepared statement configuration
+            configuration.apply(preparedStatement);
+
+            // Execute prepared statement
+            return preparedStatement.execute();
+        } finally {
+            // Clean up
             if (preparedStatement != null && !preparedStatement.isClosed()) {
                 preparedStatement.close();
             }
