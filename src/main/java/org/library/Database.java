@@ -31,39 +31,44 @@ public class Database {
      * @throws Exception If there were no results, or if any database-related errors occur, or if the transformation throws an error.
      */
     public <T> T query(String statement, Configuration<PreparedStatement> configuration, Transformation<ResultSet, T> transformation) throws Exception {
-        Connection connection = this.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        // Declare and set to null to ensure that cleanup can occur, even if an exception is thrown.
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
-        // Apply prepared statement configuration
-        configuration.apply(preparedStatement);
+        try {
+            connection = this.getConnection();
+            preparedStatement = connection.prepareStatement(statement);
 
-        // Execute prepared statement
-        ResultSet resultSet = preparedStatement.executeQuery();
+            // Apply prepared statement configuration
+            configuration.apply(preparedStatement);
 
-        // Move result set cursor to the first item
-        while (resultSet.isBeforeFirst()) {
-            if (!resultSet.next()) {
-                // No results
-                throw new Exception("Query did not return any results.");
+            // Execute prepared statement
+            resultSet = preparedStatement.executeQuery();
+
+            // Move result set cursor to the first item
+            while (resultSet.isBeforeFirst()) {
+                if (!resultSet.next()) {
+                    // No results
+                    throw new Exception("Query did not return any results.");
+                }
+            }
+
+            // Transform result set into generic type T and return
+            return transformation.materialize(resultSet);
+        } finally {
+            // Clean up
+            if (resultSet != null && !resultSet.isClosed()) {
+                resultSet.close();
+            }
+
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
             }
         }
-
-        // Transform result set into generic type T
-        T value = transformation.materialize(resultSet);
-
-        // Clean up
-        if (!resultSet.isClosed()) {
-            resultSet.close();
-        }
-
-        if (!preparedStatement.isClosed()) {
-            preparedStatement.close();
-        }
-
-        if (!connection.isClosed()) {
-            connection.close();
-        }
-
-        return value;
     }
 }
