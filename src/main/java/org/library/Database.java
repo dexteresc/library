@@ -17,17 +17,8 @@ public class Database {
 
     public Database() { }
 
-    public Connection getConnection() {
-        try {
-            Connection connection = DriverManager.getConnection(
-                    dbhost, username, password);
-            System.out.println("Connected");
-            return connection;
-        } catch (SQLException e) {
-            System.out.println("Cannot create database connection");
-            e.printStackTrace();
-            return null;
-        }
+    public Connection getConnection() throws Exception {
+        return DriverManager.getConnection(dbhost, username, password);
     }
 
     /**
@@ -49,14 +40,12 @@ public class Database {
         // Execute prepared statement
         ResultSet resultSet = preparedStatement.executeQuery();
 
-        if (resultSet.getFetchSize() < 1) {
-            // No result
-            throw new Exception("Query did not return any results.");
-        }
-
         // Move result set cursor to the first item
         while (resultSet.isBeforeFirst()) {
-            resultSet.next();
+            if (!resultSet.next()) {
+                // No results
+                throw new Exception("Query did not return any results.");
+            }
         }
 
         // Transform result set into generic type T
