@@ -1,5 +1,6 @@
 package org.library;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public abstract class Repository<T> {
@@ -8,6 +9,15 @@ public abstract class Repository<T> {
         // Creates a get by id statement for the provided table name.
         static String getByID(String table) {
             return "SELECT * FROM " + table + " WHERE id = ? LIMIT 1";
+        }
+
+        // Creates an insert into statement for the provided table name and attributes.
+        static String create(String table, String[] attributes) {
+            String[] parameters = new String[attributes.length];
+            for (int i = 0; i < attributes.length; i++) {
+                parameters[i] = "?";
+            }
+            return "INSERT INTO " + table + " (" + String.join(", ", attributes) + ") VALUES (" + String.join(", ", parameters) + ")";
         }
     }
 
@@ -25,6 +35,14 @@ public abstract class Repository<T> {
     }
 
     /**
+     * @apiNote Avoid using this whenever possible.
+     * @return An instance of database.
+     */
+    public Database getDatabase() {
+        return database;
+    }
+
+    /**
      * Get an entity by it's ID.
      * @param id ID corresponding to an entity.
      * @param transformation A lambda expression for transforming a result set into the entity.
@@ -33,8 +51,18 @@ public abstract class Repository<T> {
      */
     public T getByID(int id, Transformation<ResultSet, T> transformation) throws Exception {
         String statement = Statements.getByID(table);
-        return database.query(statement, preparedStatement -> {
-            preparedStatement.setInt(1, id);
-        }, transformation);
+        return database.query(statement, preparedStatement -> preparedStatement.setInt(1, id), transformation);
+    }
+
+    /**
+     * Attempt to create an entity.
+     * @param attributes A string array of entity attributes.
+     * @param configuration A lambda expression that configures the prepared statement.
+     * @return A boolean indicating whether or not the statement was executed successfully.
+     * @throws Exception
+     */
+    public boolean create(String[] attributes, Database.Configuration<PreparedStatement> configuration) throws Exception {
+        String statement = Statements.create(table, attributes);
+        return database.perform(statement, configuration);
     }
 }
