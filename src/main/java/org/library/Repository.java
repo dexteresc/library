@@ -7,8 +7,8 @@ public abstract class Repository<T> {
     // Produces general prepared statement query-strings.
     static class Statements {
         // Creates a get by id statement for the provided table name.
-        static String getByID(String table) {
-            return "SELECT * FROM " + table + " WHERE id = ? LIMIT 1";
+        static String find(String table, String attribute) {
+            return "SELECT * FROM " + table + " WHERE " + attribute + " = ? LIMIT 1";
         }
 
         // Creates an insert into statement for the provided table name and attributes.
@@ -50,8 +50,34 @@ public abstract class Repository<T> {
      * @throws Exception If the entity was not found, the transformation failed, or a general database error occurred.
      */
     public T getByID(int id, Transformation<ResultSet, T> transformation) throws Exception {
-        String statement = Statements.getByID(table);
+        String statement = Statements.find(table, "id");
         return database.query(statement, preparedStatement -> preparedStatement.setInt(1, id), transformation);
+    }
+
+    /**
+     * Get an entity with a matching attribute.
+     * @param attribute Attribute to match.
+     * @param value Value of attribute to match.
+     * @param transformation A lambda expression for transforming a result set into the entity.
+     * @return The entity with the provided attribute value.
+     * @throws Exception If the entity was not found, the transformation failed, or a general database error occurred.
+     */
+    public T find(String attribute, String value, Transformation<ResultSet, T> transformation) throws Exception {
+        String statement = Statements.find(table, attribute);
+        return database.query(statement, preparedStatement -> preparedStatement.setString(1, value), transformation);
+    }
+
+    /**
+     * Get an entity with a matching attribute.
+     * @param attribute Attribute to match.
+     * @param value Value of attribute to match.
+     * @param transformation A lambda expression for transforming a result set into the entity.
+     * @return The entity with the provided attribute value.
+     * @throws Exception If the entity was not found, the transformation failed, or a general database error occurred.
+     */
+    public T find(String attribute, int value, Transformation<ResultSet, T> transformation) throws Exception {
+        String statement = Statements.find(table, attribute);
+        return database.query(statement, preparedStatement -> preparedStatement.setInt(1, value), transformation);
     }
 
     /**
