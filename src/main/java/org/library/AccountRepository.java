@@ -13,7 +13,7 @@ public class AccountRepository extends Repository<Account> {
      * @throws Exception If no account with the provided id exists.
      */
     public Account getByID(int id) throws Exception {
-        return super.getByID(id, rs -> new Account(
+        return super.find("id", id, rs -> new Account(
                 rs.getString("givenName"),
                 rs.getString("familyName"),
                 rs.getString("email")

@@ -43,18 +43,6 @@ public abstract class Repository<T> {
     }
 
     /**
-     * Get an entity by it's ID.
-     * @param id ID corresponding to an entity.
-     * @param transformation A lambda expression for transforming a result set into the entity.
-     * @return The entity with the provided ID.
-     * @throws Exception If the entity was not found, the transformation failed, or a general database error occurred.
-     */
-    public T getByID(int id, Transformation<ResultSet, T> transformation) throws Exception {
-        String statement = Statements.find(table, "id");
-        return database.query(statement, preparedStatement -> preparedStatement.setInt(1, id), transformation);
-    }
-
-    /**
      * Get an entity with a matching attribute.
      * @param attribute Attribute to match.
      * @param value Value of attribute to match.
