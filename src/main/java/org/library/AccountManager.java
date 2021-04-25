@@ -2,11 +2,6 @@ package org.library;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 public class AccountManager {
 
     private static final String LOGIN_STATEMENT = "SELECT * FROM users WHERE email = ? LIMIT 1";
