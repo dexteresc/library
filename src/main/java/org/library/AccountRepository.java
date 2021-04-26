@@ -1,9 +1,22 @@
 package org.library;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
 public class AccountRepository extends Repository<Account> {
 
     public AccountRepository(Database database) {
         super("account", database);
+    }
+
+    // Create an account instance from a result set.
+    private Account accountFrom(ResultSet resultSet) throws Exception {
+        return new Account(
+                resultSet.getInt("id"),
+                resultSet.getString("givenName"),
+                resultSet.getString("familyName"),
+                resultSet.getString("email")
+        );
     }
 
     /**
@@ -18,6 +31,17 @@ public class AccountRepository extends Repository<Account> {
                 rs.getString("familyName"),
                 rs.getString("email")
         ));
+    }
+
+    /**
+     * Get all accounts (paginated).
+     * @param page page number to retrieve.
+     * @param pageSize number of accounts to retrieve per page.
+     * @return An array consisting of accounts for the given page.
+     * @throws Exception
+     */
+    public ArrayList<Account> getAll(int page, int pageSize) throws Exception {
+        return super.findAll("id", pageSize, page * pageSize, this::accountFrom);
     }
 
     /**
@@ -37,9 +61,5 @@ public class AccountRepository extends Repository<Account> {
             configuration.setString(4, passwordHash);
         });
     }
-
-    // TODO: Get account by email
-
-    // TODO: Get all accounts
 
 }
