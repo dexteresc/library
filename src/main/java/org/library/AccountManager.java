@@ -2,6 +2,8 @@ package org.library;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
+import java.sql.ResultSet;
+
 public class AccountManager {
 
     private static final String LOGIN_STATEMENT = "SELECT * FROM users WHERE email = ? LIMIT 1";
@@ -10,7 +12,7 @@ public class AccountManager {
     private final BCrypt.Hasher hasher = BCrypt.with(BCrypt.Version.VERSION_2B);
     private final BCrypt.Verifyer verifier = BCrypt.verifyer(BCrypt.Version.VERSION_2B);
 
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
     public AccountManager(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
@@ -45,12 +47,8 @@ public class AccountManager {
                             throw new Exception();
                         }
 
-                        // Initialize the requested account.
-                        return new Account(
-                                rs.getString("givenName"),
-                                rs.getString("familyName"),
-                                rs.getString("email")
-                        );
+                        // Get the requested account.
+                        return accountRepository.getByID(rs.getInt("id"));
                     }
             );
         } catch (Exception e) {
@@ -79,7 +77,7 @@ public class AccountManager {
                     ps.setString(1, passwordHash);
                     ps.setString(2, account.getEmail());
                 },
-                rs -> rs.rowUpdated()
+                ResultSet::rowUpdated
         );
     }
 
