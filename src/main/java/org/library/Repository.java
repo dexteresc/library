@@ -77,6 +77,18 @@ public abstract class Repository<T> {
         return database.query(statement, preparedStatement -> preparedStatement.setInt(1, value), transformation);
     }
 
+    /**
+     * Find all entities matching a given condition.
+     * @param condition Condition to match entities by (e.g. category = ?).
+     * @param orderBy Attribute(s) to order matched entities by.
+     * @param limit Max number of entities to return.
+     * @param offset Number of matched entities to skip.
+     * @param configuration A lambda expression that configures the prepared statement (e.g. set parameters for the condition).
+     * @param transformation A lambda expression for transforming a result set into the entity.
+     * @implNote Transformation expression should only transform a single entity as it is run on all matches automagically.
+     * @return A list of matched entities.
+     * @throws Exception If the transformation failed, or a general database error occurred.
+     */
     public ArrayList<T> findAll(String condition, String[] orderBy, int limit, int offset, Database.Configuration<PreparedStatement> configuration, Transformation<ResultSet, T> transformation) throws Exception {
         String statement = Statements.findAll(table, condition, limit, offset, orderBy);
         return database.query(statement, configuration, rs -> {
