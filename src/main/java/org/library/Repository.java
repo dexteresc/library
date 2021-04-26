@@ -4,6 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+/**
+ * Facilitates persistence management for entities.
+ * @param <T> Entity to manage.
+ */
 public abstract class Repository<T> {
     // Produces general prepared statement query-strings.
     static class Statements {
