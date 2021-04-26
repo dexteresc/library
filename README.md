@@ -9,3 +9,4 @@ I och med att definitionen av MVC kan skilja mellan olika miljöer/språk har vi
 - **Vy**: All visuell representation av information.
 - **Kontroller**: Limmet mellan vyn och modellen. Tar emot inmatning och för detta vidare till antingen en vy eller modell.
 
+Ovanstående är baserat på [följande](https://en.wikipedia.org/wiki/Model–view–controller).
