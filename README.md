@@ -1,6 +1,8 @@
 # Library
 Biblioteksprojektet för Programmering i Java II
 
+---
+
 ### Applikationsarkitektur
 
 I och med att definitionen av MVC kan skilja mellan olika miljöer/språk har vi definerat arkitekturen på följande sätt:
