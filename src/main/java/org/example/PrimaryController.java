@@ -12,12 +12,12 @@ import org.library.*;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
 public class PrimaryController {
-    public Label homeButton;
     public Button registerButton;
     public Button loginButton;
     public ListView<String> categoriesView;
@@ -38,7 +38,8 @@ public class PrimaryController {
      * @throws IOException if fxml doesn't exist in resources
      */
     @FXML
-    public void switchToLogin() throws IOException {
+    public void switchToLogin() throws IOException, SQLException {
+        connection.close(); // SOLUTION TO CONNECTION ISSUE MAYBE
         App.setRoot("login");
     }
 
@@ -64,27 +65,29 @@ public class PrimaryController {
             libView.getChildren().clear();
             ArrayList<Article> articles = LibraryOverseer.selectGenre(t1, connection);
             System.out.println(articles);
-            if (!articles.isEmpty()){
-            for (Article article :
-                    articles) {
-                libModuleCreate(article);
-            }
-            }else {
+            if (!articles.isEmpty()) {
+                for (Article article :
+                        articles) {
+                    libModuleCreate(article);
+                }
+            } else {
                 promptSearchDecor("No articles in " + categoriesView.getSelectionModel().selectedItemProperty().getValue());
             }
         });
     }
 
     @FXML
-    public void searchResult() {
+    public void searchResult() throws SQLException {
         libView.getChildren().clear();
-        if (!(searchBar.textProperty().getValue().strip().equals(""))) {
-            for (Article article : Objects.requireNonNull(LibraryOverseer.searchArticle(searchBar.textProperty().getValue().toLowerCase().strip(), connection))) {
-                libModuleCreate(article);
+            if (!(searchBar.textProperty().getValue().strip().equals(""))) {
+                for (Article article : Objects.requireNonNull(LibraryOverseer.searchArticle(searchBar.textProperty().getValue().toLowerCase().strip(), connection))) {
+                    libModuleCreate(article);
+                }
+            } else {
+                promptSearchDecor("Search through the library.");
             }
-        } else {
-            promptSearchDecor("Search through the library.");
-        }
+
+        System.out.println(connection.isClosed());
     }
 
     private void libModuleCreate(Article article) { // should find a better way to solve this.
