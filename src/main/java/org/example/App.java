@@ -6,7 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.library.AccountManager;
+import org.library.AccountRepository;
 import org.library.AuthenticationModel;
+import org.library.Database;
 
 import java.io.IOException;
 
@@ -16,7 +18,7 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
-    private static AuthenticationModel authenticationModel = new AuthenticationModel(new AccountManager());
+    private static AuthenticationModel authenticationModel = new AuthenticationModel(new AccountManager(new AccountRepository(new Database())));
 
     @Override
     public void start(Stage stage) throws IOException {
