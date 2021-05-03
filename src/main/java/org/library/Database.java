@@ -13,7 +13,7 @@ public class Database {
 
     private static final String dbhost = "jdbc:mysql://localhost:3306/biblan3";
     private static final String username = "root";
-    private static final String password = "";
+    private static final String password = test.getPwd();
 
     public Database() { }
 

@@ -36,7 +36,6 @@ public class LibraryOverseer { // Database currently incomplete. Might rename cl
         statement = "%" + statement + "%";
         ArrayList<Article> articleArrayList = new ArrayList<>();
         try {
-            // TODO: Search author name without specifying
             PreparedStatement preparedStatement = connection.prepareStatement("select a.artikelID, namn, titel, ar, ISBN, fysiskPlats, antal\n" +
                     "from artikel_forfattare\n" +
                     "join artikel a on a.artikelID = artikel_forfattare.artikelID\n" +

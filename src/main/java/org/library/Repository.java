@@ -24,6 +24,8 @@ public abstract class Repository<T> {
             return "SELECT * FROM " + table + " ORDER BY " + orderBy + " OFFSET " + offset + " ROWS" + " LIMIT " + limit;
         }
 
+
+
         // Creates an insert into statement for the provided table name and attributes.
         static String create(String table, String[] attributes) {
             String[] parameters = new String[attributes.length];

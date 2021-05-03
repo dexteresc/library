@@ -29,8 +29,9 @@ public class PrimaryController {
     public BorderPane headerButtonBox;
 
 
-    private Connection connection;
+   // private Connection connection;
     private AuthenticationModel authenticationModel;
+    private ArticleRepository articleRepository = new ArticleRepository(new Database());
 
     /**
      * Switches scene to login
@@ -39,14 +40,13 @@ public class PrimaryController {
      */
     @FXML
     public void switchToLogin() throws IOException, SQLException {
-        connection.close(); // SOLUTION TO CONNECTION ISSUE MAYBE
         App.setRoot("login");
     }
 
     public void initialize() {
-        connection = LibraryOverseer.createDBConnection(); // Create db connection
+      //  connection = LibraryOverseer.createDBConnection(); // Create db connection
 
-        promptSearchDecor("Search through the library.");
+        promptSearchDecor();
         // Configure authentication model
         if (this.authenticationModel == null) {
             this.authenticationModel = App.getAuthenticationModel();
@@ -59,6 +59,7 @@ public class PrimaryController {
         }
 
         // Load Categories
+        /*
         ObservableList<String> items = FXCollections.observableArrayList(LibraryOverseer.getGenres(connection));
         categoriesView.setItems(items);
         categoriesView.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
@@ -74,20 +75,25 @@ public class PrimaryController {
                 promptSearchDecor("No articles in " + categoriesView.getSelectionModel().selectedItemProperty().getValue());
             }
         });
+
+         */
     }
 
     @FXML
-    public void searchResult() throws SQLException {
+    public void searchResult() throws Exception {
         libView.getChildren().clear();
-            if (!(searchBar.textProperty().getValue().strip().equals(""))) {
-                for (Article article : Objects.requireNonNull(LibraryOverseer.searchArticle(searchBar.textProperty().getValue().toLowerCase().strip(), connection))) {
+        if (!(searchBar.textProperty().getValue().strip().equals(""))) {
+            ArrayList<Article> articles = articleRepository.articleSearch(searchBar.textProperty().getValue().toLowerCase().strip());
+            if (articles.isEmpty()) {
+                promptSearchDecor();
+            } else {
+                for (Article article : articles) {
                     libModuleCreate(article);
                 }
-            } else {
-                promptSearchDecor("Search through the library.");
             }
-
-        System.out.println(connection.isClosed());
+        } else {
+            promptSearchDecor();
+        }
     }
 
     private void libModuleCreate(Article article) { // should find a better way to solve this.
@@ -125,6 +131,13 @@ public class PrimaryController {
     private void promptSearchDecor(String text) {
         BorderPane borderPane = new BorderPane();
         Label label = new Label(text);
+        borderPane.setCenter(label);
+        libView.getChildren().add(borderPane);
+    }
+
+    private void promptSearchDecor() {
+        BorderPane borderPane = new BorderPane();
+        Label label = new Label("Search through the library.");
         borderPane.setCenter(label);
         libView.getChildren().add(borderPane);
     }
