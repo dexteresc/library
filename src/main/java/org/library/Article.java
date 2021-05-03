@@ -20,7 +20,7 @@ public class Article {
         this.year = year;
     }
 
-    public int getId() {
+    public int getID() {
         return id;
     }
 
