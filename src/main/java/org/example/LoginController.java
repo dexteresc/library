@@ -52,7 +52,6 @@ public class LoginController {
 
         errorLabel.getStyleClass().add("errorLabel");
     }
-
     @FXML
     private void logIn() {
         String username = usernameField.textProperty().getValue();

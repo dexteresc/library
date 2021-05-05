@@ -41,6 +41,10 @@ public class PrimaryController {
     public void switchToLogin() throws IOException {
         App.setRoot("login");
     }
+    @FXML
+    public void switchToRegister() throws IOException              {
+        App.setRoot("register");
+    }
 
     public void initialize() {
         connection = LibraryOverseer.createDBConnection(); // Create db connection

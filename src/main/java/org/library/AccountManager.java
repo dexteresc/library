@@ -89,10 +89,11 @@ public class AccountManager {
      * @param email account holder's email.
      * @param password account password.
      */
-    public boolean createAccount(String givenName, String familyName, String email, String password) throws Exception {
+    public boolean createAccount(String givenName, String familyName, String email, String phone, String password) throws Exception {
         String passwordHash = hasher.hashToString(12, password.toCharArray());
         return this.accountRepository.create(givenName, familyName, email, passwordHash);
     }
+
 
     // TODO: Update account
     
