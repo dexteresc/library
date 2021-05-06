@@ -18,7 +18,7 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
-    private static AppModel appModel = new AppModel(new Database());
+    private static AppModel appModel = new AppModel(new Database("jdbc:mysql://ec2-23-20-145-129.compute-1.amazonaws.com:3306/library", "admin", "cbq6LQzci9c"));
 
     @Override
     public void start(Stage stage) throws IOException {
