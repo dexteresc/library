@@ -53,7 +53,7 @@ public class PrimaryController {
 
         // Configure authentication model
         if (this.authenticationModel == null) {
-            this.authenticationModel = App.getAuthenticationModel();
+            this.authenticationModel = App.getAppModel().getAuthenticationModel();
         }
 
         if (this.authenticationModel.isAuthenticated()) {
