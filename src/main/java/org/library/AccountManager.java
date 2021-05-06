@@ -48,7 +48,7 @@ public class AccountManager {
                         }
 
                         // Get the requested account.
-                        return accountRepository.getByID(rs.getInt("id"));
+                        return null;
                     }
             );
         } catch (Exception e) {
@@ -91,7 +91,7 @@ public class AccountManager {
      */
     public boolean createAccount(String givenName, String familyName, String email, String phone, String password) throws Exception {
         String passwordHash = hasher.hashToString(12, password.toCharArray());
-        return this.accountRepository.create(givenName, familyName, email, passwordHash);
+        return false;
     }
 
 
