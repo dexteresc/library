@@ -13,8 +13,8 @@ public class AccountRepository extends Repository<Account> {
     private Account accountFrom(ResultSet resultSet) throws Exception {
         return new Account(
                 resultSet.getInt("id"),
-                resultSet.getString("givenName"),
-                resultSet.getString("familyName"),
+                resultSet.getString("given_name"),
+                resultSet.getString("family_name"),
                 resultSet.getString("email")
         );
     }
@@ -27,8 +27,8 @@ public class AccountRepository extends Repository<Account> {
      */
     public Account getByID(int id) throws Exception {
         return super.find("id", id, rs -> new Account(
-                rs.getString("givenName"),
-                rs.getString("familyName"),
+                rs.getString("given_name"),
+                rs.getString("family_name"),
                 rs.getString("email")
         ));
     }
@@ -54,7 +54,7 @@ public class AccountRepository extends Repository<Account> {
      * @throws Exception
      */
     public boolean create(String givenName, String familyName, String email, String passwordHash) throws Exception {
-        return super.create(new String[]{"givenName", "familyName", "email", "passwordHash"}, configuration -> {
+        return super.create(new String[]{"given_name", "family_name", "email", "password_hash"}, configuration -> {
             configuration.setString(1, givenName);
             configuration.setString(2, familyName);
             configuration.setString(3, email);

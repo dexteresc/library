@@ -11,14 +11,18 @@ public class Database {
         void apply(Input input) throws Exception;
     }
 
-    private static final String dbhost = "jdbc:mysql://localhost:3306/biblan3";
-    private static final String username = "root";
-    private static final String password = "";
+    private final String host;
+    private final String username;
+    private final String password;
 
-    public Database() { }
+    public Database(String host, String username, String password) {
+        this.host = host;
+        this.username = username;
+        this.password = password;
+    }
 
     private Connection getConnection() throws Exception {
-        return DriverManager.getConnection(dbhost, username, password);
+        return DriverManager.getConnection(host, username, password);
     }
 
     /**

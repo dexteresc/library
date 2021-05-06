@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 
 public class AccountManager {
 
-    private static final String LOGIN_STATEMENT = "SELECT * FROM users WHERE email = ? LIMIT 1";
-    private static final String SET_PASSWORD_STATEMENT = "UPDATE users SET passwordHash = ? WHERE email = ? LIMIT 1";
+    private static final String LOGIN_STATEMENT = "SELECT * FROM account WHERE email = ? LIMIT 1";
+    private static final String SET_PASSWORD_STATEMENT = "UPDATE account SET password_hash = ? WHERE email = ? LIMIT 1";
 
     private final BCrypt.Hasher hasher = BCrypt.with(BCrypt.Version.VERSION_2B);
     private final BCrypt.Verifyer verifier = BCrypt.verifyer(BCrypt.Version.VERSION_2B);
@@ -38,7 +38,7 @@ public class AccountManager {
                         // Check if the provided password is a match.
                         BCrypt.Result verificationResult = verifier.verify(
                                 password.toCharArray(),
-                                rs.getString("passwordHash")
+                                rs.getString("password_hash")
                         );
 
                         if (!verificationResult.verified) {
