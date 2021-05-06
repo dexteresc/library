@@ -15,8 +15,8 @@ public final class AppModel {
     // Repositories
     private AccountRepository accountRepository;
 
-    public AppModel() {
-        this.database = new Database();
+    public AppModel(Database database) {
+        this.database = database;
 
         // Repositories
         this.accountRepository = new AccountRepository(this.database);

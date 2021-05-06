@@ -27,7 +27,7 @@ public class RegisterController {
 
     public void initialize() {
             if (this.authenticationModel == null) {
-        this.authenticationModel = App.getAuthenticationModel();
+        this.authenticationModel = App.getAppModel().getAuthenticationModel();
     }
     }
     public void switchToLogin() throws IOException { //behövs för att kunna nå register knappen

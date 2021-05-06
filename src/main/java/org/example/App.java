@@ -18,7 +18,7 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
-    private static AppModel appModel = new AppModel();
+    private static AppModel appModel = new AppModel(new Database());
 
     @Override
     public void start(Stage stage) throws IOException {
