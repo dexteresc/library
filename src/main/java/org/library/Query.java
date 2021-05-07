@@ -45,6 +45,7 @@ public class Query {
                     case "integer": preparedStatement.setLong(parameterIndex, (Long) parameter); break;
                     case "float":
                     case "double": preparedStatement.setDouble(parameterIndex, (Double) parameter); break;
+                    case "boolean": preparedStatement.setBoolean(parameterIndex, (Boolean) parameter); break;
                     case "date": preparedStatement.setDate(parameterIndex, (Date) parameter); break;
                     default: throw new Exception("Invalid parameter for prepared statement with value of type: " + parameterTypeName);
                 }
