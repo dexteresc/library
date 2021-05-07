@@ -4,7 +4,7 @@ public class Customer extends Account {
     private CustomerType customerType;
 
     public Customer(Account account, CustomerType customerType) {
-        super(account.getID(), account.getGivenName(), account.getFamilyName(), account.getEmail());
+        super(account.getId(), account.getGivenName(), account.getFamilyName(), account.getEmail(), account.getPhoneNumber());
 
         this.customerType = customerType;
     }

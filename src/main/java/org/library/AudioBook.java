@@ -18,7 +18,7 @@ public class AudioBook extends Article { // Not prioritizing
      * @param hours    Hour length
      * @param minutes  Minute length
      */
-    public AudioBook(int id, String title, int year, String narrator, int hours, int minutes) {
+    public AudioBook(Long id, String title, int year, String narrator, int hours, int minutes) {
         super(id, title, year);
         this.narrator = narrator;
         this.hours = hours;

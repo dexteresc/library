@@ -3,14 +3,14 @@ package org.library;
 import java.util.Date;
 
 public class Loan {
-    private int id;
+    private Long id;
     private Date loanDate;
     private Date returnDate;
-    private boolean returned;
-    private int customerID;
-    private int articleID;
+    private Boolean returned;
+    private Long customerID;
+    private Long articleID;
 
-    public Loan(int id, Date loanDate, Date returnDate, boolean returned, int customerID, int articleID) {
+    public Loan(Long id, Date loanDate, Date returnDate, Boolean returned, Long customerID, Long articleID) {
         this.id = id;
         this.loanDate = loanDate;
         this.returnDate = returnDate;
@@ -22,7 +22,7 @@ public class Loan {
     public Loan(Customer customer, Article article) {
         this.loanDate = new Date();
         this.returned = false;
-        this.customerID = customer.getID();
-        this.articleID = article.getID();
+        this.customerID = customer.getId();
+        this.articleID = article.getId();
     }
 }

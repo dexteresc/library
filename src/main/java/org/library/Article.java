@@ -5,7 +5,7 @@ package org.library;
  */
 public class Article {
     // Need feedback
-    int id;
+    Long id;
     String title;
     int year;
 
@@ -14,17 +14,17 @@ public class Article {
      * @param title The title of the article
      * @param year Year of article
      */
-    public Article(int id, String title, int year) {
+    public Article(Long id, String title, int year) {
         this.id = id;
         this.title = title;
         this.year = year;
     }
 
-    public int getID() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

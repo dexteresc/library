@@ -20,7 +20,7 @@ public class Book extends Article {
      * @param physical_location The physical location of the book inside the library
      * @param inStock           The amount of books in the library
      */
-    public Book(int id, String title, int year, String isbn, String[] authors, Double physical_location, int inStock) {
+    public Book(Long id, String title, int year, String isbn, String[] authors, Double physical_location, int inStock) {
         super(id, title, year);
         this.isbn = isbn;
         this.authors = authors;

@@ -71,7 +71,7 @@ public class LibraryOverseer { // Database currently incomplete. Might rename cl
 
     private static void createArticleObject(ArrayList<Article> articleList, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
-            int id = resultSet.getInt("artikelID");
+            Long id = resultSet.getLong("artikelID");
             String title = resultSet.getString("titel");
             int year = resultSet.getInt("ar");
             String isbn = resultSet.getString("ISBN");
