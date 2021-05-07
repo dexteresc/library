@@ -1,5 +1,7 @@
 package org.library;
 
+import java.util.Date;
+
 /**
  * A common base for all media types.
  */
@@ -10,14 +12,16 @@ public abstract class Media {
     private String classification;
     private String summary;
     private String publisher;
+    private Date publishingDate;
 
-    public Media(Long id, String title, String category, String classification, String summary, String publisher) {
+    public Media(Long id, String title, String category, String classification, String summary, String publisher, Date publishingDate) {
         this.id = id;
         this.title = title;
         this.category = category;
         this.classification = classification;
         this.summary = summary;
         this.publisher = publisher;
+        this.publishingDate = publishingDate;
     }
 
     public Long getId() {
@@ -44,6 +48,10 @@ public abstract class Media {
         return publisher;
     }
 
+    public Date getPublishingDate() {
+        return publishingDate;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -66,5 +74,9 @@ public abstract class Media {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    public void setPublishingDate(Date publishingDate) {
+        this.publishingDate = publishingDate;
     }
 }

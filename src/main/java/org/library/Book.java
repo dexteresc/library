@@ -1,31 +1,18 @@
 package org.library;
 
+import java.util.Date;
+
 /**
  * Book type of article
  */
 public class Book extends Media {
-    String isbn;
-    String[] authors;
-    Double physical_location;
-    int inStock;
+    private String isbn;
+    private String authors;
 
-    /**
-     * Book Constructor
-     *
-     * @param id                Id of article
-     * @param title             Title of article
-     * @param year              Year of article
-     * @param isbn              The books isbn
-     * @param authors           The books author(s)
-     * @param physical_location The physical location of the book inside the library
-     * @param inStock           The amount of books in the library
-     */
-    public Book(Long id, String title, int year, String isbn, String[] authors, Double physical_location, int inStock) {
-        super(id, title, year);
+    public Book(Long id, String title, String category, String classification, String summary, String publisher, Date publishingDate, String isbn, String authors) {
+        super(id, title, category, classification, summary, publisher, publishingDate);
         this.isbn = isbn;
         this.authors = authors;
-        this.physical_location = physical_location;
-        this.inStock = inStock;
     }
 
     public String getIsbn() {
@@ -36,27 +23,11 @@ public class Book extends Media {
         this.isbn = isbn;
     }
 
-    public String[] getAuthors() {
+    public String getAuthors() {
         return authors;
     }
 
-    public void setAuthors(String[] authors) {
+    public void setAuthors(String authors) {
         this.authors = authors;
-    }
-
-    public Double getPhysical_location() {
-        return physical_location;
-    }
-
-    public void setPhysical_location(Double physical_location) {
-        this.physical_location = physical_location;
-    }
-
-    public int getInStock() {
-        return inStock;
-    }
-
-    public void setInStock(int inStock) {
-        this.inStock = inStock;
     }
 }
