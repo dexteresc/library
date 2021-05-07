@@ -1,8 +1,6 @@
 package org.library;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
+import java.sql.*;
 
 public class Query {
     /**
@@ -59,13 +57,45 @@ public class Query {
 
         try {
             // Create prepared statement
-            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
 
             // Apply prepared statement configuration
             configuration.apply(preparedStatement);
 
             // Execute prepared statement
             preparedStatement.execute();
+        } finally {
+            // Clean up
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+    }
+
+    public Long executeQuery() throws Exception {
+        PreparedStatement preparedStatement = null;
+
+        try {
+            // Create prepared statement
+            preparedStatement = connection.prepareStatement(statement, new String[]{"id"});
+
+            // Apply prepared statement configuration
+            configuration.apply(preparedStatement);
+
+            // Execute prepared statement
+            preparedStatement.execute();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+
+            if (resultSet.next()) {
+                return resultSet.getLong(1);
+            } else {
+                throw new Exception("No generated key.");
+            }
         } finally {
             // Clean up
             if (preparedStatement != null && !preparedStatement.isClosed()) {
