@@ -19,10 +19,10 @@ public class Loan {
         this.articleID = articleID;
     }
 
-    public Loan(Customer customer, Article article) {
+    public Loan(Customer customer, Media media) {
         this.loanDate = new Date();
         this.returned = false;
         this.customerID = customer.getId();
-        this.articleID = article.getId();
+        this.articleID = media.getId();
     }
 }

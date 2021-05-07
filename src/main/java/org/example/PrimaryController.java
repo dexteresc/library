@@ -71,27 +71,27 @@ public class PrimaryController {
     public void searchResult() {
         libView.getChildren().clear();
         if (!(searchBar.textProperty().getValue().strip().equals(""))) {
-            for (Article article : Objects.requireNonNull(LibraryOverseer.searchArticle(searchBar.textProperty().getValue().toLowerCase().strip(), connection))) {
-                libModuleCreate(article);
+            for (Media media : Objects.requireNonNull(LibraryOverseer.searchArticle(searchBar.textProperty().getValue().toLowerCase().strip(), connection))) {
+                libModuleCreate(media);
             }
         } else {
             promptSearchDecor();
         }
     }
 
-    private void libModuleCreate(Article article) { // should find a better way to solve this.
+    private void libModuleCreate(Media media) { // should find a better way to solve this.
         BorderPane borderPane = new BorderPane();
-        Label title = new Label(article.getTitle());
+        Label title = new Label(media.getTitle());
         title.getStyleClass().add("titleLabel");
         Button borrowButton = new Button("Låna");
 
-        if (article instanceof Book) {
-            String[] authors = ((Book) article).getAuthors();
+        if (media instanceof Book) {
+            String[] authors = ((Book) media).getAuthors();
             String authorString = Arrays.toString(authors);
             authorString = authorString.replaceAll("\\[", "").replaceAll("]", "");
             Label authorLabel = new Label(authorString);
             authorLabel.getStyleClass().add("authorLabel");
-            String inStock = "Antal kvar: " + ((Book) article).getInStock();
+            String inStock = "Antal kvar: " + ((Book) media).getInStock();
             Label inStockLabel = new Label(inStock);
             VBox leftVBox = new VBox();
             VBox rightVBox = new VBox();
@@ -104,7 +104,7 @@ public class PrimaryController {
             borderPane.setLeft(leftVBox);
             borderPane.setRight(rightVBox);
             libView.getChildren().add(borderPane);
-        } else if (article instanceof AudioBook) {
+        } else if (media instanceof AudioBook) {
             borderPane.setLeft(title);
             borderPane.setRight(borrowButton);
             libView.getChildren().add(borderPane);

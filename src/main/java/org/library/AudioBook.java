@@ -3,7 +3,7 @@ package org.library;
 /**
  * Audiobook type of article
  */
-public class AudioBook extends Article { // Not prioritizing
+public class AudioBook extends Media { // Not prioritizing
     // Should we add this to db?
     String narrator;
     // Feedback needed

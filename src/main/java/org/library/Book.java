@@ -3,7 +3,7 @@ package org.library;
 /**
  * Book type of article
  */
-public class Book extends Article {
+public class Book extends Media {
     String isbn;
     String[] authors;
     Double physical_location;
