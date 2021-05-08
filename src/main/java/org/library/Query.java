@@ -1,6 +1,9 @@
 package org.library;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Query {
     /**
@@ -33,7 +36,7 @@ public class Query {
                 String parameterTypeName = parameter.getClass()
                         .getName()
                         .replace("java.lang.", "")
-                        .replace("java.util.", "")
+                        .replace("java.time.", "")
                         .toLowerCase();
                 int parameterIndex = i + 1;
 
@@ -44,7 +47,7 @@ public class Query {
                     case "float":
                     case "double": preparedStatement.setDouble(parameterIndex, (Double) parameter); break;
                     case "boolean": preparedStatement.setBoolean(parameterIndex, (Boolean) parameter); break;
-                    case "date": preparedStatement.setDate(parameterIndex, (Date) parameter); break;
+                    case "localdate": preparedStatement.setObject(parameterIndex, parameter); break;
                     default: throw new Exception("Invalid parameter for prepared statement with value of type: " + parameterTypeName);
                 }
             }

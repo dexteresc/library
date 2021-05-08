@@ -1,6 +1,6 @@
 package org.library;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Audiobook type of article
@@ -11,8 +11,8 @@ public class AudioBook extends Media {
     /**
      * @param runtime Duration of audiobook in minutes.
      */
-    public AudioBook(Long id, String title, String category, String classification, String summary, String publisher, Date publishingDate, Integer runtime) {
-        super(id, title, category, classification, summary, publisher, publishingDate);
+    public AudioBook(Long id, String title, String classification, String summary, LocalDate publishingDate, Integer runtime) {
+        super(id, title, classification, summary, null, publishingDate);
         this.runtime = runtime;
     }
 

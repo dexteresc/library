@@ -1,6 +1,6 @@
 package org.library;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * A common base for all media types.
@@ -8,19 +8,17 @@ import java.util.Date;
 public abstract class Media {
     private Long id;
     private String title;
-    private String category;
     private String classification;
     private String summary;
-    private String publisher;
-    private Date publishingDate;
+    private String location;
+    private LocalDate publishingDate;
 
-    public Media(Long id, String title, String category, String classification, String summary, String publisher, Date publishingDate) {
+    public Media(Long id, String title, String classification, String summary, String location, LocalDate publishingDate) {
         this.id = id;
         this.title = title;
-        this.category = category;
         this.classification = classification;
         this.summary = summary;
-        this.publisher = publisher;
+        this.location = location;
         this.publishingDate = publishingDate;
     }
 
@@ -32,8 +30,8 @@ public abstract class Media {
         return title;
     }
 
-    public String getCategory() {
-        return category;
+    public String getLocation() {
+        return location;
     }
 
     public String getClassification() {
@@ -44,11 +42,7 @@ public abstract class Media {
         return summary;
     }
 
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public Date getPublishingDate() {
+    public LocalDate getPublishingDate() {
         return publishingDate;
     }
 
@@ -60,8 +54,8 @@ public abstract class Media {
         this.title = title;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public void setClassification(String classification) {
@@ -72,11 +66,7 @@ public abstract class Media {
         this.summary = summary;
     }
 
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public void setPublishingDate(Date publishingDate) {
+    public void setPublishingDate(LocalDate publishingDate) {
         this.publishingDate = publishingDate;
     }
 }
