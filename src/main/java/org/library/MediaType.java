@@ -1,5 +1,8 @@
 package org.library;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class MediaType {
     private Long id;
     private String name;
@@ -9,6 +12,10 @@ public class MediaType {
         this.id = id;
         this.name = name;
         this.loanPeriod = loanPeriod;
+    }
+
+    public MediaType(ResultSet resultSet) throws SQLException {
+        this(resultSet.getLong("id"), resultSet.getString("name"), resultSet.getInt("loan_period"));
     }
 
     public Long getId() {

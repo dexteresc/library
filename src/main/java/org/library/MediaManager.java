@@ -1,6 +1,7 @@
 package org.library;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class MediaManager {
 
@@ -12,7 +13,11 @@ public class MediaManager {
     // Book statements
     private static final String SELECT_BOOK_BY_ID_STATEMENT = "SELECT * FROM media INNER JOIN book ON book.media_id = media.id WHERE id = ? LIMIT 1";
     private static final String CREATE_BOOK_STATEMENT = "INSERT INTO book (media_id, isbn, publisher) VALUES (?, ?, ?)";
-    private static final String UPDATE_BOOK_STATEMENT = "UPDATE book SET isbn = ?, publisher = ? WHERE id = ?";
+    private static final String UPDATE_BOOK_STATEMENT = "UPDATE book SET isbn = ?, publisher = ? WHERE id = ? LIMIT 1";
+
+    // Media item statements
+    private static final String SELECT_MEDIA_ITEMS_BY_MEDIA_ID_STATEMENT = "SELECT * FROM media_item INNER JOIN media_type ON media_item.media_type_id = media_type.id WHERE media_id = ?";
+    private static final String CREATE_MEDIA_ITEM_STATEMENT = "INSERT INTO media_item (media_id, media_type_id) VALUES (?, ?)";
 
     private final Database database;
 
@@ -30,6 +35,18 @@ public class MediaManager {
         database.update(UPDATE_MEDIA_STATEMENT)
                 .configure(media.getTitle(), media.getClassification(), media.getSummary(), media.getLocation(), media.getPublishingDate(), media.getId())
                 .execute();
+    }
+
+    private ArrayList<MediaItem> getMediaItems(Media media) throws Exception {
+        return database.select(SELECT_MEDIA_ITEMS_BY_MEDIA_ID_STATEMENT, MediaItem.class)
+                .configure(media.getId())
+                .fetchAll(resultSet -> new MediaItem(resultSet.getLong("id"), media, new MediaType(resultSet)));
+    }
+
+    public Long createMediaItem(Media media, MediaType mediaType) throws Exception {
+        return database.insert(CREATE_MEDIA_ITEM_STATEMENT)
+                .configure(media.getId(), mediaType.getId())
+                .executeQuery();
     }
 
     public Book getBookById(Long id) throws Exception {
