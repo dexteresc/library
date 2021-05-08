@@ -10,6 +10,7 @@ public class MediaManager {
     private static final String CREATE_MEDIA_STATEMENT = "INSERT INTO media (title, classification, summary, location, publishing_date) VALUES (?, ?, ?, ?, ?)";
 
     // Book statements
+    private static final String SELECT_BOOK_BY_ID_STATEMENT = "SELECT * FROM media INNER JOIN book ON book.media_id = media.id WHERE id = ? LIMIT 1";
     private static final String CREATE_BOOK_STATEMENT = "INSERT INTO book (media_id, isbn, publisher) VALUES (?, ?, ?)";
     private static final String UPDATE_BOOK_STATEMENT = "UPDATE book SET isbn = ?, publisher = ? WHERE id = ?";
 
@@ -29,6 +30,12 @@ public class MediaManager {
         database.update(UPDATE_MEDIA_STATEMENT)
                 .configure(media.getTitle(), media.getClassification(), media.getSummary(), media.getLocation(), media.getPublishingDate(), media.getId())
                 .execute();
+    }
+
+    public Book getBookById(Long id) throws Exception {
+        return database.select(SELECT_BOOK_BY_ID_STATEMENT, Book.class)
+                .configure(id)
+                .fetch(Book::new);
     }
 
     public void createBook(String title, String classification, String summary, String location, LocalDate publishingDate, String isbn, String publisher) throws Exception {
