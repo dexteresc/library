@@ -1,5 +1,7 @@
 package org.library;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 /**
@@ -13,6 +15,8 @@ public abstract class Media {
     private String location;
     private LocalDate publishingDate;
 
+    public Media() {}
+
     public Media(Long id, String title, String classification, String summary, String location, LocalDate publishingDate) {
         this.id = id;
         this.title = title;
@@ -20,6 +24,10 @@ public abstract class Media {
         this.summary = summary;
         this.location = location;
         this.publishingDate = publishingDate;
+    }
+
+    public Media(ResultSet resultSet) throws SQLException {
+        this(resultSet.getLong("id"), resultSet.getString("title"), resultSet.getString("classification"), resultSet.getString("summary"), resultSet.getString("location"), resultSet.getObject("publishing_date", LocalDate.class));
     }
 
     public Long getId() {

@@ -18,7 +18,10 @@ public class Book extends Media {
     }
 
     public Book(ResultSet resultSet) throws SQLException {
-        this(resultSet.getLong("id"), resultSet.getString("title"), resultSet.getString("classification"), resultSet.getString("summary"), resultSet.getString("location"), resultSet.getObject("publishing_date", LocalDate.class), resultSet.getString("isbn"), resultSet.getString("publisher"));
+        super(resultSet);
+
+        this.isbn = resultSet.getString("isbn");
+        this.publisher = resultSet.getString("publisher");
     }
 
     public String getIsbn() {
