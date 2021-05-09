@@ -3,6 +3,8 @@ package org.library;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Book type of article
@@ -10,11 +12,14 @@ import java.time.LocalDate;
 public class Book extends Media {
     private String isbn;
     private String publisher;
+    private List<Author> authors;
 
-    public Book(Long id, String title, String classification, String summary, String location, LocalDate publishingDate, String publisher, String isbn) {
+    public Book(Long id, String title, String classification, String summary, String location, LocalDate publishingDate, String publisher, String isbn, List<Author> authors) {
         super(id, title, classification, summary, location, publishingDate);
+
         this.isbn = isbn;
         this.publisher = publisher;
+        this.authors = authors;
     }
 
     public Book(ResultSet resultSet) throws SQLException {
@@ -22,6 +27,12 @@ public class Book extends Media {
 
         this.isbn = resultSet.getString("isbn");
         this.publisher = resultSet.getString("publisher");
+        this.authors = new ArrayList<>();
+
+        /*while (resultSet.next() && resultSet.getLong("id") == this.getId()) {
+            this.authors.add(new Author(resultSet));
+        }
+        resultSet.previous();*/
     }
 
     public String getIsbn() {
@@ -32,11 +43,19 @@ public class Book extends Media {
         return publisher;
     }
 
+    public List<Author> getAuthors() {
+        return authors;
+    }
+
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
     }
 }
