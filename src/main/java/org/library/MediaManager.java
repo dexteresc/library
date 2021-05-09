@@ -26,10 +26,11 @@ public class MediaManager {
         this.database = database;
     }
 
-    private Long createMedia(String title, String classification, String summary, String location, LocalDate publishingDate) throws Exception {
-        return database.insert(CREATE_MEDIA_STATEMENT)
-                .configure(title, classification, summary, location, publishingDate)
+    private void createMedia(Media media) throws Exception {
+        Long id = database.insert(CREATE_MEDIA_STATEMENT)
+                .configure(media.getTitle(), media.getClassification(), media.getSummary(), media.getLocation(), media.getPublishingDate())
                 .executeQuery();
+        media.setId(id);
     }
 
     private void updateMedia(Media media) throws Exception {
@@ -44,10 +45,11 @@ public class MediaManager {
                 .fetchAll(resultSet -> new MediaItem(resultSet.getLong("id"), media, new MediaType(resultSet)));
     }
 
-    public Long createMediaItem(Media media, MediaType mediaType) throws Exception {
-        return database.insert(CREATE_MEDIA_ITEM_STATEMENT)
-                .configure(media.getId(), mediaType.getId())
+    public void createMediaItem(MediaItem mediaItem) throws Exception {
+        Long id = database.insert(CREATE_MEDIA_ITEM_STATEMENT)
+                .configure(mediaItem.getMedia().getId(), mediaItem.getMediaType().getId())
                 .executeQuery();
+        mediaItem.setId(id);
     }
 
     public Book getBookById(Long id) throws Exception {
@@ -56,10 +58,10 @@ public class MediaManager {
                 .fetch(Book::new);
     }
 
-    public void createBook(String title, String classification, String summary, String location, LocalDate publishingDate, String isbn, String publisher) throws Exception {
-        Long id = this.createMedia(title, classification, summary, location, publishingDate);
+    public void createBook(Book book) throws Exception {
+        this.createMedia(book);
         database.insert(CREATE_BOOK_STATEMENT)
-                .configure(id, isbn, publisher)
+                .configure(book.getId(), book.getIsbn(), book.getPublisher())
                 .execute();
     }
 
