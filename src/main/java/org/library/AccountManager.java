@@ -13,6 +13,8 @@ public class AccountManager {
     private static final String UPDATE_ACCOUNT_STATEMENT = "UPDATE account SET given_name = ?, family_name = ?, email = ?, phone = ? WHERE id = ? LIMIT 1";
     private static final String CREATE_ACCOUNT_STATEMENT = "INSERT INTO account (given_name, family_name, email, phone, password_hash) VALUES (?, ?, ?, ?, ?)";
     private static final String CREATE_CUSTOMER_STATEMENT = "INSERT INTO customer (account_id, customer_type_id) VALUES (?, ?)";
+    private static final String DELETE_ACCOUNT_BY_ID_STATEMENT = "DELETE FROM account WHERE id = ? LIMIT 1";
+    private static final String DELETE_ACCOUNT_BY_EMAIL_STATEMENT = "DELETE FROM account WHERE email = ? LIMIT 1";
 
     private final BCrypt.Hasher hasher = BCrypt.with(BCrypt.Version.VERSION_2B);
     private final BCrypt.Verifyer verifier = BCrypt.verifyer(BCrypt.Version.VERSION_2B);
@@ -135,8 +137,19 @@ public class AccountManager {
 
     public void updateAccount(Account account) throws Exception {
         database.insert(UPDATE_ACCOUNT_STATEMENT)
-                .configure(account.getGivenName(), account.getFamilyName(), account.getEmail(), account.getPhoneNumber())
+                .configure(account.getGivenName(), account.getFamilyName(), account.getEmail(), account.getPhoneNumber(), account.getId())
                 .execute();
     }
-    
+
+    public void deleteAccountById(Long accountId) throws Exception {
+        database.delete(DELETE_ACCOUNT_BY_ID_STATEMENT)
+                .configure(accountId)
+                .execute();
+    }
+
+    public void deleteAccountByEmail(String email) throws Exception {
+        database.delete(DELETE_ACCOUNT_BY_EMAIL_STATEMENT)
+                .configure(email)
+                .execute();
+    }
 }
