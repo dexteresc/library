@@ -45,6 +45,8 @@ public class MediaManager {
                 .fetchAll(resultSet -> new MediaItem(resultSet.getLong("id"), media, new MediaType(resultSet)));
     }
 
+    // TODO: Get available media items.
+
     public void createMediaItem(MediaItem mediaItem) throws Exception {
         Long id = database.insert(CREATE_MEDIA_ITEM_STATEMENT)
                 .configure(mediaItem.getMedia().getId(), mediaItem.getMediaType().getId())
