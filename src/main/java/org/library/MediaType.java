@@ -15,7 +15,7 @@ public class MediaType {
     }
 
     public MediaType(ResultSet resultSet) throws SQLException {
-        this(resultSet.getLong("id"), resultSet.getString("name"), resultSet.getInt("loan_period"));
+        this(resultSet.getLong("id"), resultSet.getString("type_name"), resultSet.getInt("loan_period"));
     }
 
     public Long getId() {

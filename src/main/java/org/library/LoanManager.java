@@ -1,6 +1,7 @@
 package org.library;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LoanManager {
@@ -8,6 +9,8 @@ public class LoanManager {
     // Statements
     private static final String CREATE_LOAN_STATEMENT = "INSERT INTO loan (customer_id, media_item_id, borrowed_at, return_by) VALUES (?, ?, ?, ?)";
     private static final String SELECT_ACTIVE_CUSTOMER_LOANS_STATEMENT = "SELECT * FROM loan WHERE customer_id = ? AND returned_at IS NULL";
+    private static final String UPDATE_LOAN_STATEMENT = "UPDATE loan SET customer_id = ?, media_item_id = ?, borrowed_at = ?, return_by = ? WHERE id = ? LIMIT 1";
+    private static final String RETURN_MEDIA_ITEM_STATEMENT = "UPDATE loan SET returned_at = ? WHERE media_item_id = ? AND returned_at IS NULL LIMIT 1";
 
 
     private final Database database;
@@ -16,18 +19,21 @@ public class LoanManager {
         this.database = database;
     }
 
-    private Long createLoan(Long customerId, MediaItem mediaItem) throws Exception {
+    private Loan createLoan(Long customerId, MediaItem mediaItem) throws Exception {
         LocalDate borrowedAt = LocalDate.now();
         LocalDate returnBy = LocalDate.now().plusDays(mediaItem.getMediaType().getLoanPeriod());
-        return database.insert(CREATE_LOAN_STATEMENT)
+        Long loanId = database.insert(CREATE_LOAN_STATEMENT)
                 .configure(customerId, mediaItem.getId(), borrowedAt, returnBy)
                 .executeQuery();
+        return new Loan(loanId, customerId, mediaItem.getId(), borrowedAt, returnBy, null);
     }
 
-    public void createLoan(Long customerId, List<MediaItem> mediaItems) throws Exception {
+    public List<Loan> createLoan(Long customerId, List<MediaItem> mediaItems) throws Exception {
+        ArrayList<Loan> loans = new ArrayList<>();
         for (MediaItem mediaItem : mediaItems) {
-            this.createLoan(customerId, mediaItem);
+            loans.add(this.createLoan(customerId, mediaItem));
         }
+        return loans;
     }
 
     public List<Loan> getActiveCustomerLoans(Long customerId) throws Exception {
@@ -35,4 +41,17 @@ public class LoanManager {
                 .configure(customerId)
                 .fetchAll(Loan::new);
     }
+
+    private Long updateLoan(Loan loan) throws Exception {
+        return database.update(UPDATE_LOAN_STATEMENT)
+                .configure(loan.getCustomerId(), loan.getMediaItemId(), loan.getBorrowedAt(), loan.getReturnBy(), loan.getId())
+                .executeQuery();
+    }
+
+    public void returnMediaItem(Long mediaItemId) throws Exception {
+        database.update(RETURN_MEDIA_ITEM_STATEMENT)
+                .configure(LocalDate.now(), mediaItemId)
+                .execute();
+    }
+
 }
