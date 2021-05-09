@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import org.library.AccountManager;
 import org.library.AuthenticationModel;
+import org.library.Customer;
 
 import java.io.IOException;
 
@@ -55,7 +56,12 @@ public class RegisterController {
                 && phone.matches(".*\\d.*")
                 && !password.equals("")){
             registerBox.getChildren().remove(errorLabel);
-            authenticationModel.getAccountManager().createCustomerAccount(firstName, lastName,email, phone, password);
+            Customer customer = new Customer();
+            customer.setGivenName(firstName);
+            customer.setFamilyName(lastName);
+            customer.setEmail(email);
+            customer.setPhoneNumber(phone);
+            authenticationModel.getAccountManager().createCustomerAccount(customer, password);
             App.setRoot("Login");
         }
         else {
