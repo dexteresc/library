@@ -1,25 +1,23 @@
 package org.library;
 
-public enum CustomerType {
-    STUDENT(5),
-    RESEARCHER(20),
-    UNIVERSITY_EMPLOYEE(10),
-    INDIVIDUAL(1),
-    OTHER(0);
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+public class CustomerType {
+    private String typeName;
     private int maxNumberOfLoans;
 
-    CustomerType(int maxNumberOfLoans) {
+    public CustomerType(String typeName, int maxNumberOfLoans) {
+        this.typeName = typeName;
         this.maxNumberOfLoans = maxNumberOfLoans;
     }
 
-    private CustomerType withMaxNumberOfLoans(int maxNumberOfLoans) {
-        this.maxNumberOfLoans = maxNumberOfLoans;
-        return this;
+    CustomerType(ResultSet resultSet) throws SQLException {
+        this(resultSet.getString("type_name"), resultSet.getInt("max_concurrent_loans"));
     }
 
-    public static CustomerType OTHER(int maxNumberOfLoans) {
-        return CustomerType.OTHER.withMaxNumberOfLoans(maxNumberOfLoans);
+    public String getTypeName() {
+        return typeName;
     }
 
     public int getMaxNumberLoans() {

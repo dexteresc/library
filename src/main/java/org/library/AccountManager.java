@@ -5,8 +5,10 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 public class AccountManager {
 
     // Statements
-    private static final String LOGIN_STATEMENT = "SELECT * FROM account WHERE email = ? LIMIT 1";
+    private static final String LOGIN_STATEMENT = "SELECT id, password_hash, EXISTS(SELECT * FROM customer WHERE account_id = id) AS is_customer, EXISTS(SELECT * FROM staff WHERE account_id = id) AS is_staff FROM account WHERE email = ? LIMIT 1";
     private static final String SELECT_ACCOUNT_BY_ID_STATEMENT = "SELECT * FROM account WHERE id = ? LIMIT 1";
+    private static final String SELECT_CUSTOMER_BY_ID_STATEMENT = "SELECT * FROM account INNER JOIN customer ON customer.account_id = account.id INNER JOIN customer_type ON customer_type.id = customer.customer_type_id WHERE account.id = ? LIMIT 1";
+    private static final String SELECT_STAFF_BY_ID_STATEMENT = "SELECT * FROM account INNER JOIN staff ON staff.account_id = account.id WHERE account.id = ? LIMIT 1";
     private static final String UPDATE_ACCOUNT_PASSWORD_STATEMENT = "UPDATE account SET password_hash = ? WHERE email = ? LIMIT 1";
     private static final String UPDATE_ACCOUNT_STATEMENT = "UPDATE account SET given_name = ?, family_name = ?, email = ?, phone = ? WHERE id = ? LIMIT 1";
     private static final String CREATE_ACCOUNT_STATEMENT = "INSERT INTO account (given_name, family_name, email, phone, password_hash) VALUES (?, ?, ?, ?, ?)";
@@ -43,8 +45,19 @@ public class AccountManager {
                             throw new Exception();
                         }
 
-                        // Get the requested account.
-                        return new Account(resultSet);
+                        // Get the authenticated account.
+                        Long accountId = resultSet.getLong("id");
+
+                        if (resultSet.getBoolean("is_staff")) {
+                            // Return staff account.
+                            return this.getStaffById(accountId);
+                        } else if (resultSet.getBoolean("is_customer")) {
+                            // Return customer account.
+                            return this.getCustomerById(accountId);
+                        } else {
+                            // Account is neither staff nor customer. This scenario should be avoided.
+                            return this.getAccountById(accountId);
+                        }
                     });
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,11 +80,22 @@ public class AccountManager {
                 .execute();
     }
 
-
     public Account getAccountById(Long id) throws Exception {
         return database.select(SELECT_ACCOUNT_BY_ID_STATEMENT, Account.class)
                 .configure(id)
                 .fetch(Account::new);
+    }
+
+    public Account getCustomerById(Long id) throws Exception {
+        return database.select(SELECT_CUSTOMER_BY_ID_STATEMENT, Customer.class)
+                .configure(id)
+                .fetch(Customer::new);
+    }
+
+    public Account getStaffById(Long id) throws Exception {
+        return database.select(SELECT_STAFF_BY_ID_STATEMENT, Staff.class)
+                .configure(id)
+                .fetch(Staff::new);
     }
 
     /**
