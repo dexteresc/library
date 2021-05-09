@@ -12,6 +12,8 @@ public class Account {
     private String email;
     private String phoneNumber;
 
+    public Account() {}
+
     /**
      * Create a new account instance with id.
      * @param id account id.
@@ -33,6 +35,10 @@ public class Account {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getGivenName() {

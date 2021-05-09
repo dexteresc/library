@@ -6,6 +6,10 @@ import java.sql.SQLException;
 public class Customer extends Account {
     private CustomerType customerType;
 
+    public Customer() {
+        super();
+    }
+
     public Customer(Account account, CustomerType customerType) {
         super(account.getId(), account.getGivenName(), account.getFamilyName(), account.getEmail(), account.getPhoneNumber());
 

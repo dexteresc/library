@@ -9,7 +9,7 @@ public class AccountManager {
     private static final String SELECT_ACCOUNT_BY_ID_STATEMENT = "SELECT * FROM account WHERE id = ? LIMIT 1";
     private static final String SELECT_CUSTOMER_BY_ID_STATEMENT = "SELECT * FROM account INNER JOIN customer ON customer.account_id = account.id INNER JOIN customer_type ON customer_type.id = customer.customer_type_id WHERE account.id = ? LIMIT 1";
     private static final String SELECT_STAFF_BY_ID_STATEMENT = "SELECT * FROM account INNER JOIN staff ON staff.account_id = account.id WHERE account.id = ? LIMIT 1";
-    private static final String UPDATE_ACCOUNT_PASSWORD_STATEMENT = "UPDATE account SET password_hash = ? WHERE email = ? LIMIT 1";
+    private static final String UPDATE_ACCOUNT_PASSWORD_STATEMENT = "UPDATE account SET password_hash = ? WHERE id = ? LIMIT 1";
     private static final String UPDATE_ACCOUNT_STATEMENT = "UPDATE account SET given_name = ?, family_name = ?, email = ?, phone = ? WHERE id = ? LIMIT 1";
     private static final String CREATE_ACCOUNT_STATEMENT = "INSERT INTO account (given_name, family_name, email, phone, password_hash) VALUES (?, ?, ?, ?, ?)";
     private static final String CREATE_CUSTOMER_STATEMENT = "INSERT INTO customer (account_id, customer_type_id) VALUES (?, ?)";
@@ -79,7 +79,7 @@ public class AccountManager {
     public void updateAccountPassword(Account account, String password) throws Exception {
         String passwordHash = hasher.hashToString(12, password.toCharArray());
         database.update(UPDATE_ACCOUNT_PASSWORD_STATEMENT)
-                .configure(passwordHash, account.getEmail())
+                .configure(passwordHash, account.getId())
                 .execute();
     }
 
@@ -89,13 +89,13 @@ public class AccountManager {
                 .fetch(Account::new);
     }
 
-    public Account getCustomerById(Long id) throws Exception {
+    public Customer getCustomerById(Long id) throws Exception {
         return database.select(SELECT_CUSTOMER_BY_ID_STATEMENT, Customer.class)
                 .configure(id)
                 .fetch(Customer::new);
     }
 
-    public Account getStaffById(Long id) throws Exception {
+    public Staff getStaffById(Long id) throws Exception {
         return database.select(SELECT_STAFF_BY_ID_STATEMENT, Staff.class)
                 .configure(id)
                 .fetch(Staff::new);
@@ -108,30 +108,23 @@ public class AccountManager {
      * @param email account holder's email.
      * @param password account password.
      */
-    private Long createAccount(String givenName, String familyName, String email, String phoneNumber, String password) throws Exception {
+    private void createAccount(Account account, String password) throws Exception {
         String passwordHash = hasher.hashToString(12, password.toCharArray());
-        return database.insert(CREATE_ACCOUNT_STATEMENT)
-                .configure(givenName, familyName, email, phoneNumber, passwordHash)
+        Long id = database.insert(CREATE_ACCOUNT_STATEMENT)
+                .configure(account.getGivenName(), account.getFamilyName(), account.getEmail(), account.getPhoneNumber(), passwordHash)
                 .executeQuery();
+        account.setId(id);
     }
 
-    // These id:s are hardcoded and should likely be replaced by some other mechanism.
-    private Long getCustomerTypeIdByEmailDomain(String email) {
-        if (email.contains("@ltu.se")) {
-            return (long) 3;
-        } else if (email.contains("@student.ltu.se")) {
-            return (long) 1;
-        } else {
-            return (long) 4;
+    public void createCustomerAccount(Customer customer, String password) throws Exception {
+        this.createAccount(customer, password);
+
+        if (customer.getCustomerType() != null) {
+            customer.setCustomerType(new CustomerType((long) 1, "", 0));
         }
-    }
-
-    public void createCustomerAccount(String givenName, String familyName, String email, String phoneNumber, String password) throws Exception {
-        Long accountId = this.createAccount(givenName, familyName, email, phoneNumber, password);
-        Long customerTypeId = this.getCustomerTypeIdByEmailDomain(email);
 
         this.database.insert(CREATE_CUSTOMER_STATEMENT)
-                .configure(accountId, customerTypeId)
+                .configure(customer.getId(), customer.getCustomerType().getId())
                 .execute();
     }
 
@@ -141,9 +134,9 @@ public class AccountManager {
                 .execute();
     }
 
-    public void deleteAccountById(Long accountId) throws Exception {
+    public void deleteAccount(Account account) throws Exception {
         database.delete(DELETE_ACCOUNT_BY_ID_STATEMENT)
-                .configure(accountId)
+                .configure(account.getId())
                 .execute();
     }
 
