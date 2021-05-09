@@ -1,9 +1,6 @@
 package org.library;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Query {
     /**
@@ -33,12 +30,18 @@ public class Query {
         this.configure(preparedStatement -> {
             for (int i = 0; i < parameters.length; i++) {
                 Object parameter = parameters[i];
+                int parameterIndex = i + 1;
+
+                if (parameter == null) {
+                    preparedStatement.setNull(parameterIndex, Types.NULL);
+                    continue;
+                }
+
                 String parameterTypeName = parameter.getClass()
                         .getName()
                         .replace("java.lang.", "")
                         .replace("java.time.", "")
                         .toLowerCase();
-                int parameterIndex = i + 1;
 
                 switch (parameterTypeName) {
                     case "string": preparedStatement.setString(parameterIndex, (String) parameter); break;
