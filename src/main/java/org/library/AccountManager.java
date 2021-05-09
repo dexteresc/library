@@ -12,6 +12,7 @@ public class AccountManager {
     private static final String UPDATE_ACCOUNT_PASSWORD_STATEMENT = "UPDATE account SET password_hash = ? WHERE email = ? LIMIT 1";
     private static final String UPDATE_ACCOUNT_STATEMENT = "UPDATE account SET given_name = ?, family_name = ?, email = ?, phone = ? WHERE id = ? LIMIT 1";
     private static final String CREATE_ACCOUNT_STATEMENT = "INSERT INTO account (given_name, family_name, email, phone, password_hash) VALUES (?, ?, ?, ?, ?)";
+    private static final String CREATE_CUSTOMER_STATEMENT = "INSERT INTO customer (account_id, customer_type_id) VALUES (?, ?)";
 
     private final BCrypt.Hasher hasher = BCrypt.with(BCrypt.Version.VERSION_2B);
     private final BCrypt.Verifyer verifier = BCrypt.verifyer(BCrypt.Version.VERSION_2B);
@@ -105,13 +106,32 @@ public class AccountManager {
      * @param email account holder's email.
      * @param password account password.
      */
-    public void createAccount(String givenName, String familyName, String email, String phoneNumber, String password) throws Exception {
+    private Long createAccount(String givenName, String familyName, String email, String phoneNumber, String password) throws Exception {
         String passwordHash = hasher.hashToString(12, password.toCharArray());
-        database.insert(CREATE_ACCOUNT_STATEMENT)
+        return database.insert(CREATE_ACCOUNT_STATEMENT)
                 .configure(givenName, familyName, email, phoneNumber, passwordHash)
-                .execute();
+                .executeQuery();
     }
 
+    // These id:s are hardcoded and should likely be replaced by some other mechanism.
+    private Long getCustomerTypeIdByEmailDomain(String email) {
+        if (email.contains("@ltu.se")) {
+            return (long) 3;
+        } else if (email.contains("@student.ltu.se")) {
+            return (long) 1;
+        } else {
+            return (long) 4;
+        }
+    }
+
+    public void createCustomerAccount(String givenName, String familyName, String email, String phoneNumber, String password) throws Exception {
+        Long accountId = this.createAccount(givenName, familyName, email, phoneNumber, password);
+        Long customerTypeId = this.getCustomerTypeIdByEmailDomain(email);
+
+        this.database.insert(CREATE_CUSTOMER_STATEMENT)
+                .configure(accountId, customerTypeId)
+                .execute();
+    }
 
     public void updateAccount(Account account) throws Exception {
         database.insert(UPDATE_ACCOUNT_STATEMENT)

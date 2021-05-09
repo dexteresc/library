@@ -55,7 +55,7 @@ public class RegisterController {
                 && phone.matches(".*\\d.*")
                 && !password.equals("")){
             registerBox.getChildren().remove(errorLabel);
-            authenticationModel.getAccountManager().createAccount(firstName, lastName,email, phone, password);
+            authenticationModel.getAccountManager().createCustomerAccount(firstName, lastName,email, phone, password);
             App.setRoot("Login");
         }
         else {
