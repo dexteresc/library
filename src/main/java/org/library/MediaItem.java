@@ -22,4 +22,16 @@ public class MediaItem {
     public MediaType getMediaType() {
         return mediaType;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setMedia(Media media) {
+        this.media = media;
+    }
+
+    public void setMediaType(MediaType mediaType) {
+        this.mediaType = mediaType;
+    }
 }
