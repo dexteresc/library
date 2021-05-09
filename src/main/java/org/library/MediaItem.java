@@ -10,4 +10,16 @@ public class MediaItem {
         this.media = media;
         this.mediaType = mediaType;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Media getMedia() {
+        return media;
+    }
+
+    public MediaType getMediaType() {
+        return mediaType;
+    }
 }
