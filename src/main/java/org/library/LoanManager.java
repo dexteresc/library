@@ -11,6 +11,7 @@ public class LoanManager {
     private static final String SELECT_ACTIVE_CUSTOMER_LOANS_STATEMENT = "SELECT * FROM loan WHERE customer_id = ? AND returned_at IS NULL";
     private static final String UPDATE_LOAN_STATEMENT = "UPDATE loan SET customer_id = ?, media_item_id = ?, borrowed_at = ?, return_by = ? WHERE id = ? LIMIT 1";
     private static final String RETURN_MEDIA_ITEM_STATEMENT = "UPDATE loan SET returned_at = ? WHERE media_item_id = ? AND returned_at IS NULL LIMIT 1";
+    private static final String SELECT_LATE_LOANS_STATEMENT = "SELECT * FROM loan WHERE returned_at IS NULL AND return_by < ?";
 
 
     private final Database database;
@@ -52,6 +53,12 @@ public class LoanManager {
         database.update(RETURN_MEDIA_ITEM_STATEMENT)
                 .configure(LocalDate.now(), mediaItemId)
                 .execute();
+    }
+
+    public List<Loan> getLateLoans() throws Exception {
+        return database.select(SELECT_LATE_LOANS_STATEMENT, Loan.class)
+                .configure(LocalDate.now())
+                .fetchAll(Loan::new);
     }
 
 }
