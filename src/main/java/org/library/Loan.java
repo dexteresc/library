@@ -1,28 +1,27 @@
 package org.library;
 
-import java.util.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class Loan {
     private Long id;
-    private Date loanDate;
-    private Date returnDate;
-    private Boolean returned;
-    private Long customerID;
-    private Long articleID;
+    private Long customerId;
+    private Long mediaItemId;
+    private LocalDate borrowedAt;
+    private LocalDate returnBy;
+    private LocalDate returnedAt;
 
-    public Loan(Long id, Date loanDate, Date returnDate, Boolean returned, Long customerID, Long articleID) {
+    public Loan(Long id, Long customerId, Long mediaItemId, LocalDate borrowedAt, LocalDate returnBy, LocalDate returnedAt) {
         this.id = id;
-        this.loanDate = loanDate;
-        this.returnDate = returnDate;
-        this.returned = returned;
-        this.customerID = customerID;
-        this.articleID = articleID;
+        this.customerId = customerId;
+        this.mediaItemId = mediaItemId;
+        this.borrowedAt = borrowedAt;
+        this.returnBy = returnBy;
+        this.returnedAt = returnedAt;
     }
 
-    public Loan(Customer customer, Media media) {
-        this.loanDate = new Date();
-        this.returned = false;
-        this.customerID = customer.getId();
-        this.articleID = media.getId();
+    public Loan(ResultSet resultSet) throws SQLException {
+        this(resultSet.getLong("id"), resultSet.getLong("customer_id"), resultSet.getLong("media_item_id"), resultSet.getObject("borrowed_at", LocalDate.class), resultSet.getObject("return_by", LocalDate.class), resultSet.getObject("returned_at", LocalDate.class));
     }
 }
