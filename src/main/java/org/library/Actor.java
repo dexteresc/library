@@ -3,9 +3,9 @@ package org.library;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Author extends Person {
+public class Actor extends Person {
 
-    public Author(ResultSet resultSet) throws SQLException {
+    public Actor(ResultSet resultSet) throws SQLException {
         super(resultSet);
     }
 
