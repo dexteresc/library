@@ -2,11 +2,14 @@ package org.library;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Movie extends Media {
     private String director;
     private String ageRating;
     private String productionCountry;
+    private List<Actor> actors;
 
     public Movie(ResultSet resultSet) throws SQLException {
         super(resultSet);
@@ -14,6 +17,14 @@ public class Movie extends Media {
         this.director = resultSet.getString("director");
         this.ageRating = resultSet.getString("age_rating");
         this.productionCountry = resultSet.getString("production_country");
+        this.actors = new ArrayList<>();
+
+        int numberOfActors = resultSet.getInt("actor_count");
+        while (numberOfActors > 0) {
+            this.actors.add(new Actor(resultSet));
+            resultSet.next();
+            numberOfActors--;
+        }
     }
 
     public String getDirector() {
@@ -28,6 +39,10 @@ public class Movie extends Media {
         return productionCountry;
     }
 
+    public List<Actor> getActors() {
+        return actors;
+    }
+
     public void setDirector(String director) {
         this.director = director;
     }
@@ -38,5 +53,9 @@ public class Movie extends Media {
 
     public void setProductionCountry(String productionCountry) {
         this.productionCountry = productionCountry;
+    }
+
+    public void setActors(List<Actor> actors) {
+        this.actors = actors;
     }
 }
