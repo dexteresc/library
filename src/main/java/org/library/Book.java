@@ -29,10 +29,12 @@ public class Book extends Media {
         this.publisher = resultSet.getString("publisher");
         this.authors = new ArrayList<>();
 
-        /*while (resultSet.next() && resultSet.getLong("id") == this.getId()) {
+        int numberOfAuthors = resultSet.getInt("author_count");
+        while (numberOfAuthors > 0) {
             this.authors.add(new Author(resultSet));
+            resultSet.next();
+            numberOfAuthors--;
         }
-        resultSet.previous();*/
     }
 
     public String getIsbn() {
