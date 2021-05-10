@@ -119,7 +119,7 @@ public class AccountManager {
     public void createCustomerAccount(Customer customer, String password) throws Exception {
         this.createAccount(customer, password);
 
-        if (customer.getCustomerType() != null) {
+        if (customer.getCustomerType() == null) {
             customer.setCustomerType(new CustomerType((long) 1, "", 0));
         }
 
