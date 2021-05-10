@@ -91,7 +91,6 @@ public class Query {
 
             // Apply prepared statement configuration
             configuration.apply(preparedStatement);
-            System.out.println(preparedStatement.toString());
 
             // Execute prepared statement
             preparedStatement.execute();

@@ -30,10 +30,14 @@ public class Book extends Media {
         this.authors = new ArrayList<>();
 
         int numberOfAuthors = resultSet.getInt("author_count");
-        while (numberOfAuthors > 0) {
+        if (numberOfAuthors > 1) {
+            while (numberOfAuthors > 0) {
+                this.authors.add(new Author(resultSet));
+                resultSet.next();
+                numberOfAuthors--;
+            }
+        } else {
             this.authors.add(new Author(resultSet));
-            resultSet.next();
-            numberOfAuthors--;
         }
     }
 
