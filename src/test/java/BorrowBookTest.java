@@ -15,37 +15,40 @@ public class BorrowBookTest {
 
         try {
             // Account
+            System.out.println("Create account");
             accountManager.createCustomerAccount(new Customer(new Account(null, "Example", "Customer", "example@example.local", ""), null), "123456");
 
+            System.out.println("Authenticating");
             Customer customer = (Customer) accountManager.authenticate("example@example.local", "123456");
-            System.out.println(customer);
+
             customer.setPhoneNumber("123456789");
+            System.out.println("Updating phone number");
             accountManager.updateAccount(customer);
-            System.out.println(customer);
 
             // Loans
+            System.out.println("Getting active customer loans");
             List<Loan> customerLoans = loanManager.getActiveCustomerLoans(customer.getId());
-            System.out.println(customerLoans);
 
             // Media
-            List<Book> matchedBooks = mediaManager.searchBook("Testning");
-            System.out.println(matchedBooks);
+            System.out.println("Searching for book using query ”Praktisk”");
+            List<Book> matchedBooks = mediaManager.searchBook("Praktisk");
 
             // Media item
+            System.out.println("Getting media items for book");
             List<MediaItem> mediaItems = mediaManager.getMediaItems(matchedBooks.get(0));
-            System.out.println(mediaItems);
 
             // Borrow book
+            System.out.println("Creating a new loan with the first book media item");
             MediaItem mediaItem = mediaItems.get(0);
             List<Loan> newCustomerLoans = loanManager.createLoan(customer.getId(), List.of(mediaItem));
-            System.out.println(newCustomerLoans);
 
             // Return book
+            System.out.println("Returning loaned media item");
             loanManager.returnMediaItem(mediaItem.getId());
 
             // Check active customer loans
+            System.out.println("Getting active customer loans");
             customerLoans = loanManager.getActiveCustomerLoans(customer.getId());
-            System.out.println(customerLoans);
         } finally {
             accountManager.deleteAccountByEmail("example@example.local");
         }
