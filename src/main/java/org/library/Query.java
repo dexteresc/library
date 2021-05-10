@@ -45,9 +45,9 @@ public class Query {
 
                 switch (parameterTypeName) {
                     case "string": preparedStatement.setString(parameterIndex, (String) parameter); break;
-                    case "long":
-                    case "integer": preparedStatement.setLong(parameterIndex, (Long) parameter); break;
-                    case "float":
+                    case "long": preparedStatement.setLong(parameterIndex, (Long) parameter); break;
+                    case "integer": preparedStatement.setInt(parameterIndex, (Integer) parameter); break;
+                    case "float": preparedStatement.setFloat(parameterIndex, (Float) parameter); break;
                     case "double": preparedStatement.setDouble(parameterIndex, (Double) parameter); break;
                     case "boolean": preparedStatement.setBoolean(parameterIndex, (Boolean) parameter); break;
                     case "localdate": preparedStatement.setObject(parameterIndex, parameter); break;
@@ -91,6 +91,7 @@ public class Query {
 
             // Apply prepared statement configuration
             configuration.apply(preparedStatement);
+            System.out.println(preparedStatement.toString());
 
             // Execute prepared statement
             preparedStatement.execute();
