@@ -1,5 +1,7 @@
 package org.example;
 
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -12,9 +14,7 @@ import javafx.scene.layout.VBox;
 import org.library.*;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class PrimaryController {
     public Label homeButton;
@@ -28,9 +28,9 @@ public class PrimaryController {
     public Button searchButton;
     public BorderPane headerButtonBox;
 
-
-    private Connection connection;
     private AuthenticationModel authenticationModel;
+    private SearchModel searchModel;
+    private ObservableList<Media> searchResults;
 
     /**
      * Switches scene to login
@@ -42,18 +42,25 @@ public class PrimaryController {
         App.setRoot("login");
     }
     @FXML
-    public void switchToRegister() throws IOException              {
+    public void switchToRegister() throws IOException {
         App.setRoot("register");
     }
 
     public void initialize() {
-        connection = LibraryOverseer.createDBConnection(); // Create db connection
-
-        promptSearchDecor();
 
         // Configure authentication model
         if (this.authenticationModel == null) {
             this.authenticationModel = App.getAppModel().getAuthenticationModel();
+        }
+
+        // Configure search model
+        if (this.searchModel == null) {
+            this.searchModel = App.getAppModel().getSearchModel();
+
+            this.searchResults = this.searchModel.getSearchResultsList();
+            this.searchResults.addListener((ListChangeListener<Media>) change -> {
+                this.updateSearchResults();
+            });
         }
 
         if (this.authenticationModel.isAuthenticated()) {
@@ -64,18 +71,29 @@ public class PrimaryController {
 
         // Load Categories
         // TODO: Implement
-
+        updateSearchResults();
     }
 
     @FXML
     public void searchResult() {
-        libView.getChildren().clear();
-        if (!(searchBar.textProperty().getValue().strip().equals(""))) {
-            for (Media media : Objects.requireNonNull(LibraryOverseer.searchArticle(searchBar.textProperty().getValue().toLowerCase().strip(), connection))) {
-                libModuleCreate(media);
-            }
+        String query = searchBar.textProperty().getValue().toLowerCase().strip();
+
+        if (!(query.equals(""))) {
+            searchModel.search(query);
         } else {
             promptSearchDecor();
+        }
+    }
+
+    private void updateSearchResults() {
+        libView.getChildren().clear();
+
+        if (searchResults.size() < 1) {
+            promptSearchDecor();
+        }
+
+        for (Media media : searchResults) {
+            libModuleCreate(media);
         }
     }
 
@@ -86,12 +104,10 @@ public class PrimaryController {
         Button borrowButton = new Button("Låna");
 
         if (media instanceof Book) {
-            String[] authors = ((Book) media).getAuthors();
-            String authorString = Arrays.toString(authors);
-            authorString = authorString.replaceAll("\\[", "").replaceAll("]", "");
-            Label authorLabel = new Label(authorString);
+            String authors = ((Book) media).getAuthors().stream().map(author -> { return author.getGivenName() + " " + author.getFamilyName(); }).collect(Collectors.joining(", "));
+            Label authorLabel = new Label(authors);
             authorLabel.getStyleClass().add("authorLabel");
-            String inStock = "Antal kvar: " + ((Book) media).getInStock();
+            String inStock = "Antal kvar: 0";// + ((Book) media).getInStock();
             Label inStockLabel = new Label(inStock);
             VBox leftVBox = new VBox();
             VBox rightVBox = new VBox();
