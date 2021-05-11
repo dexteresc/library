@@ -79,8 +79,8 @@ public class LibraryOverseer { // Database currently incomplete. Might rename cl
             Double physical_location = resultSet.getDouble("fysiskPlats");
             int inStock = resultSet.getInt("antal");
 
-            Book book = new Book(id, title, year, isbn, authors, physical_location, inStock);
-            mediaList.add(book);
+            //Book book = new Book(id, title, year, isbn, authors, physical_location, inStock);
+            //mediaList.add(book);
         }
     } // Might not be necessary. Need help
 }
