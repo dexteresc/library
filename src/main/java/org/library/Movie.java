@@ -20,10 +20,14 @@ public class Movie extends Media {
         this.actors = new ArrayList<>();
 
         int numberOfActors = resultSet.getInt("actor_count");
-        while (numberOfActors > 0) {
+        if (numberOfActors > 1) {
+            while (numberOfActors > 0) {
+                this.actors.add(new Actor(resultSet));
+                resultSet.next();
+                numberOfActors--;
+            }
+        } else {
             this.actors.add(new Actor(resultSet));
-            resultSet.next();
-            numberOfActors--;
         }
     }
 
