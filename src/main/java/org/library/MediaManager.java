@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+// TODO: Split into book manager, movie manager, media manager, media item manager, author manager and actor manager.
 public class MediaManager {
     private static final Logger logger = LogManager.getLogger();
 
