@@ -1,22 +1,18 @@
 package org.example;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.text.TextFlow;
 import org.library.*;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class PrimaryController {
@@ -29,6 +25,7 @@ public class PrimaryController {
     public TextField searchBar;
     public Button searchButton;
     public BorderPane headerButtonBox;
+    private String query;
 
     private AuthenticationModel authenticationModel;
     private SearchModel searchModel;
@@ -43,13 +40,15 @@ public class PrimaryController {
     public void switchToLogin() throws IOException {
         App.setRoot("login");
     }
+
     @FXML
     public void switchToRegister() throws IOException {
         App.setRoot("register");
     }
 
-    public void initialize() {
 
+    public void initialize() {
+        libView.getChildren().clear();
         promptSearchDecor();
 
         // Configure authentication model
@@ -100,17 +99,16 @@ public class PrimaryController {
             });} catch (Exception e) {
             e.printStackTrace();
         }*/
-
-        updateSearchResults();
     }
 
     @FXML
     public void searchResult() {
-        String query = searchBar.textProperty().getValue().toLowerCase().strip();
+        query = searchBar.textProperty().getValue().toLowerCase().strip();
 
         if (!(query.equals(""))) {
             searchModel.search(query);
         } else {
+            libView.getChildren().clear();
             promptSearchDecor();
         }
     }
@@ -120,10 +118,10 @@ public class PrimaryController {
 
         if (searchResults.size() < 1) {
             promptSearchDecor();
-        }
-
-        for (Media media : searchResults) {
-            libModuleCreate(media);
+        } else {
+            for (Media media : searchResults) {
+                libModuleCreate(media);
+            }
         }
     }
 
@@ -132,9 +130,13 @@ public class PrimaryController {
         Label title = new Label(media.getTitle());
         title.getStyleClass().add("titleLabel");
         Button borrowButton = new Button("Låna");
+        // testing
+
 
         if (media instanceof Book) {
-            String authors = ((Book) media).getAuthors().stream().map(author -> { return author.getGivenName() + " " + author.getFamilyName(); }).collect(Collectors.joining(", "));
+            String authors = ((Book) media).getAuthors().stream().map(author -> {
+                return author.getGivenName() + " " + author.getFamilyName();
+            }).collect(Collectors.joining(", "));
             Label authorLabel = new Label(authors);
             authorLabel.getStyleClass().add("authorLabel");
             String inStock = "Antal kvar: 0";// + ((Book) media).getInStock();
@@ -150,6 +152,42 @@ public class PrimaryController {
             borderPane.setLeft(leftVBox);
             borderPane.setRight(rightVBox);
             libView.getChildren().add(borderPane);
+
+            borrowButton.setOnAction(actionEvent -> {
+                libView.getChildren().clear();
+
+                VBox mediaInformation = new VBox();
+                Label mediaClassification = new Label(media.getClassification());
+                Label mediaPublisher = new Label(((Book) media).getPublisher());
+                Label descriptionLabel = new Label("Description");
+                Label authorHeader = new Label();
+                if (((Book) media).getAuthors().size() < 2) {
+                    authorHeader.setText("Author");
+                } else {
+                    authorHeader.setText("Authors");
+                }
+                Label loanAuthorLabel = new Label(authors.replace(", ", "\n"));
+
+                mediaInformation.getChildren().add(title); // Add title
+                // Description
+                descriptionLabel.getStyleClass().add("h1");
+                mediaInformation.getChildren().add(new Label(media.getSummary()));
+
+                // Authors
+
+                authorHeader.getStyleClass().add("h1");
+                mediaInformation.getChildren().add(authorHeader);
+                mediaInformation.getChildren().add(loanAuthorLabel);
+
+                mediaInformation.getChildren().add(mediaPublisher);
+                mediaInformation.getChildren().add(mediaClassification);
+                borderPane.setLeft(mediaInformation);
+                Button loanButton = new Button("Borrow");
+
+                borderPane.setRight();
+                System.out.println("this ran");
+                libView.getChildren().add(borderPane);
+            });
         } else if (media instanceof AudioBook) {
             borderPane.setLeft(title);
             borderPane.setRight(borrowButton);
@@ -157,11 +195,26 @@ public class PrimaryController {
         } else {
             promptSearchDecor();
         }
+
+    }
+
+    private EventHandler<ActionEvent> loanViewCreate(Media media) {
+        mainPane.setCenter(null);
+        mainPane.setLeft(null);
+
+        return null;
     }
 
     private void promptSearchDecor() {
         BorderPane borderPane = new BorderPane();
         Label label = new Label("Search through the library.");
+        borderPane.setCenter(label);
+        libView.getChildren().add(borderPane);
+    }
+
+    private void promptSearchDecor(String text) {
+        BorderPane borderPane = new BorderPane();
+        Label label = new Label(text);
         borderPane.setCenter(label);
         libView.getChildren().add(borderPane);
     }
