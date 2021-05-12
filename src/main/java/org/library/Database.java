@@ -40,22 +40,27 @@ public class Database {
 
     // Used when T can't be determined implicitly.
     public <T> EntityQuery<T> select(String statement, Class<T> _class) throws Exception {
+        logger.debug("Getting entity query for select statement.");
         return new EntityQuery<>(statement, this.getConnection());
     }
 
     public <T> EntityQuery<T> select(String statement) throws Exception {
+        logger.debug("Getting entity query for select statement.");
         return new EntityQuery<>(statement, this.getConnection());
     }
 
     public Query insert(String statement) throws Exception {
+        logger.debug("Getting entity query for insert statement.");
         return new Query(statement, this.getConnection());
     }
 
     public Query update(String statement) throws Exception {
+        logger.debug("Getting entity query for update statement.");
         return new Query(statement, this.getConnection());
     }
 
     public Query delete(String statement) throws Exception {
+        logger.debug("Getting entity query for delete statement.");
         return new Query(statement, this.getConnection());
     }
 }
