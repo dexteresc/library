@@ -2,7 +2,6 @@
     -fx-background-color: #FFFFFF;
     -fx-padding: 0;
     -fx-focus-color: transparent;
-    fx-faint-focus-color: transparent;
 }
 
 .header {
@@ -76,4 +75,11 @@
 }
 .fieldError {
     -fx-border-color: #f25252;
+}
+.h1 {
+    -fx-font-size: 24px;
+}
+.h2 {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
 }

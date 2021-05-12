@@ -13,6 +13,7 @@ import javafx.scene.text.TextFlow;
 import org.library.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class PrimaryController {
@@ -25,7 +26,6 @@ public class PrimaryController {
     public TextField searchBar;
     public Button searchButton;
     public BorderPane headerButtonBox;
-    private String query;
 
     private AuthenticationModel authenticationModel;
     private SearchModel searchModel;
@@ -103,7 +103,8 @@ public class PrimaryController {
 
     @FXML
     public void searchResult() {
-        query = searchBar.textProperty().getValue().toLowerCase().strip();
+        // TODO: 5/13/2021 Add "No result for x"
+        String query = searchBar.textProperty().getValue().toLowerCase().strip();
 
         if (!(query.equals(""))) {
             searchModel.search(query);
@@ -134,9 +135,15 @@ public class PrimaryController {
 
 
         if (media instanceof Book) {
-            String authors = ((Book) media).getAuthors().stream().map(author -> {
-                return author.getGivenName() + " " + author.getFamilyName();
-            }).collect(Collectors.joining(", "));
+
+            List<Author> authorList = ((Book) media).getAuthors();
+            String authors;
+            // TODO: 5/13/2021 Nån bättre lösning? Kommer inte på nån
+            if (authorList.size() < 4) {
+                authors = authorList.stream().map(author -> author.getGivenName() + " " + author.getFamilyName()).collect(Collectors.joining(", "));
+            } else {
+                authors = authorList.subList(0, 3).stream().map(author -> author.getGivenName() + " " + author.getFamilyName()).collect(Collectors.joining(", "));
+            }
             Label authorLabel = new Label(authors);
             authorLabel.getStyleClass().add("authorLabel");
             String inStock = "Antal kvar: 0";// + ((Book) media).getInStock();
@@ -155,10 +162,20 @@ public class PrimaryController {
 
             borrowButton.setOnAction(actionEvent -> {
                 libView.getChildren().clear();
+                borderPane.getChildren().clear();
+
+                BorderPane borderPaneTop = new BorderPane();
+                Button goBack = new Button("Return");
+                goBack.setOnAction(actionEvent1 -> {
+                    updateSearchResults();
+                });
+                Button loanButton = new Button("Borrow");
+                borderPaneTop.setLeft(goBack);
+                borderPaneTop.setRight(loanButton);
+                borderPane.setTop(borderPaneTop);
 
                 VBox mediaInformation = new VBox();
                 Label mediaClassification = new Label(media.getClassification());
-                Label mediaPublisher = new Label(((Book) media).getPublisher());
                 Label descriptionLabel = new Label("Description");
                 Label authorHeader = new Label();
                 if (((Book) media).getAuthors().size() < 2) {
@@ -166,25 +183,32 @@ public class PrimaryController {
                 } else {
                     authorHeader.setText("Authors");
                 }
-                Label loanAuthorLabel = new Label(authors.replace(", ", "\n"));
+                authorHeader.getStyleClass().add("h2");
+                Label publisher = new Label("Publisher");
+                publisher.getStyleClass().add("h2");
 
+                // Title
+                title.getStyleClass().add("h1");
                 mediaInformation.getChildren().add(title); // Add title
                 // Description
-                descriptionLabel.getStyleClass().add("h1");
+                descriptionLabel.getStyleClass().add("h2");
+                mediaInformation.getChildren().add(descriptionLabel);
                 mediaInformation.getChildren().add(new Label(media.getSummary()));
 
                 // Authors
 
-                authorHeader.getStyleClass().add("h1");
                 mediaInformation.getChildren().add(authorHeader);
-                mediaInformation.getChildren().add(loanAuthorLabel);
 
-                mediaInformation.getChildren().add(mediaPublisher);
-                mediaInformation.getChildren().add(mediaClassification);
-                borderPane.setLeft(mediaInformation);
-                Button loanButton = new Button("Borrow");
+                for (Author author :
+                        authorList) {
+                   mediaInformation.getChildren().add(new Label(author.getGivenName() + " " + author.getFamilyName()));
+                }
 
-                borderPane.setRight();
+                // Publisher
+                mediaInformation.getChildren().add(publisher);
+                mediaInformation.getChildren().add(new Label(((Book) media).getPublisher()));
+
+                borderPane.setCenter(mediaInformation);
                 System.out.println("this ran");
                 libView.getChildren().add(borderPane);
             });
@@ -196,13 +220,6 @@ public class PrimaryController {
             promptSearchDecor();
         }
 
-    }
-
-    private EventHandler<ActionEvent> loanViewCreate(Media media) {
-        mainPane.setCenter(null);
-        mainPane.setLeft(null);
-
-        return null;
     }
 
     private void promptSearchDecor() {

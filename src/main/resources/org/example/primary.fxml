@@ -17,7 +17,7 @@
    <top>
       <BorderPane prefHeight="49.0" prefWidth="600.0" styleClass="header" BorderPane.alignment="CENTER">
          <left>
-            <Label fx:id="homeButton" text="Bibliotek" textFill="WHITE" BorderPane.alignment="CENTER">
+            <Label fx:id="homeButton" text="Bibliotek" textFill="WHITE" BorderPane.alignment="CENTER" onMouseClicked="#initialize">
                <BorderPane.margin>
                   <Insets left="25.0" />
                </BorderPane.margin>
