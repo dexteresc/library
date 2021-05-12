@@ -1,11 +1,13 @@
 package org.library;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 
 public class Database {
     private ComboPooledDataSource pooledDataSource;
+    private static final Logger logger = LogManager.getLogger();
 
     private final String host;
     private final String user;
