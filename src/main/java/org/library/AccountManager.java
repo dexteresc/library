@@ -1,8 +1,11 @@
 package org.library;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AccountManager {
+    private static final Logger logger = LogManager.getLogger();
 
     // Statements
     private static final String LOGIN_STATEMENT = "SELECT id, password_hash, EXISTS(SELECT * FROM customer WHERE account_id = id) AS is_customer, EXISTS(SELECT * FROM staff WHERE account_id = id) AS is_staff FROM account WHERE email = ? LIMIT 1";
@@ -32,6 +35,7 @@ public class AccountManager {
      * @exception Exception thrown if an invalid username or password is provided.
      */
     public Account authenticate(String email, String password) throws Exception {
+        logger.info("Authenticating...");
         try {
             return database.select(LOGIN_STATEMENT, Account.class)
                     .configure(preparedStatement -> { preparedStatement.setString(1, email); })
@@ -45,8 +49,11 @@ public class AccountManager {
                         if (!verificationResult.verified) {
                             // The password was not a match, or there was an error related to hash formatting.
                             // Might be worth checking if verification result returns an invalid format message for debugging.
+                            logger.error("Password could not be verified.");
                             throw new Exception();
                         }
+
+                        logger.info("Authentication successful.");
 
                         // Get the authenticated account.
                         Long accountId = resultSet.getLong("id");
@@ -77,6 +84,7 @@ public class AccountManager {
      * @param password The new password.
      */
     public void updateAccountPassword(Account account, String password) throws Exception {
+        logger.info("Updating account password...");
         String passwordHash = hasher.hashToString(12, password.toCharArray());
         database.update(UPDATE_ACCOUNT_PASSWORD_STATEMENT)
                 .configure(passwordHash, account.getId())
@@ -84,18 +92,21 @@ public class AccountManager {
     }
 
     public Account getAccountById(Long id) throws Exception {
+        logger.info("Getting account by id...");
         return database.select(SELECT_ACCOUNT_BY_ID_STATEMENT, Account.class)
                 .configure(id)
                 .fetch(Account::new);
     }
 
     public Customer getCustomerById(Long id) throws Exception {
+        logger.info("Getting customer by id...");
         return database.select(SELECT_CUSTOMER_BY_ID_STATEMENT, Customer.class)
                 .configure(id)
                 .fetch(Customer::new);
     }
 
     public Staff getStaffById(Long id) throws Exception {
+        logger.info("Getting staff by id...");
         return database.select(SELECT_STAFF_BY_ID_STATEMENT, Staff.class)
                 .configure(id)
                 .fetch(Staff::new);
@@ -109,6 +120,7 @@ public class AccountManager {
      * @param password account password.
      */
     private void createAccount(Account account, String password) throws Exception {
+        logger.info("Creating account...");
         String passwordHash = hasher.hashToString(12, password.toCharArray());
         Long id = database.insert(CREATE_ACCOUNT_STATEMENT)
                 .configure(account.getGivenName(), account.getFamilyName(), account.getEmail(), account.getPhoneNumber(), passwordHash)
@@ -117,9 +129,11 @@ public class AccountManager {
     }
 
     public void createCustomerAccount(Customer customer, String password) throws Exception {
+        logger.info("Creating customer account...");
         this.createAccount(customer, password);
 
         if (customer.getCustomerType() == null) {
+            logger.warn("Customer type is null, defaulting to customer type 1.");
             customer.setCustomerType(new CustomerType((long) 1, "", 0));
         }
 
@@ -129,18 +143,21 @@ public class AccountManager {
     }
 
     public void updateAccount(Account account) throws Exception {
-        database.insert(UPDATE_ACCOUNT_STATEMENT)
+        logger.info("Updating account...");
+        database.update(UPDATE_ACCOUNT_STATEMENT)
                 .configure(account.getGivenName(), account.getFamilyName(), account.getEmail(), account.getPhoneNumber(), account.getId())
                 .execute();
     }
 
     public void deleteAccount(Account account) throws Exception {
+        logger.info("Deleting account...");
         database.delete(DELETE_ACCOUNT_BY_ID_STATEMENT)
                 .configure(account.getId())
                 .execute();
     }
 
     public void deleteAccountByEmail(String email) throws Exception {
+        logger.info("Deleting account by email...");
         database.delete(DELETE_ACCOUNT_BY_EMAIL_STATEMENT)
                 .configure(email)
                 .execute();

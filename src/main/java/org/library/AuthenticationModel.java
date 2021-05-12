@@ -1,9 +1,13 @@
 package org.library;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Keeps track of the application's authentication state.
  */
 public class AuthenticationModel {
+    private static final Logger logger = LogManager.getLogger();
 
     private AccountManager accountManager;
     private Account account = null;
@@ -29,6 +33,7 @@ public class AuthenticationModel {
      * @param password Password of the Account that is being logged into.
      */
     public void login(String username, String password) throws Exception {
+        logger.info("Logging in...");
         this.account = this.accountManager.authenticate(username, password);
     }
 
@@ -36,6 +41,10 @@ public class AuthenticationModel {
      * Logout the current Account.
      */
     public boolean logout() {
+        logger.info("Logging out...");
+        if (this.account == null) {
+            logger.warn("No account currently signed in.");
+        }
         this.account = null;
         return true;
     }

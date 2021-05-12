@@ -1,5 +1,8 @@
 package org.library;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.*;
 
 public class Query {
@@ -11,14 +14,25 @@ public class Query {
         void apply(Input input) throws Exception;
     }
 
+    protected static final Logger logger = LogManager.getLogger();
+
     protected String statement;
     protected Connection connection;
+    private Boolean async = false;
 
     protected Configuration<PreparedStatement> configuration;
 
     public Query(String statement, Connection connection) {
         this.statement = statement;
         this.connection = connection;
+    }
+
+    public void setAsync(Boolean async) {
+        this.async = async;
+    }
+
+    public Boolean isAsync() {
+        return this.async;
     }
 
     public Query configure(Configuration<PreparedStatement> configuration) {
