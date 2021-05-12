@@ -35,7 +35,7 @@ public class BorrowBookTest {
 
             // Media item
             System.out.println("Getting media items for book");
-            List<MediaItem> mediaItems = mediaManager.getMediaItems(matchedBooks.get(0));
+            List<MediaItem> mediaItems = mediaManager.getAvailableMediaItems(matchedBooks.get(0));
 
             // Borrow book
             System.out.println("Creating a new loan with the first book media item");
