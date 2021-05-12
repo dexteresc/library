@@ -1,7 +1,9 @@
 package org.example;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -23,14 +25,18 @@ public class RegisterController {
     public TextField emailField;
     public TextField lastNameField;
     public TextField firstNameField;
+    public ChoiceBox<String> membershipChoice;
     private AuthenticationModel authenticationModel;
     Label errorLabel = new Label("Error, please make sure that everything is answered and that it's answered correctly");
 
     public void initialize() {
-            if (this.authenticationModel == null) {
-        this.authenticationModel = App.getAppModel().getAuthenticationModel();
+        if (this.authenticationModel == null) {
+            this.authenticationModel = App.getAppModel().getAuthenticationModel();
+        }
+        membershipChoice.setItems(FXCollections.observableArrayList("Student", "Employee", "Researcher"));
+
     }
-    }
+
     public void switchToLogin() throws IOException { //behövs för att kunna nå register knappen
         App.setRoot("login");
     }
@@ -39,7 +45,7 @@ public class RegisterController {
     public void register() throws Exception { // detta gör så vi sparar allt som läggs in i databasen
         String firstName = firstNameField.textProperty().getValue();
         System.out.println(firstName);
-        String lastName= lastNameField.textProperty().getValue();
+        String lastName = lastNameField.textProperty().getValue();
         System.out.println(lastName);
         String email = emailField.textProperty().getValue();
         System.out.println(email);
@@ -47,6 +53,7 @@ public class RegisterController {
         System.out.println(phone);
         String password = passwordField.textProperty().getValue();
         System.out.println(password);
+        String customerType = membershipChoice.getValue();
 
         if (!firstName.matches(".*\\d.*") // lite krav av vad som måste ske innan man kan gå vidare till login
                 && !firstName.equals("")
@@ -54,7 +61,7 @@ public class RegisterController {
                 && !lastName.equals("")
                 && email.contains("@")
                 && phone.matches(".*\\d.*")
-                && !password.equals("")){
+                && !password.equals("")) {
             registerBox.getChildren().remove(errorLabel);
             Customer customer = new Customer();
             customer.setGivenName(firstName);
@@ -63,9 +70,10 @@ public class RegisterController {
             customer.setPhoneNumber(phone);
             authenticationModel.getAccountManager().createCustomerAccount(customer, password);
             App.setRoot("Login");
-        }
-        else {
-            registerBox.getChildren().add(errorLabel);
-        }
+        } else {
+            if (!registerBox.getChildren().contains(errorLabel)) {
+                registerBox.getChildren().add(errorLabel);
+            }
         }
     }
+}

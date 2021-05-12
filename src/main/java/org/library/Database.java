@@ -15,6 +15,7 @@ public class Database {
     }
 
     private Connection getConnection() throws Exception {
+        System.out.println("this ran");
         return DriverManager.getConnection(host, username, password);
     }
 
