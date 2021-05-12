@@ -2,6 +2,7 @@ package org.library;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class MediaManager {
 
@@ -97,12 +98,6 @@ public class MediaManager {
                 .execute();
     }
 
-    public List<Book> searchBook(String query) throws Exception {
-        return database.select(SEARCH_BOOK_STATEMENT, Book.class)
-                .configure(query, query, query)
-                .fetchAll(Book::new);
-    }
-
     public void deleteMediaById(Long id) throws Exception {
         database.delete(DELETE_MEDIA_STATEMENT)
                 .configure(id)
@@ -129,21 +124,31 @@ public class MediaManager {
                 .execute();
     }
 
-    public List<Movie> searchMovie(String query) throws Exception {
-        return database.select(SEARCH_MOVIE_STATEMENT, Movie.class)
+    public CompletableFuture<List<Book>> searchBook(String query) throws Exception {
+        return database.select(SEARCH_BOOK_STATEMENT, Book.class)
                 .configure(query, query, query)
-                .fetchAll(Movie::new);
+                .asyncFetchAll(Book::new);
     }
 
-    public List<Media> searchMedia(String query) throws Exception {
-        List<Media> mediaList = new ArrayList<>();
-        mediaList.addAll(
-                this.searchBook(query)
-        );
-        mediaList.addAll(
-                this.searchMovie(query)
-        );
-        return mediaList;
+    public CompletableFuture<List<Movie>> searchMovie(String query) throws Exception {
+        return database.select(SEARCH_MOVIE_STATEMENT, Movie.class)
+                .configure(query, query, query)
+                .asyncFetchAll(Movie::new);
+    }
+
+    public CompletableFuture<List<Media>> searchMedia(String query) throws Exception {
+        return CompletableFuture.supplyAsync(() -> {
+            List<Media> mediaList = new ArrayList<>();
+
+            try {
+                mediaList.addAll(this.searchBook(query).get());
+                mediaList.addAll(this.searchMovie(query).get());
+                return mediaList;
+            } catch (Exception exception) {
+                exception.printStackTrace();
+                return mediaList;
+            }
+        });
     }
 
 }

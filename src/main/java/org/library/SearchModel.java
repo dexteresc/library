@@ -1,5 +1,6 @@
 package org.library;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -22,7 +23,7 @@ public class SearchModel {
         this.previousQuery = query;
 
         try {
-            this.searchResultsList.setAll(this.mediaManager.searchMedia(query));
+            this.mediaManager.searchMedia(query).thenAcceptAsync(result -> Platform.runLater(() -> this.searchResultsList.setAll(result)));
         } catch (Exception e) {
             e.printStackTrace();
         }

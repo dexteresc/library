@@ -31,7 +31,7 @@ public class BorrowBookTest {
 
             // Media
             System.out.println("Searching for book using query ”Praktisk”");
-            List<Book> matchedBooks = mediaManager.searchBook("Praktisk");
+            List<Book> matchedBooks = mediaManager.searchBook("Praktisk").get();
 
             // Media item
             System.out.println("Getting media items for book");
