@@ -50,6 +50,9 @@
     -fx-font-weight: bold;
     -fx-padding: 8 10;
 }
+.libraryView VBox BorderPane Button:hover {
+    -fx-background-color: #a1a1a1;
+}
 .titleLabel {
     -fx-font-size: 16px;
 }
