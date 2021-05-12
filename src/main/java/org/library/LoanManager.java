@@ -8,6 +8,7 @@ public class LoanManager {
 
     // Statements
     private static final String CREATE_LOAN_STATEMENT = "INSERT INTO loan (customer_id, media_item_id, borrowed_at, return_by) VALUES (?, ?, ?, ?)";
+    private static final String SELECT_NUMBER_OF_ACTIVE_CUSTOMER_LOANS_STATEMENT = "SELECT COUNT(*) AS active_loan_count FROM loan WHERE customer_id = ? AND returned_at IS NULL";
     private static final String SELECT_ACTIVE_CUSTOMER_LOANS_STATEMENT = "SELECT * FROM loan WHERE customer_id = ? AND returned_at IS NULL";
     private static final String UPDATE_LOAN_STATEMENT = "UPDATE loan SET customer_id = ?, media_item_id = ?, borrowed_at = ?, return_by = ? WHERE id = ? LIMIT 1";
     private static final String RETURN_MEDIA_ITEM_STATEMENT = "UPDATE loan SET returned_at = ? WHERE media_item_id = ? AND returned_at IS NULL LIMIT 1";
@@ -35,6 +36,12 @@ public class LoanManager {
             loans.add(this.createLoan(customerId, mediaItem));
         }
         return loans;
+    }
+
+    public Long getNumberOfActiveCustomerLoans(Long customerId) throws Exception {
+        return database.select(SELECT_NUMBER_OF_ACTIVE_CUSTOMER_LOANS_STATEMENT, Long.class)
+                .configure(customerId)
+                .fetch(resultSet -> resultSet.getLong("active_loan_count"));
     }
 
     public List<Loan> getActiveCustomerLoans(Long customerId) throws Exception {
