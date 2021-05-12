@@ -161,6 +161,7 @@ public class PrimaryController {
             libView.getChildren().add(borderPane);
 
             borrowButton.setOnAction(actionEvent -> {
+                // TODO: 5/13/2021 Rensa lite. Rådfråga maximilian
                 libView.getChildren().clear();
                 borderPane.getChildren().clear();
 
@@ -170,12 +171,21 @@ public class PrimaryController {
                     updateSearchResults();
                 });
                 Button loanButton = new Button("Borrow");
+                
+                loanButton.setOnAction(actionEvent1 -> {
+                    if (this.authenticationModel.isAuthenticated()){
+
+                    } else {
+                        borderPaneTop.setBottom(new Label("nah bruv"));
+                    }
+                    // TODO: 5/13/2021 Skapa nytt lån
+                });
+                
                 borderPaneTop.setLeft(goBack);
                 borderPaneTop.setRight(loanButton);
                 borderPane.setTop(borderPaneTop);
 
                 VBox mediaInformation = new VBox();
-                Label mediaClassification = new Label(media.getClassification());
                 Label descriptionLabel = new Label("Description");
                 Label authorHeader = new Label();
                 if (((Book) media).getAuthors().size() < 2) {
@@ -196,20 +206,18 @@ public class PrimaryController {
                 mediaInformation.getChildren().add(new Label(media.getSummary()));
 
                 // Authors
-
                 mediaInformation.getChildren().add(authorHeader);
-
                 for (Author author :
                         authorList) {
                    mediaInformation.getChildren().add(new Label(author.getGivenName() + " " + author.getFamilyName()));
                 }
 
                 // Publisher
-                mediaInformation.getChildren().add(publisher);
-                mediaInformation.getChildren().add(new Label(((Book) media).getPublisher()));
-
+                if (!(((Book) media).getPublisher() == null)) {
+                    mediaInformation.getChildren().add(publisher);
+                    mediaInformation.getChildren().add(new Label(((Book) media).getPublisher()));
+                }
                 borderPane.setCenter(mediaInformation);
-                System.out.println("this ran");
                 libView.getChildren().add(borderPane);
             });
         } else if (media instanceof AudioBook) {
