@@ -1,64 +1,64 @@
 package org.library;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Book type of article
  */
-public class Book extends Article {
-    String isbn;
-    ArrayList<String> authors;
-    Double physical_location;
-    int inStock;
+public class Book extends Media {
+    private String isbn;
+    private String publisher;
+    private List<Author> authors;
 
-    /**
-     * Book Constructor
-     *
-     * @param id                Id of article
-     * @param title             Title of article
-     * @param year              Year of article
-     * @param isbn              The books isbn
-     * @param authors           The books author(s)
-     * @param physical_location The physical location of the book inside the library
-     * @param inStock           The amount of books in the library
-     */
-    public Book(int id, String title, int year, String isbn, ArrayList<String> authors, Double physical_location, int inStock) {
-        super(id, title, year);
+    public Book(Long id, String title, String classification, String summary, String location, LocalDate publishingDate, String publisher, String isbn, List<Author> authors) {
+        super(id, title, classification, summary, location, publishingDate);
+
         this.isbn = isbn;
+        this.publisher = publisher;
         this.authors = authors;
-        this.physical_location = physical_location;
-        this.inStock = inStock;
+    }
+
+    public Book(ResultSet resultSet) throws SQLException {
+        super(resultSet);
+
+        this.isbn = resultSet.getString("isbn");
+        this.publisher = resultSet.getString("publisher");
+        this.authors = new ArrayList<>();
+
+        int numberOfAuthors = resultSet.getInt("author_count");
+        this.authors.add(new Author(resultSet));
+        while (numberOfAuthors > 1) {
+            numberOfAuthors--;
+            resultSet.next();
+            this.authors.add(new Author(resultSet));
+        }
     }
 
     public String getIsbn() {
         return isbn;
     }
 
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public List<Author> getAuthors() {
+        return authors;
+    }
+
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
-    public ArrayList<String> getAuthors() {
-        return authors;
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
     }
 
-    public void setAuthors(ArrayList<String> authors) {
+    public void setAuthors(List<Author> authors) {
         this.authors = authors;
-    }
-
-    public Double getPhysical_location() {
-        return physical_location;
-    }
-
-    public void setPhysical_location(Double physical_location) {
-        this.physical_location = physical_location;
-    }
-
-    public int getInStock() {
-        return inStock;
-    }
-
-    public void setInStock(int inStock) {
-        this.inStock = inStock;
     }
 }

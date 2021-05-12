@@ -1,51 +1,26 @@
 package org.library;
 
+import java.time.LocalDate;
+
 /**
  * Audiobook type of article
  */
-public class AudioBook extends Article { // Not prioritizing
-    // Should we add this to db?
-    String narrator;
-    // Feedback needed
-    int hours;
-    int minutes;
+public class AudioBook extends Media {
+    private Integer runtime;
 
     /**
-     * @param id       The id of the article
-     * @param title    The title of the article
-     * @param year     The year of the article
-     * @param narrator The narrator of the audiobook
-     * @param hours    Hour length
-     * @param minutes  Minute length
+     * @param runtime Duration of audiobook in minutes.
      */
-    public AudioBook(int id, String title, int year, String narrator, int hours, int minutes) {
-        super(id, title, year);
-        this.narrator = narrator;
-        this.hours = hours;
-        this.minutes = minutes;
+    public AudioBook(Long id, String title, String classification, String summary, LocalDate publishingDate, Integer runtime) {
+        super(id, title, classification, summary, null, publishingDate);
+        this.runtime = runtime;
     }
 
-    public String getNarrator() {
-        return narrator;
+    public Integer getRuntime() {
+        return runtime;
     }
 
-    public void setNarrator(String narrator) {
-        this.narrator = narrator;
-    }
-
-    public int getHours() {
-        return hours;
-    }
-
-    public void setHours(int hours) {
-        this.hours = hours;
-    }
-
-    public int getMinutes() {
-        return minutes;
-    }
-
-    public void setMinutes(int minutes) {
-        this.minutes = minutes;
+    public void setRuntime(Integer runtime) {
+        this.runtime = runtime;
     }
 }

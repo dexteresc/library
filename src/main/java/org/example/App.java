@@ -5,9 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.library.AccountManager;
-import org.library.AccountRepository;
-import org.library.AuthenticationModel;
 import org.library.Database;
 
 import java.io.IOException;
@@ -18,7 +15,7 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
-    private static AuthenticationModel authenticationModel = new AuthenticationModel(new AccountManager(new AccountRepository(new Database())));
+    private static AppModel appModel = new AppModel(new Database("jdbc:mysql://ec2-23-20-145-129.compute-1.amazonaws.com:3306/library", "admin", "cbq6LQzci9c"));
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -40,7 +37,7 @@ public class App extends Application {
         launch();
     }
 
-    public static AuthenticationModel getAuthenticationModel() {
-        return authenticationModel;
+    public static AppModel getAppModel() {
+        return appModel;
     }
 }

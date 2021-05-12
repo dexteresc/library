@@ -38,7 +38,7 @@ public class LoginController {
 
     public void initialize() {
         if (this.authenticationModel == null) {
-            this.authenticationModel = App.getAuthenticationModel();
+            this.authenticationModel = App.getAppModel().getAuthenticationModel();
         }
 
         // Check if user is already logged in
@@ -52,7 +52,6 @@ public class LoginController {
 
         errorLabel.getStyleClass().add("errorLabel");
     }
-
     @FXML
     private void logIn() {
         String username = usernameField.textProperty().getValue();

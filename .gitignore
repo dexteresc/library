@@ -1,3 +1,5 @@
 /src/main/java/org/library/test.java
 target/
 .DS_Store
+data/books/
+data/exports/

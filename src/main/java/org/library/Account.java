@@ -1,24 +1,18 @@
 package org.library;
 
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Account {
 
-    private int id;
+    private Long id;
     private String givenName;
     private String familyName;
     private String email;
+    private String phoneNumber;
 
-    /**
-     * Create a new account instance.
-     * @param givenName account holder's given name.
-     * @param familyName account holder's family name.
-     * @param email account holder's email.
-     */
-    public Account(String givenName, String familyName, String email) {
-        this.givenName = givenName;
-        this.familyName = familyName;
-        this.email = email;
-    }
+    public Account() {}
 
     /**
      * Create a new account instance with id.
@@ -27,13 +21,24 @@ public class Account {
      * @param familyName account holder's family name.
      * @param email account holder's email.
      */
-    public Account(int id, String givenName, String familyName, String email) {
-        this(givenName, familyName, email);
+    public Account(Long id, String givenName, String familyName, String email, String phoneNumber) {
         this.id = id;
+        this.givenName = givenName;
+        this.familyName = familyName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
-    public int getID() {
+    public Account(ResultSet resultSet) throws SQLException {
+        this(resultSet.getLong("id"), resultSet.getString("given_name"), resultSet.getString("family_name"), resultSet.getString("email"), resultSet.getString("phone"));
+    }
+
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getGivenName() {
@@ -60,4 +65,11 @@ public class Account {
         this.email = email;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }
