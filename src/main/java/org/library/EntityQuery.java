@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class EntityQuery<T> extends Query {
     /**
@@ -81,7 +83,7 @@ public class EntityQuery<T> extends Query {
         }
     }
 
-    public ArrayList<T> fetchAll(Transformation<ResultSet, T> transformation) throws Exception {
+    public List<T> fetchAll(Transformation<ResultSet, T> transformation) throws Exception {
         // Declare and set to null to ensure that cleanup can occur, even if an exception is thrown.
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -117,5 +119,27 @@ public class EntityQuery<T> extends Query {
                 connection.close();
             }
         }
+    }
+
+    public CompletableFuture<T> asyncFetch(Transformation<ResultSet, T> transformation) {
+        return  CompletableFuture.supplyAsync(() -> {
+            try {
+                return this.fetch(transformation);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+                return null;
+            }
+        });
+    }
+
+    public CompletableFuture<List<T>> asyncFetchAll(Transformation<ResultSet, T> transformation) {
+        return  CompletableFuture.supplyAsync(() -> {
+            try {
+                return this.fetchAll(transformation);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+                return List.of();
+            }
+        });
     }
 }
