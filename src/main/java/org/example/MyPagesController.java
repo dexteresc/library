@@ -18,6 +18,9 @@ public class MyPagesController {
             this.account = authenticationModel.getAccount();
         }
         firstName.setText(account.getGivenName());
+        lastName.setText(account.getFamilyName());
+        phoneNumber.setText(account.getPhoneNumber());
+        Email.setText(account.getEmail());
     }
 
 }
