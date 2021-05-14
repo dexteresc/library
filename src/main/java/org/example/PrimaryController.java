@@ -66,6 +66,13 @@ public class PrimaryController {
         // Configure loan Manager
         if (this.loanModel == null){
             this.loanModel = App.getAppModel().getLoanModel();
+
+            if (this.authenticationModel.isAuthenticated()) {
+                Account account = this.authenticationModel.getAccount();
+                if (account instanceof Customer) {
+                    this.loanModel.setCustomer((Customer) account);
+                }
+            }
         }
 
         if (this.authenticationModel.isAuthenticated()) {
