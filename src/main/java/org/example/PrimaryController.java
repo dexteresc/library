@@ -178,14 +178,20 @@ public class PrimaryController {
                     updateSearchResults();
                 });
                 Button loanButton = new Button("Borrow");
-                
+                Label errorLabel = new Label();
+                errorLabel.getStyleClass().add("errorLabel");
+
                 loanButton.setOnAction(actionEvent1 -> {
                     if (this.authenticationModel.isAuthenticated()){
+                        try {
 
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            errorLabel.setText(e.getMessage());
+                            borderPaneTop.setBottom(errorLabel);
+                        }
                     } else {
-                        Label errorLabel = new Label("You have to be logged in to borrow a book.");
-                        errorLabel.getStyleClass().add("errorLabel");
-
+                        errorLabel.setText("You have to be logged in to borrow a book.");
                         borderPaneTop.setBottom(errorLabel);
                     }
                     // TODO: 5/13/2021 Skapa nytt lån
@@ -235,7 +241,7 @@ public class PrimaryController {
             borderPane.setRight(borrowButton);
             libView.getChildren().add(borderPane);
         } else {
-            promptSearchDecor();
+            promptSearchDecor("This is a media item.");
         }
 
     }
