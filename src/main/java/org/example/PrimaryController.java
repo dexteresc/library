@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -30,6 +31,7 @@ public class PrimaryController {
     private AuthenticationModel authenticationModel;
     private SearchModel searchModel;
     private ObservableList<Media> searchResults;
+    private LoanModel loanManager;
 
     /**
      * Switches scene to login
@@ -64,6 +66,11 @@ public class PrimaryController {
             this.searchResults.addListener((ListChangeListener<Media>) change -> {
                 this.updateSearchResults();
             });
+        }
+
+        // Configure loan Manager
+        if (this.loanManager == null){
+            this.loanManager = App.getAppModel().getLoanModel();
         }
 
         if (this.authenticationModel.isAuthenticated()) {
@@ -176,7 +183,10 @@ public class PrimaryController {
                     if (this.authenticationModel.isAuthenticated()){
 
                     } else {
-                        borderPaneTop.setBottom(new Label("nah bruv"));
+                        Label errorLabel = new Label("You have to be logged in to borrow a book.");
+                        errorLabel.getStyleClass().add("errorLabel");
+
+                        borderPaneTop.setBottom(errorLabel);
                     }
                     // TODO: 5/13/2021 Skapa nytt lån
                 });
