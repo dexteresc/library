@@ -5,15 +5,18 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class LoanModel {
 
     private LoanManager loanManager;
+    private MediaManager mediaManager;
     private ObservableList<MediaItem> mediaItemList = FXCollections.observableList(new ArrayList<>());
     private Customer customer;
 
-    public LoanModel(LoanManager loanManager) {
+    public LoanModel(LoanManager loanManager, MediaManager mediaManager) {
         this.loanManager = loanManager;
+        this.mediaManager = mediaManager;
     }
 
     public void addItem(MediaItem mediaItem) throws Exception {
@@ -31,6 +34,16 @@ public class LoanModel {
 
     public void removeItem(MediaItem mediaItem) {
         this.mediaItemList.remove(mediaItem);
+    }
+
+    public void add(Media media) throws Exception {
+        MediaItem mediaItem = this.mediaManager.getFirstAvailableMediaItem(media);
+        this.addItem(mediaItem);
+    }
+
+    public void remove(Media media) {
+        Optional<MediaItem> mediaItem = this.mediaItemList.stream().filter(item -> item.getMedia().getId().equals(media.getId())).findFirst();
+        mediaItem.ifPresent(item -> this.mediaItemList.remove(item));
     }
 
     public void validate() throws Exception {

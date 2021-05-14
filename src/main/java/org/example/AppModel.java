@@ -27,7 +27,7 @@ public final class AppModel {
         // Models
         this.authenticationModel = new AuthenticationModel(this.accountManager);
         this.searchModel = new SearchModel(this.mediaManager);
-        this.loanModel = new LoanModel(this.loanManager);
+        this.loanModel = new LoanModel(this.loanManager, this.mediaManager);
     }
 
     // Models
