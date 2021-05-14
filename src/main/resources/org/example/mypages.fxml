@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.MyPagesController">
+<top>
+<BorderPane prefHeight="49.0" prefWidth="600.0" styleClass="header" BorderPane.alignment="CENTER">
+    <left>
+        <Label fx:id="homeButton" onMouseClicked="#initialize" text="Bibliotek" textFill="WHITE" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets left="25.0" />
+            </BorderPane.margin>
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Label>
+    </left>
+</BorderPane>
+</top>
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <left>
+            <BorderPane prefHeight="351.0" prefWidth="182.0" BorderPane.alignment="CENTER">
+               <left>
+                  <VBox prefHeight="247.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="5.0" right="5.0" top="5.0" />
+                     </BorderPane.margin>
+                     <children>
+                        <HBox>
+                           <children>
+                              <Label text="First Name:">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="firstName" text="InputFirstName" />
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label fx:id="lastName" text="InputLastName">
+                                 <graphic>
+                                    <Label text="Last Name:" />
+                                 </graphic>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label fx:id="phoneNumber" text="InputPhoneNumber">
+                                 <graphic>
+                                    <Label text="Phone Number:" />
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0">
+                           <children>
+                              <Label text="Email:">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="Email" text="InputEmail" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </left>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <top>
+                  <Label styleClass="h2" text="My information:" BorderPane.alignment="TOP_LEFT" />
+               </top>
+            </BorderPane>
+         </left>
+         <center>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <top>
+                  <BorderPane prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <right>
+                        <Button mnemonicParsing="false" text="Logout" BorderPane.alignment="CENTER" />
+                     </right>
+                     <left>
+                        <Label styleClass="h2" text="Active loans" BorderPane.alignment="CENTER" />
+                     </left>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </BorderPane>
+               </top>
+               <bottom>
+                  <ScrollPane prefHeight="305.0" prefWidth="418.0" BorderPane.alignment="CENTER" />
+               </bottom>
+            </BorderPane>
+         </center>
+      </BorderPane>
+   </center>
+</BorderPane>
