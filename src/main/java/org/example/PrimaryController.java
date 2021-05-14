@@ -2,15 +2,10 @@ package org.example;
 
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.TextFlow;
 import org.library.*;
 
 import java.io.IOException;
@@ -31,7 +26,7 @@ public class PrimaryController {
     private AuthenticationModel authenticationModel;
     private SearchModel searchModel;
     private ObservableList<Media> searchResults;
-    private LoanModel loanManager;
+    private LoanModel loanModel;
 
     /**
      * Switches scene to login
@@ -69,8 +64,8 @@ public class PrimaryController {
         }
 
         // Configure loan Manager
-        if (this.loanManager == null){
-            this.loanManager = App.getAppModel().getLoanModel();
+        if (this.loanModel == null){
+            this.loanModel = App.getAppModel().getLoanModel();
         }
 
         if (this.authenticationModel.isAuthenticated()) {
@@ -184,7 +179,9 @@ public class PrimaryController {
                 loanButton.setOnAction(actionEvent1 -> {
                     if (this.authenticationModel.isAuthenticated()){
                         try {
-
+                            loanModel.add(media);
+                            updateSearchResults();
+                            loanModel.remove(media);
                         } catch (Exception e) {
                             e.printStackTrace();
                             errorLabel.setText(e.getMessage());
