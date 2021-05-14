@@ -71,6 +71,13 @@ public class PrimaryController {
         if (this.authenticationModel.isAuthenticated()) {
             headerButtonBox.getChildren().clear();
             Button myPage = new Button("Mina sidor");
+            myPage.setOnAction(actionEvent -> {
+                try {
+                    App.setRoot("mypages");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
             headerButtonBox.setCenter(myPage);
         }
 
