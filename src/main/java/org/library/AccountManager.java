@@ -115,10 +115,8 @@ public class AccountManager {
 
     /**
      * Create an account.
-     * @param givenName account holder's given name.
-     * @param familyName account holder's family name.
-     * @param email account holder's email.
-     * @param password account password.
+     * @param account Account to create.
+     * @param password the requested account password.
      */
     private void createAccount(Account account, String password) throws Exception {
         logger.info("Creating account...");

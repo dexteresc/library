@@ -14,13 +14,6 @@ public class Account {
 
     public Account() {}
 
-    /**
-     * Create a new account instance with id.
-     * @param id account id.
-     * @param givenName account holder's given name.
-     * @param familyName account holder's family name.
-     * @param email account holder's email.
-     */
     public Account(Long id, String givenName, String familyName, String email, String phoneNumber) {
         this.id = id;
         this.givenName = givenName;
