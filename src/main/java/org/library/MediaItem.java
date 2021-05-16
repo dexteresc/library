@@ -56,6 +56,10 @@ public class MediaItem {
         return status;
     }
 
+    public String getBarcode() {
+        return getMedia().getId().toString() + "-" + getId().toString();
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
