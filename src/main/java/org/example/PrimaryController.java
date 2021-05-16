@@ -3,16 +3,20 @@ package org.example;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.library.*;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class PrimaryController {
+public class PrimaryController implements Initializable {
+
     public Button registerButton;
     public Button loginButton;
     public ListView<String> categoriesView;
@@ -28,23 +32,8 @@ public class PrimaryController {
     private ObservableList<Media> searchResults;
     private LoanModel loanModel;
 
-    /**
-     * Switches scene to login
-     *
-     * @throws IOException if fxml doesn't exist in resources
-     */
-    @FXML
-    public void switchToLogin() throws IOException {
-        App.setRoot("login");
-    }
-
-    @FXML
-    public void switchToRegister() throws IOException {
-        App.setRoot("register");
-    }
-
-
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         libView.getChildren().clear();
         promptSearchDecor();
 
@@ -73,19 +62,6 @@ public class PrimaryController {
                     this.loanModel.setCustomer((Customer) account);
                 }
             }
-        }
-
-        if (this.authenticationModel.isAuthenticated()) {
-            headerButtonBox.getChildren().clear();
-            Button myPage = new Button("Mina sidor");
-            myPage.setOnAction(actionEvent -> {
-                try {
-                    App.setRoot("mypages");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            headerButtonBox.setCenter(myPage);
         }
 
         // Load Categories

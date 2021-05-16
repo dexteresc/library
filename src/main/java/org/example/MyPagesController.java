@@ -1,10 +1,14 @@
 package org.example;
 
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import org.library.Account;
 import org.library.AuthenticationModel;
 
-public class MyPagesController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class MyPagesController implements Initializable {
     public Label firstName;
     public Label lastName;
     public Label phoneNumber;
@@ -12,7 +16,9 @@ public class MyPagesController {
 
     private AuthenticationModel authenticationModel;
     private Account account;
-    public void initialize() {
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         if(authenticationModel == null){
             this.authenticationModel = App.getAppModel().getAuthenticationModel();
             this.account = authenticationModel.getAccount();

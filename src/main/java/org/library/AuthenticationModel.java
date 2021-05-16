@@ -27,6 +27,14 @@ public class AuthenticationModel {
         return this.account != null;
     }
 
+    public boolean isCustomer() {
+        return this.account instanceof Customer;
+    }
+
+    public boolean isStaff() {
+        return this.account instanceof Staff;
+    }
+
     /**
      * Attempt login with a given username and password.
      * @param username Username of the Account that is being logged into.

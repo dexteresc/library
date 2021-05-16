@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.NavigationBarController"
+            prefHeight="60.0" prefWidth="Infinity">
+    <BorderPane prefHeight="60.0" minHeight="60" prefWidth="Infinity" styleClass="header" BorderPane.alignment="CENTER"  AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <left>
+            <Label fx:id="homeButton" text="Bibliotek" textFill="WHITE" BorderPane.alignment="CENTER" onMouseClicked="#navigateToHome">
+                <BorderPane.margin>
+                    <Insets left="20.0" />
+                </BorderPane.margin>
+                <font>
+                    <Font name="System Bold" size="24.0" />
+                </font>
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </Label>
+        </left>
+        <right>
+            <HBox styleClass="accountMenu" BorderPane.alignment="CENTER">
+                <Button fx:id="registerButton" mnemonicParsing="false" styleClass="colorButton" onAction="#navigateToRegister" text="Register">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+                <Button fx:id="loginButton" mnemonicParsing="false" onAction="#navigateToLogin" text="Login">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+                <Button fx:id="adminButton" mnemonicParsing="false" onAction="#navigateToAdmin" text="Admin">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+                <Button fx:id="myPagesButton" mnemonicParsing="false" onAction="#navigateToMyPages" text="My Pages">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+                <Button fx:id="logoutButton" mnemonicParsing="false" styleClass="colorButton" onAction="#logout" text="Logout">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+            </HBox>
+        </right>
+    </BorderPane>
+</AnchorPane>

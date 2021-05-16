@@ -1,6 +1,7 @@
 package org.example;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -11,11 +12,13 @@ import javafx.scene.text.Text;
 import org.library.AuthenticationModel;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Controller for the login page
  */
-public class LoginController {
+public class LoginController implements Initializable {
     public Text homeButton;
     public Button registerButton;
     public Button loginButton;
@@ -36,7 +39,8 @@ public class LoginController {
         App.setRoot("register");
     }
 
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         if (this.authenticationModel == null) {
             this.authenticationModel = App.getAppModel().getAuthenticationModel();
         }
@@ -46,6 +50,7 @@ public class LoginController {
             try {
                 this.goHome();
             } catch (IOException e) {
+                e.printStackTrace();
                 System.out.println(e.getMessage());
             }
         }
@@ -78,6 +83,7 @@ public class LoginController {
                 // Login successful
                 this.goHome();
             } catch (Exception e) {
+                e.printStackTrace();
                 if (!this.loginBox.getChildren().contains(this.errorLabel)) {
                     this.loginBox.getChildren().add(errorLabel); // Add error label if it is not already present
                 }

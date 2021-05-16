@@ -86,3 +86,8 @@
     -fx-font-size: 16px;
     -fx-font-weight: bold;
 }
+
+.accountMenu {
+    -fx-padding: 20;
+    -fx-spacing: 10;
+}

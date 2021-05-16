@@ -10,24 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.MyPagesController">
-<top>
-<BorderPane prefHeight="49.0" prefWidth="600.0" styleClass="header" BorderPane.alignment="CENTER">
-    <left>
-        <Label fx:id="homeButton" onMouseClicked="#initialize" text="Bibliotek" textFill="WHITE" BorderPane.alignment="CENTER">
-            <BorderPane.margin>
-                <Insets left="25.0" />
-            </BorderPane.margin>
-            <font>
-                <Font name="System Bold" size="24.0" />
-            </font>
-            <cursor>
-                <Cursor fx:constant="HAND" />
-            </cursor>
-        </Label>
-    </left>
-</BorderPane>
-</top>
+<BorderPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.MyPagesController">
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <left>
