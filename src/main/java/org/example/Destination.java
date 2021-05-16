@@ -1,5 +1,10 @@
 package org.example;
 
+/**
+ * Destination
+ *
+ * A type-safe representation of FXML resources.
+ */
 public enum Destination {
     HOME("primary"),
     LOGIN("login"),
@@ -8,12 +13,15 @@ public enum Destination {
     ADMIN("admin"),
     CUSTOM("");
 
-    String resourceName;
+    private String resourceName;
 
     Destination(String resourceName) {
         this.resourceName = resourceName;
     }
 
+    /**
+     * @return The name of the underlying FXML resource.
+     */
     public String getResourceName() {
         return resourceName + ".fxml";
     }
@@ -28,6 +36,10 @@ public enum Destination {
         return destination;
     }
 
+    /**
+     * @param value The value that should be resolved to a destination.
+     * @return An existing destination (if it exists) or a custom one.
+     */
     public static Destination resolve(String value) {
         for (Destination destination : Destination.values()) {
             if (destination.resourceName.equals(value)) {
