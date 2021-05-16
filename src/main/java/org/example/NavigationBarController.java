@@ -11,8 +11,13 @@ import org.library.AuthenticationModel;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Navigation Bar Controller
+ *
+ * Provides a shared navigation bar that is state-aware.
+ */
 public class NavigationBarController implements Initializable {
-    private static Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
     private RootController rootController;
     private Destination activeDestination = Destination.HOME;
@@ -36,11 +41,9 @@ public class NavigationBarController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // TODO Auto-generated method stub
 
+        // Get the authentication model
         this.authenticationModel = App.getAppModel().getAuthenticationModel();
-
-        this.updateAvailableActions();
     }
 
     private void navigateTo(Destination destination) {
@@ -54,11 +57,17 @@ public class NavigationBarController implements Initializable {
         }
     }
 
+    /**
+     * Used to update node visibility.
+     */
     private void setNodeVisible(Node node, boolean visible) {
         node.setVisible(visible);
         node.setManaged(visible);
     }
 
+    /**
+     * Updates the actions available to the user based on the current application state.
+     */
     private void updateAvailableActions() {
         logger.debug("Updating available actions...");
 
@@ -73,10 +82,12 @@ public class NavigationBarController implements Initializable {
         this.setNodeVisible(this.logoutButton, isAuthenticated);
     }
 
+    // NOTE: Should only be called from RootController.
     public void setRootController(RootController rootController) {
         this.rootController = rootController;
     }
 
+    // NOTE: Should only be called from RootController.
     // Called by RootController after present is called.
     public void setActiveDestination(Destination destination) {
         logger.info("Received new active destination " + destination.name() + ".");
