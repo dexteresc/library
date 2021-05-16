@@ -11,6 +11,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Application Root Controller
+ *
+ * Wraps the active content controller (e.g. PrimaryController) to include a shared navigation bar.
+ */
 public class RootController implements Initializable {
 
     @FXML
@@ -21,7 +26,6 @@ public class RootController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // TODO Auto-generated method stub
 
         // Set RootController in App
         App.setRootController(this);
@@ -38,12 +42,18 @@ public class RootController implements Initializable {
         }
     }
 
+    /**
+     * Sets the active content controller.
+     * @param node A JavaFX node instance.
+     */
     private void setContent(Node node) {
         this.content.setCenter(node);
         BorderPane.setMargin(node, new Insets(0));
     }
 
-    // Sets the FXML-file with the provided resource name to the active content.
+    /**
+     * Sets the FXML-file with the provided resource name to the active content.
+     */
     public void present(Destination destination) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(destination.getResourceName()));
         this.setContent(fxmlLoader.load());
