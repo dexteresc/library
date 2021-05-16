@@ -66,6 +66,7 @@ public class AccountManager {
                             return this.getCustomerById(accountId);
                         } else {
                             // Account is neither staff nor customer. This scenario should be avoided.
+                            logger.warn("Account is neither staff nor customer!");
                             return this.getAccountById(accountId);
                         }
                     });
