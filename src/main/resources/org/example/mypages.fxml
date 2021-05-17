@@ -77,9 +77,6 @@
             <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <top>
                   <BorderPane prefWidth="200.0" BorderPane.alignment="CENTER">
-                     <right>
-                        <Button mnemonicParsing="false" text="Logout" BorderPane.alignment="CENTER" />
-                     </right>
                      <left>
                         <Label styleClass="h2" text="Active loans" BorderPane.alignment="CENTER" />
                      </left>

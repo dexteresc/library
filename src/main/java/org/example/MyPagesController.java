@@ -19,10 +19,11 @@ public class MyPagesController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if(authenticationModel == null){
+        if (authenticationModel == null) {
             this.authenticationModel = App.getAppModel().getAuthenticationModel();
             this.account = authenticationModel.getAccount();
         }
+
         firstName.setText(account.getGivenName());
         lastName.setText(account.getFamilyName());
         phoneNumber.setText(account.getPhoneNumber());
