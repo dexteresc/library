@@ -59,7 +59,7 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="Email" text="InputEmail" />
+                              <Label fx:id="email" text="InputEmail" />
                            </children>
                         </HBox>
                      </children>

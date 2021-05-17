@@ -12,7 +12,7 @@ public class MyPagesController implements Initializable {
     public Label firstName;
     public Label lastName;
     public Label phoneNumber;
-    public Label Email;
+    public Label email;
 
     private AuthenticationModel authenticationModel;
     private Account account;
@@ -26,7 +26,7 @@ public class MyPagesController implements Initializable {
         firstName.setText(account.getGivenName());
         lastName.setText(account.getFamilyName());
         phoneNumber.setText(account.getPhoneNumber());
-        Email.setText(account.getEmail());
+        email.setText(account.getEmail());
     }
 
 }
