@@ -18,6 +18,8 @@ import java.util.ResourceBundle;
  */
 public class RootController implements Initializable {
 
+    private Destination previousDestination;
+
     @FXML
     private NavigationBarController navigationBarController;
 
@@ -55,12 +57,23 @@ public class RootController implements Initializable {
      * Sets the FXML-file with the provided resource name to the active content.
      */
     public void present(Destination destination) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(destination.getResourceName()));
-        this.setContent(fxmlLoader.load());
+        // Enable navigation to previous destination
+        if (destination == Destination.PREVIOUS && this.previousDestination != null) {
+            this.present(previousDestination);
+            return;
+        }
 
         if (this.navigationBarController != null) {
             // Notify the navigation bar controller that a new resource was presented.
-            this.navigationBarController.setActiveDestination(destination);
+            this.navigationBarController.willSetActiveDestination(destination);
+        }
+
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(destination.getResourceName()));
+        this.setContent(fxmlLoader.load());
+
+        // Set new destination as previous destination
+        if (destination != Destination.LOGIN && destination != Destination.REGISTER) {
+            this.previousDestination = destination;
         }
     }
 

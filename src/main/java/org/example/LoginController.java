@@ -30,11 +30,6 @@ public class LoginController implements Initializable {
     private AuthenticationModel authenticationModel;
     public VBox loginBox;
 
-    @FXML
-    public void goHome() throws IOException {
-        App.setRoot("primary");
-    }
-
     public void goRegister() throws IOException {
         App.setRoot("register");
     }
@@ -48,7 +43,7 @@ public class LoginController implements Initializable {
         // Check if user is already logged in
         if (this.authenticationModel.isAuthenticated()) {
             try {
-                this.goHome();
+                App.setRoot("internal:previous");
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println(e.getMessage());
@@ -57,6 +52,7 @@ public class LoginController implements Initializable {
 
         errorLabel.getStyleClass().add("errorLabel");
     }
+
     @FXML
     private void logIn() {
         String username = usernameField.textProperty().getValue();
@@ -81,7 +77,7 @@ public class LoginController implements Initializable {
             try {
                 this.authenticationModel.login(username, password); // Throws error if unsuccessful
                 // Login successful
-                this.goHome();
+                App.setRoot("internal:previous");
             } catch (Exception e) {
                 e.printStackTrace();
                 if (!this.loginBox.getChildren().contains(this.errorLabel)) {

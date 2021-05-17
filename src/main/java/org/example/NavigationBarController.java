@@ -1,14 +1,16 @@
 package org.example;
 
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.library.AuthenticationModel;
+import org.library.*;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -23,6 +25,7 @@ public class NavigationBarController implements Initializable {
     private Destination activeDestination = Destination.HOME;
 
     private AuthenticationModel authenticationModel;
+    private LoanModel loanModel;
 
     @FXML
     private Button registerButton;
@@ -39,11 +42,29 @@ public class NavigationBarController implements Initializable {
     @FXML
     private Button adminButton;
 
+    @FXML
+    private Button loanButton;
+
+    @FXML
+    private Button previousButton;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         // Get the authentication model
         this.authenticationModel = App.getAppModel().getAuthenticationModel();
+
+        // Get the loan model
+        this.loanModel = App.getAppModel().getLoanModel();
+
+        // Listen to changes made to loan model
+        this.configureLoanListener();
+    }
+
+    private void configureLoanListener() {
+        this.loanModel.getMediaItemList().addListener((ListChangeListener<MediaItem>) change -> {
+            this.updateLoanButton(true);
+        });
     }
 
     private void navigateTo(Destination destination) {
@@ -74,12 +95,29 @@ public class NavigationBarController implements Initializable {
         boolean isAuthenticated = this.authenticationModel.isAuthenticated();
         boolean isCustomer = this.authenticationModel.isCustomer();
         boolean isStaff = this.authenticationModel.isStaff();
+        boolean onlyPrevious = activeDestination == Destination.LOGIN || activeDestination == Destination.REGISTER;
 
-        this.setNodeVisible(this.registerButton, !isAuthenticated && activeDestination != Destination.LOGIN  && activeDestination != Destination.REGISTER);
-        this.setNodeVisible(this.loginButton, !isAuthenticated && activeDestination != Destination.LOGIN && activeDestination != Destination.REGISTER);
-        this.setNodeVisible(this.myPagesButton, isAuthenticated && isCustomer);
-        this.setNodeVisible(this.adminButton, isAuthenticated && isStaff);
-        this.setNodeVisible(this.logoutButton, isAuthenticated);
+        this.setNodeVisible(this.registerButton, !isAuthenticated && !onlyPrevious);
+        this.setNodeVisible(this.loginButton, !isAuthenticated && !onlyPrevious);
+        this.setNodeVisible(this.myPagesButton, isAuthenticated && isCustomer && !onlyPrevious);
+        this.setNodeVisible(this.adminButton, isAuthenticated && isStaff && !onlyPrevious);
+        this.setNodeVisible(this.logoutButton, isAuthenticated && !onlyPrevious);
+        this.setNodeVisible(this.previousButton, onlyPrevious);
+
+        this.updateLoanButton(!onlyPrevious);
+    }
+
+    /**
+     * Updates the loan button based on the current loan state.
+     */
+    private void updateLoanButton(boolean canBeVisible) {
+        List<MediaItem> mediaItemList = this.loanModel.getMediaItemList();
+
+        if (mediaItemList.size() > 0) {
+            this.loanButton.setText("New Loan (" + mediaItemList.size() + ")");
+        }
+
+        this.setNodeVisible(loanButton, mediaItemList.size() > 0 && canBeVisible);
     }
 
     // NOTE: Should only be called from RootController.
@@ -89,7 +127,7 @@ public class NavigationBarController implements Initializable {
 
     // NOTE: Should only be called from RootController.
     // Called by RootController after present is called.
-    public void setActiveDestination(Destination destination) {
+    public void willSetActiveDestination(Destination destination) {
         logger.info("Received new active destination " + destination.name() + ".");
 
         this.activeDestination = destination;
@@ -122,8 +160,19 @@ public class NavigationBarController implements Initializable {
     }
 
     @FXML
+    public void navigateToNewLoan() {
+        this.navigateTo(Destination.NEW_LOAN);
+    }
+
+    @FXML
+    public void navigateToPrevious() {
+        this.navigateTo(Destination.PREVIOUS);
+    }
+
+    @FXML
     public void logout() {
         this.authenticationModel.logout();
+        this.loanModel.setCustomer(null);
         this.navigateToHome();
     }
 

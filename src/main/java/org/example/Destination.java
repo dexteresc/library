@@ -11,6 +11,8 @@ public enum Destination {
     REGISTER("register"),
     MY_PAGES("mypages"),
     ADMIN("admin"),
+    NEW_LOAN("loan"),
+    PREVIOUS("internal:previous"),
     CUSTOM("");
 
     private String resourceName;

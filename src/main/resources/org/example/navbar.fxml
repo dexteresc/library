@@ -27,6 +27,11 @@
         </left>
         <right>
             <HBox styleClass="accountMenu" BorderPane.alignment="CENTER">
+                <Button fx:id="loanButton" mnemonicParsing="false" onAction="#navigateToNewLoan" text="Loan">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
                 <Button fx:id="registerButton" mnemonicParsing="false" styleClass="colorButton" onAction="#navigateToRegister" text="Register">
                     <cursor>
                         <Cursor fx:constant="HAND" />
@@ -48,6 +53,11 @@
                     </cursor>
                 </Button>
                 <Button fx:id="logoutButton" mnemonicParsing="false" styleClass="colorButton" onAction="#logout" text="Logout">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+                <Button fx:id="previousButton" mnemonicParsing="false" onAction="#navigateToPrevious" text="Cancel">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>

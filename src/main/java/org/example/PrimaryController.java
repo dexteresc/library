@@ -55,13 +55,6 @@ public class PrimaryController implements Initializable {
         // Configure loan Manager
         if (this.loanModel == null){
             this.loanModel = App.getAppModel().getLoanModel();
-
-            if (this.authenticationModel.isAuthenticated()) {
-                Account account = this.authenticationModel.getAccount();
-                if (account instanceof Customer) {
-                    this.loanModel.setCustomer((Customer) account);
-                }
-            }
         }
 
         // Load Categories
@@ -167,21 +160,14 @@ public class PrimaryController implements Initializable {
                 errorLabel.getStyleClass().add("errorLabel");
 
                 loanButton.setOnAction(actionEvent1 -> {
-                    if (this.authenticationModel.isAuthenticated()){
-                        try {
-                            loanModel.add(media);
-                            updateSearchResults();
-                            loanModel.remove(media);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            errorLabel.setText(e.getMessage());
-                            borderPaneTop.setBottom(errorLabel);
-                        }
-                    } else {
-                        errorLabel.setText("You have to be logged in to borrow a book.");
+                    try {
+                        loanModel.add(media);
+                        updateSearchResults();
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                        errorLabel.setText(exception.getMessage());
                         borderPaneTop.setBottom(errorLabel);
                     }
-                    // TODO: 5/13/2021 Skapa nytt lån
                 });
                 
                 borderPaneTop.setLeft(goBack);

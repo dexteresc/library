@@ -49,7 +49,7 @@ public class LoanModel {
     public void validate() throws Exception {
         // Check if loan has a customer
         if (this.customer == null) {
-            throw new Exception("No customer.");
+            throw new Exception("You need to be logged in to loan items.");
         }
 
         // Check if the new loan would exceed the number of items that the customer has loaned
@@ -72,6 +72,10 @@ public class LoanModel {
         return customer;
     }
 
+    public boolean hasCustomer() {
+        return this.customer != null;
+    }
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
@@ -81,7 +85,7 @@ public class LoanModel {
         this.mediaItemList.clear();
     }
 
-    public List<MediaItem> getMediaItemList() {
+    public ObservableList<MediaItem> getMediaItemList() {
         return mediaItemList;
     }
 }
