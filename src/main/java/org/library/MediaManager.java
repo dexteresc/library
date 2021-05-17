@@ -28,7 +28,19 @@ public class MediaManager {
     private static final String UPDATE_MOVIE_STATEMENT = "UPDATE movie SET director = ?, age_rating = ?, production_country = ? WHERE media_id = ? LIMIT 1";
     private static final String SEARCH_MOVIE_STATEMENT = "SELECT *, (SELECT COUNT(*) FROM media_actor WHERE media_id = media.id) AS actor_count FROM media INNER JOIN movie ON movie.media_id = media.id INNER JOIN media_actor ON media_actor.media_id = media.id INNER JOIN actor ON actor.id = media_actor.actor_id WHERE MATCH(media.title, media.summary, media.classification) AGAINST(? IN NATURAL LANGUAGE MODE) OR MATCH(movie.director, movie.production_country) AGAINST(? IN NATURAL LANGUAGE MODE) OR media.id IN (SELECT media_id FROM media_actor INNER JOIN actor ON actor.id = media_actor.actor_id WHERE MATCH(actor.given_name, actor.family_name) AGAINST(? IN NATURAL LANGUAGE MODE))";
 
-    // TODO: Author statements
+    // Author statements
+    private static final String CREATE_AUTHOR_STATEMENT = "INSERT INTO author (given_name, family_name) VALUES (?, ?)";
+    private static final String UPDATE_AUTHOR_STATEMENT = "UPDATE author SET given_name = ?, family_name = ? WHERE id = ?";
+    private static final String DELETE_AUTHOR_STATEMENT = "DELETE FROM author WHERE id = ?";
+    private static final String SELECT_AUTHOR_BY_ID_STATEMENT = "SELECT * FROM author WHERE id = ?";
+    private static final String SEARCH_AUTHOR_STATEMENT = "SELECT * FROM author WHERE MATCH(given_name, family_name) AGAINST(? IN NATURAL LANGUAGE MODE)";
+
+    // Actor statements
+    private static final String CREATE_ACTOR_STATEMENT = "INSERT INTO actor (given_name, family_name) VALUES (?, ?)";
+    private static final String UPDATE_ACTOR_STATEMENT = "UPDATE actor SET given_name = ?, family_name = ? WHERE id = ?";
+    private static final String DELETE_ACTOR_STATEMENT = "DELETE FROM actor WHERE id = ?";
+    private static final String SELECT_ACTOR_BY_ID_STATEMENT = "SELECT * FROM actor WHERE id = ?";
+    private static final String SEARCH_ACTOR_STATEMENT = "SELECT * FROM actor WHERE MATCH(given_name, family_name) AGAINST(? IN NATURAL LANGUAGE MODE)";
 
     // Media item statements
     private static final String SELECT_MEDIA_ITEMS_BY_MEDIA_ID_STATEMENT = "SELECT *, (SELECT COUNT(*) FROM loan WHERE loan.media_item_id = id AND returned_at IS NULL) AS currently_on_loan FROM media_item INNER JOIN media_type ON media_item.media_type_id = media_type.id WHERE media_id = ?";
