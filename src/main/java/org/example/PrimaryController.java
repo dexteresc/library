@@ -28,23 +28,8 @@ public class PrimaryController {
     private ObservableList<Media> searchResults;
     private LoanModel loanModel;
 
-    /**
-     * Switches scene to login
-     *
-     * @throws IOException if fxml doesn't exist in resources
-     */
-    @FXML
-    public void switchToLogin() throws IOException {
-        App.setRoot("login");
-    }
-
-    @FXML
-    public void switchToRegister() throws IOException {
-        App.setRoot("register");
-    }
-
-
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         libView.getChildren().clear();
         promptSearchDecor();
 
@@ -66,19 +51,6 @@ public class PrimaryController {
         // Configure loan Manager
         if (this.loanModel == null){
             this.loanModel = App.getAppModel().getLoanModel();
-        }
-
-        if (this.authenticationModel.isAuthenticated()) {
-            headerButtonBox.getChildren().clear();
-            Button myPage = new Button("Mina sidor");
-            myPage.setOnAction(actionEvent -> {
-                try {
-                    App.setRoot("mypages");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            headerButtonBox.setCenter(myPage);
         }
 
         // Load Categories
@@ -184,17 +156,12 @@ public class PrimaryController {
                 errorLabel.getStyleClass().add("errorLabel");
 
                 loanButton.setOnAction(actionEvent1 -> {
-                    if (this.authenticationModel.isAuthenticated()){
-                        try {
-                            loanModel.add(media);
-                            updateSearchResults();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            errorLabel.setText(e.getMessage());
-                            borderPaneTop.setBottom(errorLabel);
-                        }
-                    } else {
-                        errorLabel.setText("You have to be logged in to borrow a book.");
+                    try {
+                        loanModel.add(media);
+                        updateSearchResults();
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                        errorLabel.setText(exception.getMessage());
                         borderPaneTop.setBottom(errorLabel);
                     }
                     // TODO: 5/13/2021 Skapa nytt lån

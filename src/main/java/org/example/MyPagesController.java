@@ -1,53 +1,33 @@
 package org.example;
 
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Window;
-import org.library.*;
+import org.library.Account;
+import org.library.AuthenticationModel;
 
-import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MyPagesController {
+public class MyPagesController implements Initializable {
     public Label firstName;
     public Label lastName;
     public Label phoneNumber;
     public Label email;
-    public VBox loanView;
 
     private AuthenticationModel authenticationModel;
     private Account account;
-    private LoanModel loanModel;
 
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         if (authenticationModel == null) {
             this.authenticationModel = App.getAppModel().getAuthenticationModel();
             this.account = authenticationModel.getAccount();
         }
-        if (loanModel == null) {
-            this.loanModel = App.getAppModel().getLoanModel();
-        }
+
         firstName.setText(account.getGivenName());
         lastName.setText(account.getFamilyName());
         phoneNumber.setText(account.getPhoneNumber());
         email.setText(account.getEmail());
-
-        for (MediaItem mediaItem :
-                loanModel.getMediaItemList()) {
-            System.out.println("ran");
-            loanModuleCreate(mediaItem);
-        }
     }
 
-    private void loanModuleCreate(MediaItem mediaItem) {
-        BorderPane borderPane = new BorderPane();
-        Label title = new Label(mediaItem.getMedia().getTitle());
-        borderPane.setLeft(title);
-    }
-
-    public void switchToPrimary() throws IOException {
-        App.setRoot("primary");
-    }
 }

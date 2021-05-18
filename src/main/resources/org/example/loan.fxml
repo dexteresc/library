@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.NewLoanController"
+            prefHeight="400.0" prefWidth="600.0">
+    <ScrollPane hbarPolicy="NEVER" prefWidth="200.0" prefHeight="100.0" styleClass="libraryScrollPane" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <BorderPane prefHeight="300.0" prefWidth="300" minWidth="-Infinity" maxWidth="Infinity" maxHeight="Infinity" minHeight="-Infinity">
+            <top>
+                <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" spacing="40.0" BorderPane.alignment="TOP_CENTER">
+                    <Label text="Loan">
+                        <font>
+                            <Font name="System Bold" size="20.0" />
+                        </font>
+                    </Label>
+                </HBox>
+            </top>
+            <center>
+                <HBox alignment="CENTER" fillHeight="false" maxWidth="400">
+                    <VBox spacing="20.0" prefHeight="100.0">
+                        <Label text="Items that will be borrowed." />
+                        <VBox spacing="20.0" prefHeight="100.0" fx:id="loanItemsBox" />
+                    </VBox>
+                </HBox>
+            </center>
+            <bottom>
+                <VBox spacing="20.0" prefHeight="100.0" BorderPane.alignment="BOTTOM_CENTER">
+                    <HBox alignment="CENTER" fillHeight="false" spacing="40.0">
+                        <Button text="Add additional items" onAction="#navigateToHome">
+                        </Button>
+                        <Button text="Start Loan" fx:id="startLoanButton" onAction="#startLoan">
+                        </Button>
+                    </HBox>
+                    <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0">
+                        <Label fx:id="errorLabel" styleClass="fieldError"/>
+                    </HBox>
+                    <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0">
+                        <Button text="Cancel Loan" fx:id="cancelLoanButton" onAction="#cancelLoan">
+                        </Button>
+                    </HBox>
+                </VBox>
+            </bottom>
+        </BorderPane>
+    </ScrollPane>
+</AnchorPane>

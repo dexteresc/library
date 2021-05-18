@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.library.Database;
 
 import java.io.IOException;
@@ -14,18 +16,21 @@ import java.io.IOException;
  */
 public class App extends Application {
 
+    private static Logger logger = LogManager.getLogger();
     private static Scene scene;
+    private static RootController rootController;
     private static AppModel appModel = new AppModel(new Database("jdbc:mysql://ec2-23-20-145-129.compute-1.amazonaws.com:3306/library", "admin", "cbq6LQzci9c"));
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        scene = new Scene(loadFXML("root"), 640, 480);
         stage.setScene(scene);
         stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+        logger.warn("Using static navigation method.");
+        rootController.present(Destination.resolve(fxml));
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
@@ -35,6 +40,10 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public static void setRootController(RootController rootController) {
+        App.rootController = rootController;
     }
 
     public static AppModel getAppModel() {

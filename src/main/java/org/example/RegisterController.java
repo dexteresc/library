@@ -2,6 +2,7 @@ package org.example;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -12,8 +13,10 @@ import org.library.AuthenticationModel;
 import org.library.Customer;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class RegisterController {
+public class RegisterController implements Initializable {
 
     public Label homeButton;
     public Button loginButton;
@@ -29,7 +32,8 @@ public class RegisterController {
     private AuthenticationModel authenticationModel;
     Label errorLabel = new Label("Error, please make sure that everything is answered and that it's answered correctly");
 
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         if (this.authenticationModel == null) {
             this.authenticationModel = App.getAppModel().getAuthenticationModel();
         }

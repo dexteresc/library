@@ -1,6 +1,7 @@
 package org.example;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -11,11 +12,13 @@ import javafx.scene.text.Text;
 import org.library.AuthenticationModel;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Controller for the login page
  */
-public class LoginController {
+public class LoginController implements Initializable {
     public Text homeButton;
     public Button registerButton;
     public Button loginButton;
@@ -27,16 +30,12 @@ public class LoginController {
     private AuthenticationModel authenticationModel;
     public VBox loginBox;
 
-    @FXML
-    public void goHome() throws IOException {
-        App.setRoot("primary");
-    }
-
     public void goRegister() throws IOException {
         App.setRoot("register");
     }
 
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         if (this.authenticationModel == null) {
             this.authenticationModel = App.getAppModel().getAuthenticationModel();
         }
@@ -44,14 +43,16 @@ public class LoginController {
         // Check if user is already logged in
         if (this.authenticationModel.isAuthenticated()) {
             try {
-                this.goHome();
+                App.setRoot("internal:previous");
             } catch (IOException e) {
+                e.printStackTrace();
                 System.out.println(e.getMessage());
             }
         }
 
         errorLabel.getStyleClass().add("errorLabel");
     }
+
     @FXML
     private void logIn() {
         String username = usernameField.textProperty().getValue();
@@ -76,8 +77,9 @@ public class LoginController {
             try {
                 this.authenticationModel.login(username, password); // Throws error if unsuccessful
                 // Login successful
-                this.goHome();
+                App.setRoot("internal:previous");
             } catch (Exception e) {
+                e.printStackTrace();
                 if (!this.loginBox.getChildren().contains(this.errorLabel)) {
                     this.loginBox.getChildren().add(errorLabel); // Add error label if it is not already present
                 }
