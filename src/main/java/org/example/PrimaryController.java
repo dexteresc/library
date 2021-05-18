@@ -34,7 +34,6 @@ public class PrimaryController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         libView.getChildren().clear();
-        promptSearchDecor();
 
         // Configure authentication model
         if (this.authenticationModel == null) {
@@ -55,9 +54,18 @@ public class PrimaryController implements Initializable {
         if (this.loanModel == null) {
             this.loanModel = App.getAppModel().getLoanModel();
         }
-
+        promptSearchDecor();
+/*
+        if(searchModel.getPreviousQuery() != null){
+            updateSearchResults();
+            searchBar.setText(searchModel.getPreviousQuery());
+        } else {
+            promptSearchDecor();
+        }
         // Load Categories
         // TODO: Implement
+ */
+
     }
 
     @FXML
@@ -65,7 +73,9 @@ public class PrimaryController implements Initializable {
         // TODO: 5/13/2021 Add "No result for x"
         String query = searchBar.textProperty().getValue().toLowerCase().strip();
 
-        if (!(query.equals(""))) {
+        if (query.equals(searchModel.getPreviousQuery())) {
+            updateSearchResults();
+        } else if (!(query.equals(""))) {
             searchModel.search(query);
         } else {
             libView.getChildren().clear();
