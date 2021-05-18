@@ -15,7 +15,7 @@ public class Book extends Media {
     private List<Author> authors;
 
     public Book(Long id, String title, String classification, String summary, String location, LocalDate publishingDate, String publisher, String isbn, List<Author> authors) {
-        super(id, title, classification, summary, location, publishingDate);
+        super(id, title, classification, summary, location, publishingDate, (long) 0);
 
         this.isbn = isbn;
         this.publisher = publisher;

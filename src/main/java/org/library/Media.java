@@ -14,20 +14,22 @@ public abstract class Media {
     private String summary;
     private String location;
     private LocalDate publishingDate;
+    private Long numberOfLoanableItems;
 
     public Media() {}
 
-    public Media(Long id, String title, String classification, String summary, String location, LocalDate publishingDate) {
+    public Media(Long id, String title, String classification, String summary, String location, LocalDate publishingDate, Long numberOfLoanableItems) {
         this.id = id;
         this.title = title;
         this.classification = classification;
         this.summary = summary;
         this.location = location;
         this.publishingDate = publishingDate;
+        this.numberOfLoanableItems = numberOfLoanableItems;
     }
 
     public Media(ResultSet resultSet) throws SQLException {
-        this(resultSet.getLong("id"), resultSet.getString("title"), resultSet.getString("classification"), resultSet.getString("summary"), resultSet.getString("location"), resultSet.getObject("publishing_date", LocalDate.class));
+        this(resultSet.getLong("id"), resultSet.getString("title"), resultSet.getString("classification"), resultSet.getString("summary"), resultSet.getString("location"), resultSet.getObject("publishing_date", LocalDate.class), resultSet.getLong("loanable_item_count"));
     }
 
     public Long getId() {
@@ -54,6 +56,10 @@ public abstract class Media {
         return publishingDate;
     }
 
+    public Long getNumberOfLoanableItems() {
+        return numberOfLoanableItems;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -77,4 +83,9 @@ public abstract class Media {
     public void setPublishingDate(LocalDate publishingDate) {
         this.publishingDate = publishingDate;
     }
+
+    public boolean hasItemsAvailableForLoan() {
+        return numberOfLoanableItems > 0;
+    }
+
 }
