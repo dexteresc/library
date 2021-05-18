@@ -3,16 +3,19 @@ package org.example;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.library.*;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class PrimaryController {
+public class PrimaryController implements Initializable {
     public Button registerButton;
     public Button loginButton;
     public ListView<String> categoriesView;
@@ -55,31 +58,6 @@ public class PrimaryController {
 
         // Load Categories
         // TODO: Implement
-       /* try {
-            ObservableList<String> items = FXCollections.observableArrayList(articleRepository.getGenres());
-            categoriesView.setItems(items);
-            categoriesView.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
-                libView.getChildren().clear();
-                ArrayList<Article> articles = null;
-                try {
-                    articles = articleRepository.getGenreArticles(t1);
-                    System.out.println(t1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                System.out.println(articles);
-                assert articles != null;
-                if (!articles.isEmpty()) {
-                    for (Article article :
-                            articles) {
-                        libModuleCreate(article);
-                    }
-                } else {
-                    promptSearchDecor("No articles in " + categoriesView.getSelectionModel().selectedItemProperty().getValue());
-                }
-            });} catch (Exception e) {
-            e.printStackTrace();
-        }*/
     }
 
     @FXML
