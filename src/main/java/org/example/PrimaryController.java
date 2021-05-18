@@ -188,7 +188,6 @@ public class PrimaryController {
                         try {
                             loanModel.add(media);
                             updateSearchResults();
-                            loanModel.remove(media);
                         } catch (Exception e) {
                             e.printStackTrace();
                             errorLabel.setText(e.getMessage());
