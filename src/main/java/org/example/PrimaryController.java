@@ -52,7 +52,7 @@ public class PrimaryController implements Initializable {
         }
 
         // Configure loan Manager
-        if (this.loanModel == null){
+        if (this.loanModel == null) {
             this.loanModel = App.getAppModel().getLoanModel();
         }
 
@@ -105,7 +105,7 @@ public class PrimaryController implements Initializable {
             }
             Label authorLabel = new Label(authors);
             authorLabel.getStyleClass().add("authorLabel");
-            String inStock = "Antal kvar: 0";// + ((Book) media).getInStock();
+            String inStock = "Antal kvar: " + media.getNumberOfLoanableItems();
             Label inStockLabel = new Label(inStock);
             VBox leftVBox = new VBox();
             VBox rightVBox = new VBox();
@@ -129,24 +129,26 @@ public class PrimaryController implements Initializable {
                 goBack.setOnAction(actionEvent1 -> {
                     updateSearchResults();
                 });
-                Button loanButton = new Button("Borrow");
                 Label errorLabel = new Label();
                 errorLabel.getStyleClass().add("errorLabel");
 
-                loanButton.setOnAction(actionEvent1 -> {
-                    try {
-                        loanModel.add(media);
-                        updateSearchResults();
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                        errorLabel.setText(exception.getMessage());
-                        borderPaneTop.setBottom(errorLabel);
-                    }
-                    // TODO: 5/13/2021 Skapa nytt lån
-                });
-                
+                if (media.hasItemsAvailableForLoan()) {
+
+                    Button loanButton = new Button("Borrow");
+                    loanButton.setOnAction(actionEvent1 -> {
+                        try {
+                            loanModel.add(media);
+                            updateSearchResults();
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                            errorLabel.setText(exception.getMessage());
+                            borderPaneTop.setBottom(errorLabel);
+                        }
+                    });
+                    borderPaneTop.setRight(loanButton);
+                }
+
                 borderPaneTop.setLeft(goBack);
-                borderPaneTop.setRight(loanButton);
                 borderPane.setTop(borderPaneTop);
 
                 VBox mediaInformation = new VBox();
@@ -173,7 +175,7 @@ public class PrimaryController implements Initializable {
                 mediaInformation.getChildren().add(authorHeader);
                 for (Author author :
                         authorList) {
-                   mediaInformation.getChildren().add(new Label(author.getGivenName() + " " + author.getFamilyName()));
+                    mediaInformation.getChildren().add(new Label(author.getGivenName() + " " + author.getFamilyName()));
                 }
 
                 // Publisher
