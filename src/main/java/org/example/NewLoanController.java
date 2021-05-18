@@ -1,16 +1,15 @@
 package org.example;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import org.library.Account;
-import org.library.AuthenticationModel;
-import org.library.Customer;
-import org.library.LoanModel;
+import org.library.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,7 +20,7 @@ public class NewLoanController implements Initializable {
     private LoanModel loanModel;
 
     @FXML
-    private VBox loanItemsBox;
+    private GridPane loanItemsBox;
 
     @FXML
     private Button startLoanButton;
@@ -41,6 +40,14 @@ public class NewLoanController implements Initializable {
                 this.loanModel.setCustomer((Customer) account);
             }
         }
+        // Add col
+        loanItemsBox.add(new Label("Title"), 0, 0);
+        loanItemsBox.add(new Label("Return date"), 1, 0);
+        ObservableList<MediaItem> mediaItems = loanModel.getMediaItemList();
+        for (int i = 0; i < mediaItems.size(); i++) {
+            loanItemsBox.addRow(i+1, new Label(mediaItems.get(i).getMedia().getTitle()), new Label(mediaItems.get(i).getStatus().getRawValue()));
+        }
+
 
         this.updateStartLoanButton();
     }
