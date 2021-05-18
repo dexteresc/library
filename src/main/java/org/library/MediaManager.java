@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-// TODO: Split into book manager, movie manager, media manager, media item manager, author manager and actor manager.
 public class MediaManager {
     private static final Logger logger = LogManager.getLogger();
 
@@ -98,8 +97,6 @@ public class MediaManager {
                 .execute();
     }
 
-    // TODO: Get available media items.
-
     public void createMediaItem(MediaItem mediaItem) throws Exception {
         logger.info("Creating media item...");
         Long id = database.insert(CREATE_MEDIA_ITEM_STATEMENT)
@@ -123,7 +120,6 @@ public class MediaManager {
                 .execute();
     }
 
-    // TODO: This is inefficient. We should batch-process the book update alongside the media update.
     public void updateBook(Book book) throws Exception {
         logger.info("Updating book...");
         this.updateMedia(book);
