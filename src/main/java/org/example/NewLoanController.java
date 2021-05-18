@@ -41,13 +41,14 @@ public class NewLoanController implements Initializable {
             }
         }
         // Add col
+        // Initialize column labels.
         loanItemsBox.add(new Label("Title"), 0, 0);
         loanItemsBox.add(new Label("Return date"), 1, 0);
         ObservableList<MediaItem> mediaItems = loanModel.getMediaItemList();
-        for (int i = 0; i < mediaItems.size(); i++) {
-            loanItemsBox.addRow(i+1, new Label(mediaItems.get(i).getMedia().getTitle()), new Label(mediaItems.get(i).getStatus().getRawValue()));
+        for (int i = 0; i < mediaItems.size(); i++) { // Add mediaItems to rows.
+            // TODO: 5/18/2021 Add return date and other necessary information
+            loanItemsBox.addRow(i + 1, new Label(mediaItems.get(i).getMedia().getTitle()), new Label(mediaItems.get(i).getStatus().getRawValue()));
         }
-
 
         this.updateStartLoanButton();
     }
