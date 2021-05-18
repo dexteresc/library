@@ -12,7 +12,7 @@ public class AudioBook extends Media {
      * @param runtime Duration of audiobook in minutes.
      */
     public AudioBook(Long id, String title, String classification, String summary, LocalDate publishingDate, Integer runtime) {
-        super(id, title, classification, summary, null, publishingDate);
+        super(id, title, classification, summary, null, publishingDate, (long) 0);
         this.runtime = runtime;
     }
 
