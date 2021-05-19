@@ -91,3 +91,10 @@
     -fx-padding: 20;
     -fx-spacing: 10;
 }
+
+.editModule {
+    -fx-background-color: #e7e7e7;
+    -fx-background-radius: 5;
+    -fx-min-width: 100%;
+    -fx-padding: 20px;
+}
