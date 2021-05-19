@@ -1,4 +1,4 @@
-package org.library;
+package org.library.media;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

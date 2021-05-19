@@ -2,7 +2,7 @@ package org.library.loan;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.library.MediaItem;
+import org.library.media.MediaItem;
 import org.library.util.Database;
 
 import java.time.LocalDate;

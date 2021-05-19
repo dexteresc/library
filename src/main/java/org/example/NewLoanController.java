@@ -11,6 +11,7 @@ import org.library.*;
 import org.library.account.Account;
 import org.library.account.Customer;
 import org.library.loan.LoanModel;
+import org.library.media.MediaItem;
 
 import java.io.IOException;
 import java.net.URL;

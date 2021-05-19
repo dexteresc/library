@@ -1,4 +1,4 @@
-package org.library;
+package org.library.media;
 
 public class MediaItem {
     public enum Status {

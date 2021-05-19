@@ -1,5 +1,7 @@
 package org.library;
 
+import org.library.media.Media;
+
 public class AdminModel {
     private Media media;
 

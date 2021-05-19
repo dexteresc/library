@@ -1,10 +1,12 @@
 import org.junit.jupiter.api.Test;
-import org.library.*;
 import org.library.account.Account;
 import org.library.account.AccountManager;
 import org.library.account.Customer;
 import org.library.loan.Loan;
 import org.library.loan.LoanManager;
+import org.library.media.Book;
+import org.library.media.MediaItem;
+import org.library.media.MediaManager;
 import org.library.util.Database;
 
 import java.util.List;

@@ -9,6 +9,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.library.*;
 import org.library.loan.LoanModel;
+import org.library.media.AudioBook;
+import org.library.media.Author;
+import org.library.media.Book;
+import org.library.media.Media;
 
 import java.io.IOException;
 import java.net.URL;

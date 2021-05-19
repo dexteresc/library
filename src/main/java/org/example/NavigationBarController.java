@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.library.*;
 import org.library.loan.LoanModel;
+import org.library.media.MediaItem;
 
 import java.net.URL;
 import java.util.List;
