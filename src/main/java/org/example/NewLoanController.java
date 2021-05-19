@@ -7,7 +7,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import org.library.account.Account;
 import org.library.account.Customer;
 import org.library.loan.LoanModel;
 import org.library.media.MediaItem;
@@ -37,9 +36,8 @@ public class NewLoanController implements Initializable {
         // Configure customer
         AuthenticationModel authenticationModel = App.getAppModel().getAuthenticationModel();
         if (!this.loanModel.hasCustomer() && authenticationModel.isAuthenticated()) {
-            Account account = authenticationModel.getAccount();
-            if (account instanceof Customer) {
-                this.loanModel.setCustomer((Customer) account);
+            if (authenticationModel.isCustomer()) {
+                this.loanModel.setCustomer((Customer) authenticationModel.getAccount());
             }
         }
         // Add col

@@ -1,6 +1,5 @@
 package org.example;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -27,9 +26,7 @@ public class ReturnsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (this.returnsModel == null) {
-            this.returnsModel = App.getAppModel().getReturnsModel();
-        }
+        this.returnsModel = App.getAppModel().getReturnsModel();
 
         this.barcodeTextField.textProperty().addListener(change -> {
             this.submitButton.setDisable(
