@@ -5,7 +5,10 @@ import org.library.account.AccountManager;
 import org.library.account.AccountModel;
 import org.library.loan.LoanManager;
 import org.library.loan.LoanModel;
+import org.library.media.BookManager;
+import org.library.media.MediaItemManager;
 import org.library.media.MediaManager;
+import org.library.media.MovieManager;
 import org.library.search.SearchModel;
 import org.library.security.AuthenticationModel;
 import org.library.util.Database;
@@ -16,8 +19,10 @@ public final class AppModel {
 
     // Managers
     private AccountManager accountManager;
-    private MediaManager mediaManager;
     private LoanManager loanManager;
+    private BookManager bookManager;
+    private MovieManager movieManager;
+    private MediaItemManager mediaItemManager;
 
     // Models
     private AuthenticationModel authenticationModel;
@@ -31,13 +36,15 @@ public final class AppModel {
 
         // Managers
         this.accountManager = new AccountManager(this.database);
-        this.mediaManager = new MediaManager(this.database);
         this.loanManager = new LoanManager(this.database);
+        this.bookManager = new BookManager(this.database);
+        this.movieManager = new MovieManager(this.database);
+        this.mediaItemManager = new MediaItemManager(this.database);
 
         // Models
         this.authenticationModel = new AuthenticationModel(this.database, this.accountManager);
         this.searchModel = new SearchModel(this.database);
-        this.loanModel = new LoanModel(this.loanManager, this.mediaManager);
+        this.loanModel = new LoanModel(this.loanManager, this.mediaItemManager);
         this.adminModel = new AdminModel();
         this.accountModel = new AccountModel(this.accountManager);
     }
@@ -62,4 +69,5 @@ public final class AppModel {
     public AccountModel getAccountModel() {
         return accountModel;
     }
+
 }
