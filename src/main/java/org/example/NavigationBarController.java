@@ -101,7 +101,7 @@ public class NavigationBarController implements Initializable {
         boolean isAuthenticated = this.authenticationModel.isAuthenticated();
         boolean isCustomer = this.authenticationModel.isCustomer();
         boolean isStaff = this.authenticationModel.isStaff();
-        boolean onlyPrevious = activeDestination == Destination.LOGIN || activeDestination == Destination.REGISTER;
+        boolean onlyPrevious = activeDestination == Destination.LOGIN || activeDestination == Destination.REGISTER || activeDestination == Destination.RETURNS;
 
         this.setNodeVisible(this.registerButton, !isAuthenticated && !onlyPrevious);
         this.setNodeVisible(this.loginButton, !isAuthenticated && !onlyPrevious);

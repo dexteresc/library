@@ -3,7 +3,9 @@ package org.example;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.library.loan.ReturnsModel;
 
@@ -20,6 +22,9 @@ public class ReturnsController implements Initializable {
     @FXML
     private Button submitButton;
 
+    @FXML
+    private Label errorLabel;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (this.returnsModel == null) {
@@ -31,11 +36,28 @@ public class ReturnsController implements Initializable {
                     this.barcodeTextField.getText().isEmpty()
             );
         });
+
+        this.setNodeVisible(this.errorLabel, false);
+    }
+
+    /**
+     * Used to update node visibility.
+     */
+    private void setNodeVisible(Node node, boolean visible) {
+        node.setVisible(visible);
+        node.setManaged(visible);
     }
 
     public void returnItem() {
-        Long mediaItemId = Long.getLong(this.barcodeTextField.getText());
-        // TODO: Return item
+        Long mediaItemId = Long.parseLong(this.barcodeTextField.getText());
+
+        try {
+            this.returnsModel.returnById(mediaItemId);
+            this.setNodeVisible(this.errorLabel, false);
+        } catch (Exception exception) {
+            this.errorLabel.setText("Failed to return item.");
+            this.setNodeVisible(this.errorLabel, true);
+        }
     }
 
 }

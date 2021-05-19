@@ -22,11 +22,16 @@
                 </HBox>
             </top>
             <center>
-                <VBox>
-                    <Label text="Scan barcode or enter item id" />
-                    <TextField fx:id="barcodeTextField" />
-                    <Button text="Submit" fx:id="submitButton" onAction="#returnItem"/>
-                </VBox>
+                <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+                    <VBox fillWidth="false" alignment="TOP_CENTER" spacing="10.0">
+                        <Label text="Scan barcode or enter item id" />
+                        <HBox fillHeight="false">
+                            <TextField fx:id="barcodeTextField" />
+                            <Button text="Submit" fx:id="submitButton" disable="true" onAction="#returnItem"/>
+                        </HBox>
+                        <Label fx:id="errorLabel" styleClass="fieldError" text="Failed to return item" />
+                    </VBox>
+                </HBox>
             </center>
         </BorderPane>
 </AnchorPane>

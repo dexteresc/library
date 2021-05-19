@@ -72,7 +72,7 @@ public class RootController implements Initializable {
         this.setContent(fxmlLoader.load());
 
         // Set new destination as previous destination
-        if (destination != Destination.LOGIN && destination != Destination.REGISTER) {
+        if (destination != Destination.LOGIN && destination != Destination.REGISTER && destination != Destination.RETURNS) {
             this.previousDestination = destination;
         }
     }
