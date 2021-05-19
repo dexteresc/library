@@ -38,6 +38,7 @@ public class AdminController implements Initializable {
         // get adminModel
         adminModel = App.getAppModel().getAdminModel();
         informationVBox.getChildren().clear();
+        adminModel.setMedia(null);
 
         // Back Button
         backButton.setOnAction(actionEvent -> {
