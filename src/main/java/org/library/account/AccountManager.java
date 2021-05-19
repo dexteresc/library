@@ -11,7 +11,6 @@ public class AccountManager {
     private static final Logger logger = LogManager.getLogger();
 
     // Statements
-    private static final String LOGIN_STATEMENT = "SELECT id, password_hash, EXISTS(SELECT * FROM customer WHERE account_id = id) AS is_customer, EXISTS(SELECT * FROM staff WHERE account_id = id) AS is_staff FROM account WHERE email = ? LIMIT 1";
     private static final String SELECT_ACCOUNT_BY_ID_STATEMENT = "SELECT * FROM account WHERE id = ? LIMIT 1";
     private static final String SELECT_CUSTOMER_BY_ID_STATEMENT = "SELECT *, (SELECT COUNT(*) FROM loan WHERE loan.customer_id = account.id AND returned_at IS NULL) AS active_loan_count FROM account INNER JOIN customer ON customer.account_id = account.id INNER JOIN customer_type ON customer_type.id = customer.customer_type_id WHERE account.id = ? LIMIT 1";
     private static final String SELECT_STAFF_BY_ID_STATEMENT = "SELECT * FROM account INNER JOIN staff ON staff.account_id = account.id WHERE account.id = ? LIMIT 1";
@@ -30,57 +29,6 @@ public class AccountManager {
 
     public AccountManager(Database database) {
         this.database = database;
-    }
-
-    /**
-     * Attempts to authenticate an account.
-     * @param email Email of the account.
-     * @param password Password of the account.
-     * @exception Exception thrown if an invalid username or password is provided.
-     */
-    public Account authenticate(String email, String password) throws Exception {
-        logger.info("Authenticating...");
-        try {
-            return database.select(LOGIN_STATEMENT, Account.class)
-                    .configure(preparedStatement -> { preparedStatement.setString(1, email); })
-                    .fetch(resultSet -> {
-                        // Check if the provided password is a match.
-                        BCrypt.Result verificationResult = verifier.verify(
-                                password.toCharArray(),
-                                resultSet.getString("password_hash")
-                        );
-
-                        if (!verificationResult.verified) {
-                            // The password was not a match, or there was an error related to hash formatting.
-                            // Might be worth checking if verification result returns an invalid format message for debugging.
-                            logger.error("Password could not be verified.");
-                            throw new Exception();
-                        }
-
-                        logger.info("Authentication successful.");
-
-                        // Get the authenticated account.
-                        Long accountId = resultSet.getLong("id");
-
-                        if (resultSet.getBoolean("is_staff")) {
-                            // Return staff account.
-                            return this.getStaffById(accountId);
-                        } else if (resultSet.getBoolean("is_customer")) {
-                            // Return customer account.
-                            return this.getCustomerById(accountId);
-                        } else {
-                            // Account is neither staff nor customer. This scenario should be avoided.
-                            logger.warn("Account is neither staff nor customer!");
-                            return this.getAccountById(accountId);
-                        }
-                    });
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            // Throw new exception to mask the underlying cause.
-            // This is to prevent exposing registered users through brute-force attacks.
-            throw new Exception("Invalid username or password.");
-        }
     }
 
     /**
