@@ -1,7 +1,5 @@
 package org.library.account;
 
-import org.library.account.Account;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
