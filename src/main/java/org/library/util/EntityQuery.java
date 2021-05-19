@@ -1,4 +1,4 @@
-package org.library;
+package org.library.util;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

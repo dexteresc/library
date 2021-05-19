@@ -1,6 +1,7 @@
 package org.example;
 
 import org.library.*;
+import org.library.util.Database;
 
 public final class AppModel {
 

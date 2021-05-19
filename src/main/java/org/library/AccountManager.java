@@ -3,6 +3,7 @@ package org.library;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.library.util.Database;
 
 import java.util.List;
 
