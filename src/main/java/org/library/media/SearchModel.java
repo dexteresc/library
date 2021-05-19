@@ -1,4 +1,4 @@
-package org.library;
+package org.library.media;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
