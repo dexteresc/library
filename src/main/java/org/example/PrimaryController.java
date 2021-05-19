@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import org.library.*;
 import org.library.loan.LoanModel;
 import org.library.media.*;
+import org.library.search.SearchModel;
 
 import java.io.IOException;
 import java.net.URL;

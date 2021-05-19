@@ -1,10 +1,12 @@
-package org.library.media;
+package org.library.search;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.library.media.Media;
+import org.library.media.MediaManager;
 
 import java.util.ArrayList;
 
