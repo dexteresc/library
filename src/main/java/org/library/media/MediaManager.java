@@ -4,9 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.library.util.Database;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class MediaManager {
     private static final Logger logger = LogManager.getLogger();
@@ -20,13 +18,11 @@ public class MediaManager {
     private static final String SELECT_BOOK_BY_ID_STATEMENT = "SELECT *, (SELECT COUNT(*) FROM media_author WHERE media_id = media.id) AS author_count, (SELECT COUNT(*) FROM media_item INNER JOIN media_type ON media_item.media_type_id = media_type.id WHERE media_id = media.id AND status IS NULL AND media_type.loan_period > 0) AS loanable_item_count FROM media INNER JOIN book ON book.media_id = media.id INNER JOIN media_author ON media_author.media_id = media.id INNER JOIN author ON author.id = media_author.author_id WHERE id = ?";
     private static final String CREATE_BOOK_STATEMENT = "INSERT INTO book (media_id, isbn, publisher) VALUES (?, ?, ?)";
     private static final String UPDATE_BOOK_STATEMENT = "UPDATE book SET isbn = ?, publisher = ? WHERE media_id = ? LIMIT 1";
-    private static final String SEARCH_BOOK_STATEMENT = "SELECT *, (SELECT COUNT(*) FROM media_author WHERE media_id = media.id) AS author_count, (SELECT COUNT(*) FROM media_item INNER JOIN media_type ON media_item.media_type_id = media_type.id WHERE media_id = media.id AND status IS NULL AND media_type.loan_period > 0) AS loanable_item_count FROM media INNER JOIN book ON book.media_id = media.id INNER JOIN media_author ON media_author.media_id = media.id INNER JOIN author ON author.id = media_author.author_id WHERE MATCH(media.title, media.summary, media.classification) AGAINST(? IN NATURAL LANGUAGE MODE) OR MATCH(book.isbn, book.publisher) AGAINST(? IN NATURAL LANGUAGE MODE) OR media.id IN (SELECT media_id FROM media_author INNER JOIN author ON author.id = media_author.author_id WHERE MATCH(author.given_name, author.family_name) AGAINST(? IN NATURAL LANGUAGE MODE))";
 
     // Movie statements
     private static final String SELECT_MOVIE_BY_ID_STATEMENT = "SELECT *, (SELECT COUNT(*) FROM media_actor WHERE media_id = media.id) AS actor_count, (SELECT COUNT(*) FROM media_item INNER JOIN media_type ON media_item.media_type_id = media_type.id WHERE media_id = media.id AND status IS NULL AND media_type.loan_period > 0) AS loanable_item_count FROM media INNER JOIN movie ON movie.media_id = media.id INNER JOIN media_actor ON media_actor.media_id = media.id INNER JOIN actor ON actor.id = media_actor.actor_id WHERE id = ?";
     private static final String CREATE_MOVIE_STATEMENT = "INSERT INTO movie (media_id, director, age_rating, production_country) VALUES (?, ?, ?)";
     private static final String UPDATE_MOVIE_STATEMENT = "UPDATE movie SET director = ?, age_rating = ?, production_country = ? WHERE media_id = ? LIMIT 1";
-    private static final String SEARCH_MOVIE_STATEMENT = "SELECT *, (SELECT COUNT(*) FROM media_actor WHERE media_id = media.id) AS actor_count, (SELECT COUNT(*) FROM media_item INNER JOIN media_type ON media_item.media_type_id = media_type.id WHERE media_id = media.id AND status IS NULL AND media_type.loan_period > 0) AS loanable_item_count FROM media INNER JOIN movie ON movie.media_id = media.id INNER JOIN media_actor ON media_actor.media_id = media.id INNER JOIN actor ON actor.id = media_actor.actor_id WHERE MATCH(media.title, media.summary, media.classification) AGAINST(? IN NATURAL LANGUAGE MODE) OR MATCH(movie.director, movie.production_country) AGAINST(? IN NATURAL LANGUAGE MODE) OR media.id IN (SELECT media_id FROM media_actor INNER JOIN actor ON actor.id = media_actor.actor_id WHERE MATCH(actor.given_name, actor.family_name) AGAINST(? IN NATURAL LANGUAGE MODE))";
 
     // Author statements
     private static final String CREATE_AUTHOR_STATEMENT = "INSERT INTO author (given_name, family_name) VALUES (?, ?)";
@@ -157,36 +153,6 @@ public class MediaManager {
         database.update(UPDATE_MOVIE_STATEMENT)
                 .configure(movie.getDirector(), movie.getAgeRating(), movie.getProductionCountry(), movie.getId())
                 .execute();
-    }
-
-    public CompletableFuture<List<Book>> searchBook(String query) throws Exception {
-        logger.debug("Searching books... (using query ”" + query + "”)");
-        return database.select(SEARCH_BOOK_STATEMENT, Book.class)
-                .configure(query, query, query)
-                .asyncFetchAll(Book::new);
-    }
-
-    public CompletableFuture<List<Movie>> searchMovie(String query) throws Exception {
-        logger.debug("Searching movies... (using query ”" + query + "”)");
-        return database.select(SEARCH_MOVIE_STATEMENT, Movie.class)
-                .configure(query, query, query)
-                .asyncFetchAll(Movie::new);
-    }
-
-    public CompletableFuture<List<Media>> searchMedia(String query) throws Exception {
-        logger.info("Searching media... (using query ”" + query + "”)");
-        return CompletableFuture.supplyAsync(() -> {
-            List<Media> mediaList = new ArrayList<>();
-
-            try {
-                mediaList.addAll(this.searchBook(query).get());
-                mediaList.addAll(this.searchMovie(query).get());
-                return mediaList;
-            } catch (Exception exception) {
-                exception.printStackTrace();
-                return mediaList;
-            }
-        });
     }
 
 }
