@@ -32,6 +32,11 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Button>
+                <Button fx:id="returnsButton" mnemonicParsing="false" onAction="#navigateToReturns" text="Returns">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
                 <Button fx:id="registerButton" mnemonicParsing="false" styleClass="colorButton" onAction="#navigateToRegister" text="Register">
                     <cursor>
                         <Cursor fx:constant="HAND" />

@@ -1,6 +1,7 @@
 package org.example;
 
 import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -46,6 +47,9 @@ public class NavigationBarController implements Initializable {
 
     @FXML
     private Button loanButton;
+
+    @FXML
+    private Button returnsButton;
 
     @FXML
     private Button previousButton;
@@ -104,6 +108,7 @@ public class NavigationBarController implements Initializable {
         this.setNodeVisible(this.myPagesButton, isAuthenticated && isCustomer && !onlyPrevious);
         this.setNodeVisible(this.adminButton, isAuthenticated && isStaff && !onlyPrevious);
         this.setNodeVisible(this.logoutButton, isAuthenticated && !onlyPrevious);
+        this.setNodeVisible(this.returnsButton, activeDestination != Destination.NEW_LOAN && !isStaff && !onlyPrevious);
         this.setNodeVisible(this.previousButton, onlyPrevious);
 
         this.updateLoanButton(!onlyPrevious);
@@ -169,6 +174,11 @@ public class NavigationBarController implements Initializable {
     @FXML
     public void navigateToPrevious() {
         this.navigateTo(Destination.PREVIOUS);
+    }
+
+    @FXML
+    public void navigateToReturns() {
+        this.navigateTo(Destination.RETURNS);
     }
 
     @FXML

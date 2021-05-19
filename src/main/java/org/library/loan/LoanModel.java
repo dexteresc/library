@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import org.library.media.Media;
 import org.library.media.MediaItem;
 import org.library.media.MediaItemManager;
-import org.library.media.MediaManager;
 import org.library.account.Customer;
 
 import java.util.ArrayList;

@@ -5,6 +5,7 @@ import org.library.account.AccountModel;
 import org.library.admin.AdminModel;
 import org.library.loan.LoanManager;
 import org.library.loan.LoanModel;
+import org.library.loan.ReturnsModel;
 import org.library.media.BookManager;
 import org.library.media.MediaItemManager;
 import org.library.media.MovieManager;
@@ -29,6 +30,7 @@ public final class AppModel {
     private LoanModel loanModel;
     private AdminModel adminModel;
     private AccountModel accountModel;
+    private ReturnsModel returnsModel;
 
     public AppModel(Database database) {
         this.database = database;
@@ -46,6 +48,7 @@ public final class AppModel {
         this.loanModel = new LoanModel(this.loanManager, this.mediaItemManager);
         this.adminModel = new AdminModel();
         this.accountModel = new AccountModel(this.accountManager);
+        this.returnsModel = new ReturnsModel(this.loanManager);
     }
 
     // Models
@@ -68,5 +71,7 @@ public final class AppModel {
     public AccountModel getAccountModel() {
         return accountModel;
     }
+
+    public ReturnsModel getReturnsModel() { return returnsModel; }
 
 }

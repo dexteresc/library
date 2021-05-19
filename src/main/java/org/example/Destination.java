@@ -12,6 +12,7 @@ public enum Destination {
     MY_PAGES("mypages"),
     ADMIN("admin"),
     NEW_LOAN("loan"),
+    RETURNS("returns"),
     PREVIOUS("internal:previous"),
     CUSTOM("");
 
