@@ -2,22 +2,19 @@ package org.example;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.library.AdminModel;
-import org.library.Author;
-import org.library.Book;
-import org.library.Media;
-import org.w3c.dom.Text;
+import org.library.admin.AdminModel;
+import org.library.media.Author;
+import org.library.media.Book;
+import org.library.media.Media;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 

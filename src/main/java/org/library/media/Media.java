@@ -1,4 +1,4 @@
-package org.library;
+package org.library.media;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

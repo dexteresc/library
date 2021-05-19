@@ -1,7 +1,12 @@
-package org.library;
+package org.library.loan;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.library.media.Media;
+import org.library.media.MediaItem;
+import org.library.media.MediaItemManager;
+import org.library.media.MediaManager;
+import org.library.account.Customer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +15,13 @@ import java.util.Optional;
 public class LoanModel {
 
     private LoanManager loanManager;
-    private MediaManager mediaManager;
+    private MediaItemManager mediaItemManager;
     private ObservableList<MediaItem> mediaItemList = FXCollections.observableList(new ArrayList<>());
     private Customer customer;
 
-    public LoanModel(LoanManager loanManager, MediaManager mediaManager) {
+    public LoanModel(LoanManager loanManager, MediaItemManager mediaItemManager) {
         this.loanManager = loanManager;
-        this.mediaManager = mediaManager;
+        this.mediaItemManager = mediaItemManager;
     }
 
     public void addItem(MediaItem mediaItem) throws Exception {
@@ -37,7 +42,7 @@ public class LoanModel {
     }
 
     public void add(Media media) throws Exception {
-        MediaItem mediaItem = this.mediaManager.getFirstAvailableMediaItem(media);
+        MediaItem mediaItem = this.mediaItemManager.getFirstAvailableMediaItem(media);
         this.addItem(mediaItem);
     }
 

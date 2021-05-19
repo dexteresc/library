@@ -7,7 +7,11 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import org.library.*;
+import org.library.admin.AdminModel;
+import org.library.loan.LoanModel;
+import org.library.media.*;
+import org.library.search.SearchModel;
+import org.library.security.AuthenticationModel;
 
 import java.io.IOException;
 import java.net.URL;
