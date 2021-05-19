@@ -8,7 +8,14 @@ module org.example {
     requires org.apache.logging.log4j;
     requires org.apache.logging.log4j.core;
 
+    exports org.library.account;
+    exports org.library.admin;
+    exports org.library.loan;
+    exports org.library.media;
+    exports org.library.search;
+    exports org.library.security;
+    exports org.library.util;
+
     opens org.example to javafx.fxml;
     exports org.example;
-    exports org.library;
 }
