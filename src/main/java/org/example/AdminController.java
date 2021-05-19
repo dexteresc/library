@@ -34,10 +34,10 @@ public class AdminController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         // get adminModel
         adminModel = App.getAppModel().getAdminModel();
         informationVBox.getChildren().clear();
-
 
         // Back Button
         backButton.setOnAction(actionEvent -> {
