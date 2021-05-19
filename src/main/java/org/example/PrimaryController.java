@@ -112,7 +112,6 @@ public class PrimaryController implements Initializable {
 
             List<Author> authorList = ((Book) media).getAuthors();
             String authors;
-            // TODO: 5/13/2021 Nån bättre lösning? Kommer inte på nån
             if (authorList.size() < 4) {
                 authors = authorList.stream().map(author -> author.getGivenName() + " " + author.getFamilyName()).collect(Collectors.joining(", "));
             } else {
@@ -127,6 +126,10 @@ public class PrimaryController implements Initializable {
             leftVBox.getChildren().add(title);
             leftVBox.getChildren().add(authorLabel);
             leftVBox.setAlignment(Pos.CENTER_LEFT);
+
+
+
+
             rightVBox.getChildren().add(inStockLabel);
             rightVBox.getChildren().add(borrowButton);
             rightVBox.setAlignment(Pos.CENTER_RIGHT);
@@ -207,6 +210,13 @@ public class PrimaryController implements Initializable {
                     mediaInformation.getChildren().add(publisher);
                     mediaInformation.getChildren().add(new Label(((Book) media).getPublisher()));
                 }
+                // ISBN
+                Label isbnLabel = new Label("ISBN");
+                isbnLabel.getStyleClass().add("h2");
+                mediaInformation.getChildren().add(isbnLabel);
+                mediaInformation.getChildren().add(new Label(((Book) media).getIsbn()));
+
+
                 borderPane.setCenter(mediaInformation);
                 libView.getChildren().add(borderPane);
             });
