@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import org.library.AuthenticationModel;
+import org.library.security.AuthenticationModel;
 
 import java.io.IOException;
 import java.net.URL;

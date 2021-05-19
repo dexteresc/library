@@ -7,6 +7,7 @@ import org.library.loan.LoanManager;
 import org.library.loan.LoanModel;
 import org.library.media.MediaManager;
 import org.library.search.SearchModel;
+import org.library.security.AuthenticationModel;
 import org.library.util.Database;
 
 public final class AppModel {

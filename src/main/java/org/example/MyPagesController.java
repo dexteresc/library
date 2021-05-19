@@ -3,7 +3,7 @@ package org.example;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import org.library.account.Account;
-import org.library.AuthenticationModel;
+import org.library.security.AuthenticationModel;
 
 import java.net.URL;
 import java.util.ResourceBundle;

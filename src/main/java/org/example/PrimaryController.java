@@ -11,6 +11,7 @@ import org.library.*;
 import org.library.loan.LoanModel;
 import org.library.media.*;
 import org.library.search.SearchModel;
+import org.library.security.AuthenticationModel;
 
 import java.io.IOException;
 import java.net.URL;
