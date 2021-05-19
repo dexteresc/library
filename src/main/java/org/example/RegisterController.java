@@ -14,13 +14,11 @@ import org.library.Customer;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
 
-    public Label homeButton;
-    public Button loginButton;
-    public Button registerButton;
     public Button register;
     public VBox registerBox;
     public TextField passwordField;
@@ -48,17 +46,41 @@ public class RegisterController implements Initializable {
     @FXML
     public void register() throws Exception { // detta gör så vi sparar allt som läggs in i databasen
         String firstName = firstNameField.textProperty().getValue();
-        System.out.println(firstName);
         String lastName = lastNameField.textProperty().getValue();
-        System.out.println(lastName);
         String email = emailField.textProperty().getValue();
-        System.out.println(email);
         String phone = phoneField.textProperty().getValue();
-        System.out.println(phone);
         String password = passwordField.textProperty().getValue();
-        System.out.println(password);
         String customerType = membershipChoice.getValue();
 
+        // STYLING
+        if (firstName.matches(".*\\d.*") || firstName.equals("") ){
+            firstNameField.getStyleClass().add("fieldError");
+        } else {
+            firstNameField.getStyleClass().remove("fieldError");
+        }
+        if (lastName.matches(".*\\d.*") || lastName.equals("")){
+            lastNameField.getStyleClass().add("fieldError");
+        } else {
+            lastNameField.getStyleClass().remove("fieldError");
+        }
+        if (email.contains("@")|| email.equals("")) {
+            emailField.getStyleClass().add("fieldError");
+        } else {
+            emailField.getStyleClass().remove("fieldError");
+        }
+        if (!phone.matches(".*\\d.*")|| phone.equals("")) {
+            phoneField.getStyleClass().add("fieldError");
+        } else {
+            phoneField.getStyleClass().remove("fieldError");
+        }
+        if (password.equals("")){
+            passwordField.getStyleClass().add("fieldError");
+        } else {
+            passwordField.getStyleClass().remove("fieldError");
+        }
+
+
+        // REGISTRATION
         if (!firstName.matches(".*\\d.*") // lite krav av vad som måste ske innan man kan gå vidare till login
                 && !firstName.equals("")
                 && !lastName.matches(".*\\d.*")
