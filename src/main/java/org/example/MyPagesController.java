@@ -2,7 +2,7 @@ package org.example;
 
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import org.library.Account;
+import org.library.account.Account;
 import org.library.AuthenticationModel;
 
 import java.net.URL;

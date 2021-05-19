@@ -1,4 +1,4 @@
-package org.library;
+package org.library.account;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +14,7 @@ public class CustomerType {
         this.maxNumberOfLoans = maxNumberOfLoans;
     }
 
-    CustomerType(ResultSet resultSet) throws SQLException {
+    public CustomerType(ResultSet resultSet) throws SQLException {
         this(resultSet.getLong("id"), resultSet.getString("type_name"), resultSet.getInt("max_concurrent_loans"));
     }
 

@@ -1,5 +1,8 @@
 import org.junit.jupiter.api.Test;
 import org.library.*;
+import org.library.account.Account;
+import org.library.account.AccountManager;
+import org.library.account.Customer;
 import org.library.util.Database;
 
 import java.util.List;

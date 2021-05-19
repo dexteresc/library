@@ -9,11 +9,12 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import org.library.*;
+import org.library.account.AccountModel;
+import org.library.account.Customer;
+import org.library.account.CustomerType;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {

@@ -2,6 +2,7 @@ package org.library;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.library.account.Customer;
 
 import java.util.ArrayList;
 import java.util.List;

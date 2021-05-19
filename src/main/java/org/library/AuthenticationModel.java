@@ -2,6 +2,9 @@ package org.library;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.library.account.Account;
+import org.library.account.AccountManager;
+import org.library.account.Customer;
 
 /**
  * Keeps track of the application's authentication state.
