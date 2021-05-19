@@ -41,7 +41,18 @@ public class AuthenticationModel {
     public void login(String email, String password) throws Exception {
         logger.info("Logging in...");
         try {
-            database.select(LOGIN_STATEMENT, Account.class)
+            this.account = this.authenticate(email, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            // Throw new exception to mask the underlying cause.
+            // This is to prevent exposing registered users through brute-force attacks.
+            throw new Exception("Invalid username or password.");
+        }
+    }
+
+    private Account authenticate(String email, String password) throws Exception {
+        return database.select(LOGIN_STATEMENT, Account.class)
                 .configure(email)
                 .fetch(resultSet -> {
                     // Check if the provided password is a match.
@@ -73,13 +84,6 @@ public class AuthenticationModel {
                         throw new Exception();
                     }
                 });
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            // Throw new exception to mask the underlying cause.
-            // This is to prevent exposing registered users through brute-force attacks.
-            throw new Exception("Invalid username or password.");
-        }
     }
 
     /**
