@@ -3,6 +3,9 @@ package org.library;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.library.util.Database;
+
+import java.util.List;
 
 public class AccountManager {
     private static final Logger logger = LogManager.getLogger();
@@ -18,6 +21,7 @@ public class AccountManager {
     private static final String CREATE_CUSTOMER_STATEMENT = "INSERT INTO customer (account_id, customer_type_id) VALUES (?, ?)";
     private static final String DELETE_ACCOUNT_BY_ID_STATEMENT = "DELETE FROM account WHERE id = ? LIMIT 1";
     private static final String DELETE_ACCOUNT_BY_EMAIL_STATEMENT = "DELETE FROM account WHERE email = ? LIMIT 1";
+    private static final String SELECT_ALL_CUSTOMER_TYPES_STATEMENT = "SELECT * FROM customer_type";
 
     private final BCrypt.Hasher hasher = BCrypt.with(BCrypt.Version.VERSION_2B);
     private final BCrypt.Verifyer verifier = BCrypt.verifyer(BCrypt.Version.VERSION_2B);
@@ -146,6 +150,11 @@ public class AccountManager {
         database.update(UPDATE_ACCOUNT_STATEMENT)
                 .configure(account.getGivenName(), account.getFamilyName(), account.getEmail(), account.getPhoneNumber(), account.getId())
                 .execute();
+    }
+
+    public List<CustomerType> getCustomerTypes() throws Exception {
+        return database.select(SELECT_ALL_CUSTOMER_TYPES_STATEMENT, CustomerType.class)
+                .fetchAll(CustomerType::new);
     }
 
     public void deleteAccount(Account account) throws Exception {
