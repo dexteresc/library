@@ -1,4 +1,4 @@
-package org.library;
+package org.library.account;
 
 import org.library.account.Account;
 

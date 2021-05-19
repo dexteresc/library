@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.library.account.Account;
 import org.library.account.AccountManager;
 import org.library.account.Customer;
+import org.library.account.Staff;
 
 /**
  * Keeps track of the application's authentication state.
