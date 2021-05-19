@@ -4,7 +4,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import org.library.AdminModel;
+import org.library.admin.AdminModel;
 
 import java.io.IOException;
 import java.net.URL;

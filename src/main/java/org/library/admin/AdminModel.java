@@ -1,4 +1,4 @@
-package org.library;
+package org.library.admin;
 
 import org.library.media.Media;
 

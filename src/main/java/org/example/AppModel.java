@@ -1,13 +1,12 @@
 package org.example;
 
-import org.library.*;
 import org.library.account.AccountManager;
 import org.library.account.AccountModel;
+import org.library.admin.AdminModel;
 import org.library.loan.LoanManager;
 import org.library.loan.LoanModel;
 import org.library.media.BookManager;
 import org.library.media.MediaItemManager;
-import org.library.media.MediaManager;
 import org.library.media.MovieManager;
 import org.library.search.SearchModel;
 import org.library.security.AuthenticationModel;
