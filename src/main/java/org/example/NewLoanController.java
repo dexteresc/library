@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import org.library.*;
 import org.library.account.Account;
 import org.library.account.Customer;
+import org.library.loan.LoanModel;
 
 import java.io.IOException;
 import java.net.URL;

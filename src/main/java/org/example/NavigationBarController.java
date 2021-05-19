@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.library.*;
+import org.library.loan.LoanModel;
 
 import java.net.URL;
 import java.util.List;

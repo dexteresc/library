@@ -1,4 +1,4 @@
-package org.library;
+package org.library.loan;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

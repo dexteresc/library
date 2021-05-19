@@ -3,6 +3,8 @@ package org.example;
 import org.library.*;
 import org.library.account.AccountManager;
 import org.library.account.AccountModel;
+import org.library.loan.LoanManager;
+import org.library.loan.LoanModel;
 import org.library.util.Database;
 
 public final class AppModel {

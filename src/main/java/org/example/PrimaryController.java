@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.library.*;
+import org.library.loan.LoanModel;
 
 import java.io.IOException;
 import java.net.URL;

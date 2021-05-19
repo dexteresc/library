@@ -1,7 +1,10 @@
-package org.library;
+package org.library.loan;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.library.Media;
+import org.library.MediaItem;
+import org.library.MediaManager;
 import org.library.account.Customer;
 
 import java.util.ArrayList;
