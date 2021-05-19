@@ -16,6 +16,7 @@ public final class AppModel {
     private SearchModel searchModel;
     private LoanModel loanModel;
     private AdminModel adminModel;
+    private AccountModel accountModel;
 
     public AppModel(Database database) {
         this.database = database;
@@ -30,6 +31,7 @@ public final class AppModel {
         this.searchModel = new SearchModel(this.mediaManager);
         this.loanModel = new LoanModel(this.loanManager, this.mediaManager);
         this.adminModel = new AdminModel();
+        this.accountModel = new AccountModel(this.accountManager);
     }
 
     // Models
@@ -47,5 +49,9 @@ public final class AppModel {
 
     public AdminModel getAdminModel() {
         return adminModel;
+    }
+
+    public AccountModel getAccountModel() {
+        return accountModel;
     }
 }

@@ -41,4 +41,9 @@ public class CustomerType {
     public void setMaxNumberOfLoans(int maxNumberOfLoans) {
         this.maxNumberOfLoans = maxNumberOfLoans;
     }
+
+    @Override
+    public String toString() {
+        return this.getTypeName();
+    }
 }

@@ -20,7 +20,7 @@ public class Query {
     protected Connection connection;
     private Boolean async = false;
 
-    protected Configuration<PreparedStatement> configuration;
+    protected Configuration<PreparedStatement> configuration = preparedStatement -> {};
 
     public Query(String statement, Connection connection) {
         this.statement = statement;
