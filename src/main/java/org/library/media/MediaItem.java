@@ -36,6 +36,7 @@ public class MediaItem {
         this.status = status;
     }
 
+    // The media item id also functions as barcode
     public Long getId() {
         return id;
     }
@@ -54,10 +55,6 @@ public class MediaItem {
 
     public Status getStatus() {
         return status;
-    }
-
-    public String getBarcode() {
-        return getMedia().getId().toString() + "-" + getId().toString();
     }
 
     public void setId(Long id) {
