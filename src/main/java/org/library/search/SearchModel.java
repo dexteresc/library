@@ -26,7 +26,9 @@ public class SearchModel {
     private ObservableList<Media> searchResultsList = FXCollections.observableList(new ArrayList<>());
     private String previousQuery;
 
-    public SearchModel(Database database) {}
+    public SearchModel(Database database) {
+        this.database = database;
+    }
 
     public void search(String query) {
         if (this.previousQuery != null && this.previousQuery.equalsIgnoreCase(query)) {
