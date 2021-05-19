@@ -30,6 +30,7 @@ public class PrimaryController implements Initializable {
     private SearchModel searchModel;
     private ObservableList<Media> searchResults;
     private LoanModel loanModel;
+    private AdminModel adminModel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -38,6 +39,10 @@ public class PrimaryController implements Initializable {
         // Configure authentication model
         if (this.authenticationModel == null) {
             this.authenticationModel = App.getAppModel().getAuthenticationModel();
+        }
+
+        if(this.adminModel == null) {
+            this.adminModel = App.getAppModel().getAdminModel();
         }
 
         // Configure search model
@@ -54,8 +59,7 @@ public class PrimaryController implements Initializable {
         if (this.loanModel == null) {
             this.loanModel = App.getAppModel().getLoanModel();
         }
-        promptSearchDecor();
-/*
+
         if(searchModel.getPreviousQuery() != null){
             updateSearchResults();
             searchBar.setText(searchModel.getPreviousQuery());
@@ -64,7 +68,6 @@ public class PrimaryController implements Initializable {
         }
         // Load Categories
         // TODO: Implement
- */
 
     }
 
@@ -73,9 +76,7 @@ public class PrimaryController implements Initializable {
         // TODO: 5/13/2021 Add "No result for x"
         String query = searchBar.textProperty().getValue().toLowerCase().strip();
 
-        if (query.equals(searchModel.getPreviousQuery())) {
-            updateSearchResults();
-        } else if (!(query.equals(""))) {
+        if (!(query.equals(""))) {
             searchModel.search(query);
         } else {
             libView.getChildren().clear();
@@ -99,8 +100,12 @@ public class PrimaryController implements Initializable {
         BorderPane borderPane = new BorderPane();
         Label title = new Label(media.getTitle());
         title.getStyleClass().add("titleLabel");
-        Button borrowButton = new Button("Låna");
-        // testing
+        Button borrowButton;
+        if (true) { // USER IS ADMIN??
+            borrowButton = new Button("Edit");
+        } else {
+            borrowButton = new Button("Låna");
+        }
 
 
         if (media instanceof Book) {
@@ -130,7 +135,6 @@ public class PrimaryController implements Initializable {
             libView.getChildren().add(borderPane);
 
             borrowButton.setOnAction(actionEvent -> {
-                // TODO: 5/13/2021 Rensa lite. Rådfråga maximilian
                 libView.getChildren().clear();
                 borderPane.getChildren().clear();
 
@@ -142,8 +146,18 @@ public class PrimaryController implements Initializable {
                 Label errorLabel = new Label();
                 errorLabel.getStyleClass().add("errorLabel");
 
-                if (media.hasItemsAvailableForLoan()) {
-
+                if (true) { // USER IS ADMIN?
+                    Button editButton = new Button("Edit");
+                    editButton.setOnAction(actionEvent1 -> {
+                        adminModel.setMedia(media);
+                        try {
+                            App.setRoot("admin");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    borderPaneTop.setRight(editButton);
+                } else if (media.hasItemsAvailableForLoan()) {
                     Button loanButton = new Button("Borrow");
                     loanButton.setOnAction(actionEvent1 -> {
                         try {
