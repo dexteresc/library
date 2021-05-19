@@ -83,7 +83,9 @@ public class Query {
             configuration.apply(preparedStatement);
 
             // Execute prepared statement
-            preparedStatement.execute();
+            if (!preparedStatement.execute()) {
+                throw new Exception("Failed to execute query.");
+            }
         } finally {
             // Clean up
             if (preparedStatement != null && !preparedStatement.isClosed()) {
