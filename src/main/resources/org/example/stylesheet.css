@@ -92,7 +92,7 @@
     -fx-spacing: 10;
 }
 
-.adminView HBox {
+.adminView VBox HBox {
     -fx-background-color: #e7e7e7;
     -fx-background-radius: 5;
     -fx-min-width: 100%;
