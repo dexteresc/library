@@ -5,7 +5,10 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 /**
- * A common base for all media types.
+ * Abstract media representing works of varying types.
+ *
+ * @see Book
+ * @see Movie
  */
 public abstract class Media {
     private Long id;
@@ -16,10 +19,16 @@ public abstract class Media {
     private LocalDate publishingDate;
     private Long numberOfLoanableItems;
 
+    /**
+     * Creates a new, empty, media instance.
+     */
     public Media() {
     }
 
-    public Media(Long id, String title, String classification, String summary, String location, LocalDate publishingDate, Long numberOfLoanableItems) {
+    /**
+     * Creates a new media instance.
+     */
+    protected Media(Long id, String title, String classification, String summary, String location, LocalDate publishingDate, Long numberOfLoanableItems) {
         this.id = id;
         this.title = title;
         this.classification = classification;
@@ -29,7 +38,13 @@ public abstract class Media {
         this.numberOfLoanableItems = numberOfLoanableItems;
     }
 
-    public Media(ResultSet resultSet) throws SQLException {
+    /**
+     * Creates a new book instance from a result set.
+     *
+     * @param resultSet A ResultSet instance.
+     * @throws SQLException if the ResultSet instance methods throw an exception.
+     */
+    protected Media(ResultSet resultSet) throws SQLException {
         this(resultSet.getLong("id"), resultSet.getString("title"), resultSet.getString("classification"), resultSet.getString("summary"), resultSet.getString("location"), resultSet.getObject("publishing_date", LocalDate.class), resultSet.getLong("loanable_item_count"));
     }
 
