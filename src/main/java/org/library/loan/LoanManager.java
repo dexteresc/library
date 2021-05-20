@@ -49,7 +49,7 @@ public class LoanManager {
      * @implNote Modifies customer instance by incrementing the active loans field.
      */
     private Loan createLoan(Customer customer, MediaItem mediaItem) throws Exception {
-        logger.info("Creating loan for media item... (customer: " + customerId + ", media item: " + mediaItem.getId() + ")");
+        logger.info("Creating loan for media item... (customer: " + customer.getId() + ", media item: " + mediaItem.getId() + ")");
         LocalDate borrowedAt = LocalDate.now();
         LocalDate returnBy = LocalDate.now().plusDays(mediaItem.getMediaType().getLoanPeriod());
         Long loanId = database.insert(CREATE_LOAN_STATEMENT)
