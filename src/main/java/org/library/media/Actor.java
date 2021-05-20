@@ -11,6 +11,12 @@ import java.sql.SQLException;
 public class Actor extends Person {
 
     /**
+     * Creates a new, empty, actor instance.
+     */
+    public Actor() {
+    }
+
+    /**
      * Creates a new actor instance from a result set.
      *
      * @param resultSet A ResultSet instance.

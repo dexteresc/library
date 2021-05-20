@@ -9,6 +9,12 @@ import java.sql.SQLException;
 public class Author extends Person {
 
     /**
+     * Creates a new, empty, author instance.
+     */
+    public Author() {
+    }
+
+    /**
      * Creates a new author instance from a result set.
      *
      * @param resultSet A ResultSet instance.
