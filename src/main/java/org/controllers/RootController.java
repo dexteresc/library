@@ -1,4 +1,4 @@
-package org.example;
+package org.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 
 /**
  * Application Root Controller
- *
+ * <p>
  * Wraps the active content controller (e.g. PrimaryController) to include a shared navigation bar.
  */
 public class RootController implements Initializable {
@@ -46,6 +46,7 @@ public class RootController implements Initializable {
 
     /**
      * Sets the active content controller.
+     *
      * @param node A JavaFX node instance.
      */
     private void setContent(Node node) {

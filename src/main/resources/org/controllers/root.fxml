@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.controllers.RootController" maxHeight="-Infinity"
+            maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/16">
+    <BorderPane fx:id="content" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="0.0">
+        <top>
+            <!-- IntelliJ IDEA complains about the fx:id not being used. However, this is a lie, as the id + "Controller" is used by PrimaryController. Read more here: https://stackoverflow.com/questions/39301143/javafx-reusable-fxml-component -->
+            <fx:include fx:id="navigationBar" source="navbar.fxml"/>
+        </top>
+    </BorderPane>
+</AnchorPane>
+

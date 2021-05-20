@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.NavigationBarController"
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            fx:controller="org.controllers.NavigationBarController"
             prefHeight="60.0" prefWidth="Infinity">
-    <BorderPane prefHeight="60.0" minHeight="60" prefWidth="Infinity" styleClass="header" BorderPane.alignment="CENTER"  AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+    <BorderPane prefHeight="60.0" minHeight="60" prefWidth="Infinity" styleClass="header" BorderPane.alignment="CENTER"
+                AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="0.0">
         <left>
-            <Label fx:id="homeButton" text="Bibliotek" textFill="WHITE" BorderPane.alignment="CENTER" onMouseClicked="#navigateToHome">
+            <Label fx:id="homeButton" text="Bibliotek" textFill="WHITE" BorderPane.alignment="CENTER"
+                   onMouseClicked="#navigateToHome">
                 <BorderPane.margin>
-                    <Insets left="20.0" />
+                    <Insets left="20.0"/>
                 </BorderPane.margin>
                 <font>
-                    <Font name="System Bold" size="24.0" />
+                    <Font name="System Bold" size="24.0"/>
                 </font>
                 <cursor>
-                    <Cursor fx:constant="HAND" />
+                    <Cursor fx:constant="HAND"/>
                 </cursor>
             </Label>
         </left>
@@ -29,42 +30,44 @@
             <HBox styleClass="accountMenu" BorderPane.alignment="CENTER">
                 <Button fx:id="loanButton" mnemonicParsing="false" onAction="#navigateToNewLoan" text="Loan">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Button>
                 <Button fx:id="returnsButton" mnemonicParsing="false" onAction="#navigateToReturns" text="Returns">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Button>
-                <Button fx:id="registerButton" mnemonicParsing="false" styleClass="colorButton" onAction="#navigateToRegister" text="Register">
+                <Button fx:id="registerButton" mnemonicParsing="false" styleClass="colorButton"
+                        onAction="#navigateToRegister" text="Register">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Button>
                 <Button fx:id="loginButton" mnemonicParsing="false" onAction="#navigateToLogin" text="Login">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Button>
                 <Button fx:id="adminButton" mnemonicParsing="false" onAction="#navigateToAdmin" text="Admin">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Button>
                 <Button fx:id="myPagesButton" mnemonicParsing="false" onAction="#navigateToMyPages" text="My Pages">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Button>
-                <Button fx:id="logoutButton" mnemonicParsing="false" styleClass="colorButton" onAction="#logout" text="Logout">
+                <Button fx:id="logoutButton" mnemonicParsing="false" styleClass="colorButton" onAction="#logout"
+                        text="Logout">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Button>
                 <Button fx:id="previousButton" mnemonicParsing="false" onAction="#navigateToPrevious" text="Cancel">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Button>
             </HBox>

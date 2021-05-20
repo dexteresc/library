@@ -1,15 +1,10 @@
-package org.example;
+package org.controllers;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.library.account.Account;
-import org.library.account.Customer;
 import org.library.loan.Loan;
 import org.library.loan.LoanManager;
 import org.library.loan.LoanModel;
@@ -26,15 +21,14 @@ public class MyPagesController implements Initializable {
     public VBox rightVBox;
     public VBox loanView;
     public Label loanViewTitle;
-
-    private AuthenticationModel authenticationModel;
-    private LoanModel loanModel;
-    private LoanManager loanManager;
-    private Account account;
     HBox mainHBox;
     VBox idVBox;
     VBox returnDateVBox;
     VBox titleVBox;
+    private AuthenticationModel authenticationModel;
+    private LoanModel loanModel;
+    private LoanManager loanManager;
+    private Account account;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

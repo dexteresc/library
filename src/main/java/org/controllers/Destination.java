@@ -1,8 +1,8 @@
-package org.example;
+package org.controllers;
 
 /**
  * Destination
- *
+ * <p>
  * A type-safe representation of FXML resources.
  */
 public enum Destination {
@@ -19,17 +19,6 @@ public enum Destination {
     private String resourceName;
 
     Destination(String resourceName) {
-        this.resourceName = resourceName;
-    }
-
-    /**
-     * @return The name of the underlying FXML resource.
-     */
-    public String getResourceName() {
-        return resourceName + ".fxml";
-    }
-
-    private void setResourceName(String resourceName) {
         this.resourceName = resourceName;
     }
 
@@ -50,5 +39,16 @@ public enum Destination {
             }
         }
         return Destination.CUSTOM(value);
+    }
+
+    /**
+     * @return The name of the underlying FXML resource.
+     */
+    public String getResourceName() {
+        return resourceName + ".fxml";
+    }
+
+    private void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
     }
 }

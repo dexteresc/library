@@ -26,13 +26,16 @@
 .colorButton:hover {
     -fx-background-color: #EF233C;
 }
+
 .libraryView {
     -fx-fit-to-width: true;
 }
+
 .libraryView VBox {
     -fx-spacing: 10;
     -fx-fit-to-width: true;
 }
+
 .libraryView VBox BorderPane {
     -fx-background-color: #e7e7e7;
     -fx-background-radius: 5;
@@ -50,9 +53,11 @@
     -fx-font-weight: bold;
     -fx-padding: 8 10;
 }
+
 .libraryView VBox BorderPane Button:hover {
     -fx-background-color: #a1a1a1;
 }
+
 .titleLabel {
     -fx-font-size: 16px;
 }
@@ -73,15 +78,19 @@
 .authorLabel {
     -fx-text-fill: #858585;
 }
+
 .errorLabel {
     -fx-text-fill: #f25252;
 }
+
 .fieldError {
     -fx-border-color: #f25252;
 }
+
 .h1 {
     -fx-font-size: 24px;
 }
+
 .h2 {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
@@ -99,6 +108,7 @@
     -fx-padding: 10px;
     -fx-spacing: 10px;
 }
+
 .adminView VBox VBox {
     -fx-background-color: #e7e7e7;
     -fx-background-radius: 5;
@@ -106,9 +116,11 @@
     -fx-padding: 10px;
     -fx-spacing: 10px;
 }
+
 .adminView VBox VBox HBox {
     -fx-background-color: #f2f2f2;
 }
+
 .maxHeight {
     -fx-fit-to-height: true;
 }
@@ -117,6 +129,7 @@
     -fx-spacing: 30;
     -fx-padding: 10;
 }
+
 .mainHBox VBox {
     -fx-spacing: 10;
 }

@@ -1,15 +1,22 @@
-package org.example;
+package org.controllers;
 
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import org.library.admin.AdminModel;
 import org.library.loan.LoanModel;
-import org.library.media.*;
+import org.library.media.Author;
+import org.library.media.Book;
+import org.library.media.Media;
 import org.library.search.SearchModel;
 import org.library.security.AuthenticationModel;
 
@@ -45,7 +52,7 @@ public class PrimaryController implements Initializable {
             this.authenticationModel = App.getAppModel().getAuthenticationModel();
         }
 
-        if(this.adminModel == null) {
+        if (this.adminModel == null) {
             this.adminModel = App.getAppModel().getAdminModel();
         }
 
@@ -54,9 +61,7 @@ public class PrimaryController implements Initializable {
             this.searchModel = App.getAppModel().getSearchModel();
 
             this.searchResults = this.searchModel.getSearchResultsList();
-            this.searchResults.addListener((ListChangeListener<Media>) change -> {
-                this.updateSearchResults();
-            });
+            this.searchResults.addListener((ListChangeListener<Media>) change -> this.updateSearchResults());
         }
 
         // Configure loan Manager
@@ -64,7 +69,7 @@ public class PrimaryController implements Initializable {
             this.loanModel = App.getAppModel().getLoanModel();
         }
 
-        if(searchModel.getPreviousQuery() != null){
+        if (searchModel.getPreviousQuery() != null) {
             updateSearchResults();
             searchBar.setText(searchModel.getPreviousQuery());
         } else {
@@ -129,8 +134,6 @@ public class PrimaryController implements Initializable {
             leftVBox.setAlignment(Pos.CENTER_LEFT);
 
 
-
-
             rightVBox.getChildren().add(inStockLabel);
             rightVBox.getChildren().add(borrowButton);
             rightVBox.setAlignment(Pos.CENTER_RIGHT);
@@ -144,9 +147,7 @@ public class PrimaryController implements Initializable {
 
                 BorderPane borderPaneTop = new BorderPane();
                 Button goBack = new Button("Return");
-                goBack.setOnAction(actionEvent1 -> {
-                    updateSearchResults();
-                });
+                goBack.setOnAction(actionEvent1 -> updateSearchResults());
                 Label errorLabel = new Label();
                 errorLabel.getStyleClass().add("errorLabel");
 

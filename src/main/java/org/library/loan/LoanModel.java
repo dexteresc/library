@@ -62,7 +62,7 @@ public class LoanModel {
 
         // Update number of active loans for customer in case it has become desynchronized
         this.customer.setNumberOfActiveLoans(
-            this.loanManager.getNumberOfActiveCustomerLoans(this.customer.getId())
+                this.loanManager.getNumberOfActiveCustomerLoans(this.customer.getId())
         );
 
         // Check if the new loan would exceed the number of items that the customer has loaned

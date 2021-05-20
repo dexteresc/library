@@ -1,4 +1,4 @@
-package org.example;
+package org.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -6,9 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import org.library.security.AuthenticationModel;
 
 import java.io.IOException;
@@ -19,16 +17,13 @@ import java.util.ResourceBundle;
  * Controller for the login page
  */
 public class LoginController implements Initializable {
-    public Text homeButton;
     public Button registerButton;
     public Button loginButton;
-    public BorderPane header;
     public PasswordField passwordField;
     public TextField usernameField;
-    Label errorLabel = new Label("Username or password is wrong.");
-
-    private AuthenticationModel authenticationModel;
     public VBox loginBox;
+    Label errorLabel = new Label("Username or password is wrong.");
+    private AuthenticationModel authenticationModel;
 
     public void goRegister() throws IOException {
         App.setRoot("register");

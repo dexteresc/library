@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0" stylesheets="@stylesheet.css"
+            xmlns="http://javafx.com/javafx/16" fx:controller="org.controllers.LoginController">
+    <center>
+        <StackPane prefHeight="150.0" prefWidth="200.0" translateY="-25.0" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
+            </BorderPane.margin>
+            <VBox fx:id="loginBox" alignment="CENTER" prefHeight="215.0" prefWidth="551.0" styleClass="loginBox">
+                <HBox>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <Label text="Username:" textAlignment="RIGHT">
+                        <HBox.margin>
+                            <Insets top="5.0"/>
+                        </HBox.margin>
+                    </Label>
+                    <TextField fx:id="usernameField"/>
+                </HBox>
+                <HBox>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <Label text="Password:" textAlignment="RIGHT">
+                        <padding>
+                            <Insets top="5.0"/>
+                        </padding>
+                    </Label>
+                    <PasswordField fx:id="passwordField" onAction="#logIn">
+                        <HBox.margin>
+                            <Insets/>
+                        </HBox.margin>
+                    </PasswordField>
+                </HBox>
+                <HBox alignment="CENTER" prefWidth="200.0">
+                    <Button fx:id="registerButton" mnemonicParsing="false" onAction="#goRegister" text="Register">
+                        <HBox.margin>
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                        </HBox.margin>
+                    </Button>
+                    <Button fx:id="loginButton" mnemonicParsing="false" onAction="#logIn" text="Login"/>
+                </HBox>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0" stylesheets="@stylesheet.css"
+            xmlns="http://javafx.com/javafx/16" fx:controller="org.controllers.RegisterController">
+    <center>
+        <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <VBox fx:id="registerBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
+                  StackPane.alignment="CENTER">
+                <HBox alignment="CENTER" prefWidth="200.0" spacing="10.0">
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </VBox.margin>
+                    <Label prefWidth="75.0" text="First Name" textAlignment="RIGHT"/>
+                    <TextField fx:id="firstNameField"/>
+                </HBox>
+                <HBox alignment="CENTER" prefWidth="200.0" spacing="10.0">
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </VBox.margin>
+                    <Label prefWidth="75.0" text="Last Name">
+                        <HBox.margin>
+                            <Insets/>
+                        </HBox.margin>
+                    </Label>
+                    <TextField fx:id="lastNameField"/>
+                </HBox>
+                <HBox alignment="CENTER" prefWidth="200.0" spacing="10.0">
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </VBox.margin>
+                    <Label prefWidth="75.0" text="Email"/>
+                    <TextField fx:id="emailField">
+                        <HBox.margin>
+                            <Insets/>
+                        </HBox.margin>
+                    </TextField>
+                </HBox>
+                <HBox alignment="CENTER" prefWidth="200.0" spacing="10.0">
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </VBox.margin>
+                    <Label prefWidth="75.0" text="Phone"/>
+                    <TextField fx:id="phoneField"/>
+                </HBox>
+                <HBox alignment="CENTER" prefWidth="200.0" spacing="10.0">
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </VBox.margin>
+                    <Label prefWidth="75.0" text="Password"/>
+                    <PasswordField fx:id="passwordField"/>
+                </HBox>
+                <HBox alignment="CENTER">
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </VBox.margin>
+                    <Label prefWidth="75.0" text="Membership">
+                        <HBox.margin>
+                            <Insets right="10.0"/>
+                        </HBox.margin>
+                    </Label>
+                    <ChoiceBox fx:id="membershipChoice" prefWidth="150.0"/>
+                </HBox>
+                <HBox alignment="CENTER">
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </VBox.margin>
+                </HBox>
+                <HBox alignment="CENTER">
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                    <Button fx:id="register" mnemonicParsing="false" onAction="#register" text="Register"/>
+                </HBox>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

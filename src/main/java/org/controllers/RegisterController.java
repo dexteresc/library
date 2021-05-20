@@ -1,4 +1,4 @@
-package org.example;
+package org.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,6 +19,7 @@ import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
 
+    private final ObservableList<CustomerType> customerTypes = FXCollections.observableArrayList();
     public Button register;
     public VBox registerBox;
     public TextField passwordField;
@@ -27,10 +28,8 @@ public class RegisterController implements Initializable {
     public TextField lastNameField;
     public TextField firstNameField;
     public ChoiceBox<CustomerType> membershipChoice;
-    private AccountModel accountModel;
-    private final ObservableList<CustomerType> customerTypes = FXCollections.observableArrayList();
-
     Label errorLabel = new Label("Error, please make sure that everything is answered and that it's answered correctly");
+    private AccountModel accountModel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -62,27 +61,27 @@ public class RegisterController implements Initializable {
         CustomerType customerType = membershipChoice.getValue();
 
         // STYLING
-        if (firstName.matches(".*\\d.*") || firstName.equals("") ){
+        if (firstName.matches(".*\\d.*") || firstName.equals("")) {
             firstNameField.getStyleClass().add("fieldError");
         } else {
             firstNameField.getStyleClass().remove("fieldError");
         }
-        if (lastName.matches(".*\\d.*") || lastName.equals("")){
+        if (lastName.matches(".*\\d.*") || lastName.equals("")) {
             lastNameField.getStyleClass().add("fieldError");
         } else {
             lastNameField.getStyleClass().remove("fieldError");
         }
-        if (email.contains("@")|| email.equals("")) {
+        if (email.contains("@") || email.equals("")) {
             emailField.getStyleClass().add("fieldError");
         } else {
             emailField.getStyleClass().remove("fieldError");
         }
-        if (!phone.matches(".*\\d.*")|| phone.equals("")) {
+        if (!phone.matches(".*\\d.*") || phone.equals("")) {
             phoneField.getStyleClass().add("fieldError");
         } else {
             phoneField.getStyleClass().remove("fieldError");
         }
-        if (password.equals("")){
+        if (password.equals("")) {
             passwordField.getStyleClass().add("fieldError");
         } else {
             passwordField.getStyleClass().remove("fieldError");

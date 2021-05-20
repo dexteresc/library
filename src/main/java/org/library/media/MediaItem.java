@@ -4,7 +4,6 @@ package org.library.media;
  * Media item representing a physical (or digital) copy of a given work (media) in a specific format (media type).
  *
  * @see Media
- *
  */
 public class MediaItem {
     private Long id;

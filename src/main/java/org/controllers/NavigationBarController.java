@@ -1,7 +1,6 @@
-package org.example;
+package org.controllers;
 
 import javafx.collections.ListChangeListener;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -18,7 +17,7 @@ import java.util.ResourceBundle;
 
 /**
  * Navigation Bar Controller
- *
+ * <p>
  * Provides a shared navigation bar that is state-aware.
  */
 public class NavigationBarController implements Initializable {
@@ -68,9 +67,7 @@ public class NavigationBarController implements Initializable {
     }
 
     private void configureLoanListener() {
-        this.loanModel.getMediaItemList().addListener((ListChangeListener<MediaItem>) change -> {
-            this.updateLoanButton(true);
-        });
+        this.loanModel.getMediaItemList().addListener((ListChangeListener<MediaItem>) change -> this.updateLoanButton(true));
     }
 
     private void navigateTo(Destination destination) {

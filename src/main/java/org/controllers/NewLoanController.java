@@ -1,4 +1,4 @@
-package org.example;
+package org.controllers;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

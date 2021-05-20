@@ -1,4 +1,4 @@
-package org.example;
+package org.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,11 +31,9 @@ public class ReturnsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.returnsModel = App.getAppModel().getReturnsModel();
 
-        this.barcodeTextField.textProperty().addListener(change -> {
-            this.submitButton.setDisable(
-                    this.barcodeTextField.getText().isEmpty()
-            );
-        });
+        this.barcodeTextField.textProperty().addListener(change -> this.submitButton.setDisable(
+                this.barcodeTextField.getText().isEmpty()
+        ));
 
         this.setNodeVisible(this.errorLabel, false);
         this.setNodeVisible(this.confirmationLabel, false);

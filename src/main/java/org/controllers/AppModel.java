@@ -1,4 +1,4 @@
-package org.example;
+package org.controllers;
 
 import org.library.account.AccountManager;
 import org.library.account.AccountModel;
@@ -72,7 +72,9 @@ public final class AppModel {
         return accountModel;
     }
 
-    public ReturnsModel getReturnsModel() { return returnsModel; }
+    public ReturnsModel getReturnsModel() {
+        return returnsModel;
+    }
 
     public LoanManager getLoanManager() {
         return loanManager;

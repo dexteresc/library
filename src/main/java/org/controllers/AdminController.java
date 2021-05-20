@@ -1,4 +1,4 @@
-package org.example;
+package org.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -88,7 +88,7 @@ public class AdminController implements Initializable {
 
         // Save Button
         saveButton.setOnAction(actionEvent -> {
-            if (!(descriptionArea.textProperty().getValue().equals(description))){
+            if (!(descriptionArea.textProperty().getValue().equals(description))) {
                 // TODO: 5/20/2021 Change description 
             }
             if (!(titleArea.textProperty().getValue().equals(title))) {
