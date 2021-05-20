@@ -113,6 +113,10 @@
     -fx-fit-to-height: true;
 }
 
-.loanView BorderPane HBox{
-    -fx-spacing: 5;
+.mainHBox {
+    -fx-spacing: 30;
+    -fx-padding: 10;
+}
+.mainHBox VBox {
+    -fx-spacing: 10;
 }

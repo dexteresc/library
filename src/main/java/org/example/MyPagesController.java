@@ -31,6 +31,10 @@ public class MyPagesController implements Initializable {
     private LoanModel loanModel;
     private LoanManager loanManager;
     private Account account;
+    HBox mainHBox;
+    VBox idVBox;
+    VBox returnDateVBox;
+    VBox titleVBox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,41 +55,53 @@ public class MyPagesController implements Initializable {
         email.setText(account.getEmail());
 
         if (authenticationModel.isCustomer()) {
-            BorderPane header = new BorderPane();
-            header.setLeft(new Label("ID"));
-            header.setRight(new Label("Return date"));
-            header.setCenter(new Label("Title"));
+            mainHBox = new HBox();
+            mainHBox.getStyleClass().add("mainHBox");
+            idVBox = new VBox();
+            titleVBox = new VBox();
+            returnDateVBox = new VBox();
+            idVBox.getChildren().add(new Label("ID"));
+            titleVBox.getChildren().add(new Label("Title"));
+            returnDateVBox.getChildren().add(new Label("Return date"));
+
+            mainHBox.getChildren().add(idVBox);
+            mainHBox.getChildren().add(titleVBox);
+            mainHBox.getChildren().add(returnDateVBox);
+            loanView.getChildren().add(mainHBox);
             try {
                 for (Loan loan :
                         loanManager.getActiveCustomerLoans(authenticationModel.getAccount().getId())) {
-                    BorderPane borderPane = new BorderPane();
-                    borderPane.setLeft(new Label(String.valueOf(loan.getId())));
-                    borderPane.setRight(new Label(String.valueOf(loan.getReturnBy())));
-                    // todo title
+                    idVBox.getChildren().add(new Label(String.valueOf(loan.getId())));
+                    returnDateVBox.getChildren().add(new Label(String.valueOf(loan.getReturnBy())));
+                    // todo title titleVBox.getChildren().add(x)
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (authenticationModel.isStaff()) {
             loanViewTitle.setText("Late loans");
-            BorderPane header = new BorderPane();
-            HBox headerHBox = new HBox();
-            headerHBox.getChildren().add(new Label("Media ID"));
-            headerHBox.getChildren().add(new Label("Customer ID"));
-            HBox headerHBox2 = new HBox();
-            headerHBox2.getChildren().add(new Label("Return date"));
-            header.setLeft(headerHBox);
-            header.setRight(headerHBox2);
+            mainHBox = new HBox();
+            mainHBox.getStyleClass().add("mainHBox");
+
+            idVBox = new VBox();
+            VBox customerIDVBox = new VBox();
+            titleVBox = new VBox();
+            returnDateVBox = new VBox();
+            idVBox.getChildren().add(new Label("Media ID"));
+            customerIDVBox.getChildren().add(new Label("Customer ID"));
+            returnDateVBox.getChildren().add(new Label("Return date"));
+            mainHBox.getChildren().add(idVBox);
+            mainHBox.getChildren().add(titleVBox);
+            mainHBox.getChildren().add(customerIDVBox);
+            mainHBox.getChildren().add(returnDateVBox);
+            loanView.getChildren().add(mainHBox);
             try {
+                System.out.println(loanManager.getLateLoans());
                 for (Loan lateLoan : loanManager.getLateLoans()) {
-                    BorderPane borderPane = new BorderPane();
-                    HBox hBox = new HBox();
-                    hBox.getChildren().add(new Label(String.valueOf(lateLoan.getId())));
-                    hBox.getChildren().add(new Label(String.valueOf(lateLoan.getCustomerId())));
-                    HBox hBox2 = new HBox();
-                    hBox2.getChildren().add(new Label(String.valueOf(lateLoan.getReturnBy())));
-                    borderPane.setLeft(hBox);
-                    borderPane.setRight(hBox2);
+                    idVBox.getChildren().add(new Label(String.valueOf(lateLoan.getId())));
+                    // TODO: 5/20/2021 Title vbox add
+                    customerIDVBox.getChildren().add(new Label(String.valueOf(lateLoan.getCustomerId())));
+                    returnDateVBox.getChildren().add(new Label(String.valueOf(lateLoan.getReturnBy())));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
