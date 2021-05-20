@@ -108,5 +108,7 @@
 }
 .adminView VBox VBox HBox {
     -fx-background-color: #f2f2f2;
-
+}
+.maxHeight {
+    -fx-fit-to-height: true;
 }
