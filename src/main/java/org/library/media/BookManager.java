@@ -4,6 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.library.util.Database;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Manager for book media instances.
  *
@@ -23,6 +26,11 @@ public class BookManager extends MediaManager {
     private static final String UPDATE_AUTHOR_STATEMENT = "UPDATE author SET given_name = ?, family_name = ? WHERE id = ?";
     private static final String DELETE_AUTHOR_STATEMENT = "DELETE FROM author WHERE id = ?";
     private static final String SELECT_FIRST_AUTHOR_BY_NAME_STATEMENT = "SELECT * FROM author WHERE given_name = ? AND family_name = ? LIMIT 1";
+
+    // Author media relationship statements
+    private static final String CREATE_AUTHOR_MEDIA_STATEMENT = "INSERT INTO media_author (author_id, media_id) VALUES (?, ?)";
+    private static final String SELECT_ALL_AUTHORS_FOR_MEDIA_STATEMENT = "SELECT * FROM media_author INNER JOIN author ON author.id = media_author.author_id WHERE media_id = ?";
+    private static final String DELETE_AUTHOR_MEDIA_STATEMENT = "DELETE FROM media_author WHERE author_id = ?, media_id = ?";
 
     /**
      * Creates a new book manager instance.
@@ -53,6 +61,16 @@ public class BookManager extends MediaManager {
         database.insert(CREATE_BOOK_STATEMENT)
                 .configure(book.getId(), book.getIsbn(), book.getPublisher())
                 .execute();
+
+        // Get or create authors
+        for (Author author : book.getAuthors()) {
+            author.setId(this.getOrCreateAuthor(author).getId());
+        }
+
+        // Create author book relationships
+        for (Author author : book.getAuthors()) {
+            this.addAuthorToBook(author, book);
+        }
     }
 
     /**
@@ -68,6 +86,35 @@ public class BookManager extends MediaManager {
         database.update(UPDATE_BOOK_STATEMENT)
                 .configure(book.getIsbn(), book.getPublisher(), book.getId())
                 .execute();
+
+        // Update book authors
+        this.updateAuthorsForBook(book);
+    }
+
+    private void updateAuthorsForBook(Book book) throws Exception {
+        // Get authors for book before update
+        List<Author> authorsBeforeUpdate = this.getAllAuthorsForMedia(book);
+
+        // Get or create authors without ids
+        for (Author author : book.getAuthors().stream().filter(author -> author.getId() == null).collect(Collectors.toList())) {
+            author.setId(this.getOrCreateAuthor(author).getId());
+        }
+
+        // Filter authors to add
+        List<Author> authorsToAdd = book.getAuthors().stream().filter(author -> !authorsBeforeUpdate.contains(author)).collect(Collectors.toList());
+
+        // Filter authors to remove
+        List<Author> authorsToRemove = authorsBeforeUpdate.stream().filter(author -> !book.getAuthors().contains(author)).collect(Collectors.toList());
+
+        // Create author book relationships for added authors
+        for (Author author : authorsToAdd) {
+            this.addAuthorToBook(author, book);
+        }
+
+        // Delete author book relationships for removed authors
+        for (Author author : authorsToRemove) {
+            this.removeAuthorFromBook(author, book);
+        }
     }
 
     /**
@@ -118,9 +165,23 @@ public class BookManager extends MediaManager {
         }
     }
 
-    // TODO: Author book relationships
+    // Author book relationships
 
-    private void removeAuthorFromBook(Author author, Book book) {
+    private List<Author> getAllAuthorsForMedia(Media media) throws Exception {
+        return database.select(SELECT_ALL_AUTHORS_FOR_MEDIA_STATEMENT, Author.class)
+                .configure(media.getId())
+                .fetchAll(Author::new);
+    }
 
+    private void addAuthorToBook(Author author, Book book) throws Exception {
+        database.insert(CREATE_AUTHOR_MEDIA_STATEMENT)
+                .configure(author.getId(), book.getId())
+                .execute();
+    }
+
+    private void removeAuthorFromBook(Author author, Book book) throws Exception {
+        database.delete(DELETE_AUTHOR_MEDIA_STATEMENT)
+                .configure(author.getId(), book.getId())
+                .execute();
     }
 }
