@@ -24,6 +24,9 @@ public class ReturnsController implements Initializable {
     @FXML
     private Label errorLabel;
 
+    @FXML
+    private Label confirmationLabel;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.returnsModel = App.getAppModel().getReturnsModel();
@@ -35,6 +38,7 @@ public class ReturnsController implements Initializable {
         });
 
         this.setNodeVisible(this.errorLabel, false);
+        this.setNodeVisible(this.confirmationLabel, false);
     }
 
     /**
@@ -49,11 +53,14 @@ public class ReturnsController implements Initializable {
         Long mediaItemId = Long.parseLong(this.barcodeTextField.getText());
 
         try {
-            this.returnsModel.returnById(mediaItemId);
             this.setNodeVisible(this.errorLabel, false);
+            this.confirmationLabel.setText(this.returnsModel.returnById(mediaItemId));
+            this.setNodeVisible(this.confirmationLabel, true);
         } catch (Exception exception) {
-            this.errorLabel.setText("Failed to return item.");
+            exception.printStackTrace();
+            this.errorLabel.setText("Failed to return item. Please scan the item or enter id manually.");
             this.setNodeVisible(this.errorLabel, true);
+            this.setNodeVisible(this.confirmationLabel, false);
         }
     }
 

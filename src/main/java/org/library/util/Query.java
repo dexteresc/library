@@ -89,7 +89,10 @@ public class Query {
             configuration.apply(preparedStatement);
 
             // Execute prepared statement
-            if (!preparedStatement.execute()) {
+            boolean isUpdate = statement.contains("UPDATE");
+            boolean successful = isUpdate ? preparedStatement.executeUpdate() > 0 : preparedStatement.execute();
+
+            if (!successful) {
                 throw new Exception("Failed to execute query.");
             }
         } finally {
@@ -104,6 +107,7 @@ public class Query {
         }
     }
 
+    // Used when query returns a generated id.
     public Long executeQuery() throws Exception {
         PreparedStatement preparedStatement = null;
 

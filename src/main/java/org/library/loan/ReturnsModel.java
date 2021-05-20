@@ -8,10 +8,10 @@ public class ReturnsModel {
         this.loanManager = loanManager;
     }
 
-    public void returnById(Long mediaItemId) throws Exception {
-        loanManager.returnMediaItem(mediaItemId);
+    public String returnById(Long mediaItemId) throws Exception {
+        Loan loan = loanManager.returnMediaItem(mediaItemId);
 
-        // TODO: Indicate what media item was returned
+        return loan.getMetadata().getMediaTitle() + " was returned successfully.";
     }
 
 }
