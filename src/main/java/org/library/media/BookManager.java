@@ -4,6 +4,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.library.util.Database;
 
+/**
+ * Manager for book media instances.
+ *
+ * @see Book
+ * @see MediaManager
+ */
 public class BookManager extends MediaManager {
     private static final Logger logger = LogManager.getLogger();
 
@@ -19,6 +25,11 @@ public class BookManager extends MediaManager {
     private static final String SELECT_AUTHOR_BY_ID_STATEMENT = "SELECT * FROM author WHERE id = ?";
     private static final String SEARCH_AUTHOR_STATEMENT = "SELECT * FROM author WHERE MATCH(given_name, family_name) AGAINST(? IN NATURAL LANGUAGE MODE)";
 
+    /**
+     * Creates a new book manager instance.
+     *
+     * @param database A database instance.
+     */
     public BookManager(Database database) {
         super(database);
     }
@@ -30,6 +41,13 @@ public class BookManager extends MediaManager {
                 .fetch(Book::new);
     }
 
+    /**
+     * Creates a book.
+     *
+     * @param book Book instance to create.
+     * @throws Exception if the book already exists, or if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public void createBook(Book book) throws Exception {
         logger.info("Creating book...");
         this.createMedia(book);
@@ -38,6 +56,13 @@ public class BookManager extends MediaManager {
                 .execute();
     }
 
+    /**
+     * Updates an existing book.
+     *
+     * @param book Book instance to update.
+     * @throws Exception if the book cannot be found, or if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public void updateBook(Book book) throws Exception {
         logger.info("Updating book...");
         this.updateMedia(book);
@@ -46,7 +71,14 @@ public class BookManager extends MediaManager {
                 .execute();
     }
 
+    /**
+     * Deletes an existing book.
+     *
+     * @param book Book instance to delete.
+     * @throws Exception if the book cannot be found, or if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public void deleteBook(Book book) throws Exception {
-        this.deleteMediaById(book.getId());
+        this.deleteMedia(book);
     }
 }
