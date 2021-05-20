@@ -105,7 +105,7 @@ public class PrimaryController implements Initializable {
         Label title = new Label(media.getTitle());
         title.getStyleClass().add("titleLabel");
         Button borrowButton;
-        if (true) { // USER IS ADMIN??
+        if (authenticationModel.isStaff()) { // USER IS ADMIN??
             borrowButton = new Button("Edit");
         } else {
             borrowButton = new Button("Låna");
@@ -153,7 +153,7 @@ public class PrimaryController implements Initializable {
                 Label errorLabel = new Label();
                 errorLabel.getStyleClass().add("errorLabel");
 
-                if (true) { // USER IS ADMIN?
+                if (authenticationModel.isStaff()) { // USER IS ADMIN?
                     Button editButton = new Button("Edit");
                     editButton.setOnAction(actionEvent1 -> {
                         adminModel.setMedia(media);
