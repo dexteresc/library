@@ -221,10 +221,6 @@ public class PrimaryController implements Initializable {
                 borderPane.setCenter(mediaInformation);
                 libView.getChildren().add(borderPane);
             });
-        } else if (media instanceof AudioBook) {
-            borderPane.setLeft(title);
-            borderPane.setRight(borrowButton);
-            libView.getChildren().add(borderPane);
         } else {
             promptSearchDecor("This is a media item.");
         }
