@@ -11,7 +11,6 @@ public class AccountManager {
     private static final Logger logger = LogManager.getLogger();
 
     // Statements
-    private static final String SELECT_ACCOUNT_BY_ID_STATEMENT = "SELECT * FROM account WHERE id = ? LIMIT 1";
     private static final String SELECT_CUSTOMER_BY_ID_STATEMENT = "SELECT *, (SELECT COUNT(*) FROM loan WHERE loan.customer_id = account.id AND returned_at IS NULL) AS active_loan_count FROM account INNER JOIN customer ON customer.account_id = account.id INNER JOIN customer_type ON customer_type.id = customer.customer_type_id WHERE account.id = ? LIMIT 1";
     private static final String SELECT_STAFF_BY_ID_STATEMENT = "SELECT * FROM account INNER JOIN staff ON staff.account_id = account.id WHERE account.id = ? LIMIT 1";
     private static final String UPDATE_ACCOUNT_PASSWORD_STATEMENT = "UPDATE account SET password_hash = ? WHERE id = ? LIMIT 1";
