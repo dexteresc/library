@@ -122,6 +122,7 @@ public class AccountManager {
 
     /**
      * Updates an existing account.
+     *
      * @param account Account instance to update.
      * @throws Exception if the account instance violates database constraints, or if a general database error occurs.
      * @implNote This is a blocking operation.
@@ -145,6 +146,7 @@ public class AccountManager {
 
     /**
      * Deletes an existing account.
+     *
      * @param account Account instance to delete.
      * @throws Exception if the account cannot be found, or if a general database error occurs.
      * @implNote This is a blocking operation.
