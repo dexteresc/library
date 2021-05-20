@@ -81,4 +81,10 @@ public class BookManager extends MediaManager {
     public void deleteBook(Book book) throws Exception {
         this.deleteMedia(book);
     }
+
+    // TODO: Author book relationships
+
+    private void removeAuthorFromBook(Author author, Book book) {
+
+    }
 }
