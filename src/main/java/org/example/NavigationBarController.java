@@ -105,7 +105,7 @@ public class NavigationBarController implements Initializable {
 
         this.setNodeVisible(this.registerButton, !isAuthenticated && !onlyPrevious);
         this.setNodeVisible(this.loginButton, !isAuthenticated && !onlyPrevious);
-        this.setNodeVisible(this.myPagesButton, isAuthenticated && isCustomer && !onlyPrevious);
+        this.setNodeVisible(this.myPagesButton, isAuthenticated && !onlyPrevious);
         this.setNodeVisible(this.adminButton, isAuthenticated && isStaff && !onlyPrevious);
         this.setNodeVisible(this.logoutButton, isAuthenticated && !onlyPrevious);
         this.setNodeVisible(this.returnsButton, activeDestination != Destination.NEW_LOAN && !isStaff && !onlyPrevious);
