@@ -2,6 +2,7 @@ package org.library.media;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public abstract class Person {
     private Long id;
@@ -11,7 +12,8 @@ public abstract class Person {
     public Person() {
     }
 
-    public Person(Long id, String givenName, String familyName) {
+    protected Person(Long id, String givenName, String familyName) {
+        this.id = id;
         this.givenName = givenName;
         this.familyName = familyName;
     }
@@ -42,5 +44,20 @@ public abstract class Person {
 
     public void setFamilyName(String familyName) {
         this.familyName = familyName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Person)) return false;
+
+        Person person = (Person) o;
+
+        return Objects.equals(id, person.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }
