@@ -18,6 +18,8 @@ public class Loan {
     private LocalDate returnBy;
     private LocalDate returnedAt;
 
+    private Metadata metadata;
+
     /**
      * Creates a new loan instance.
      */
@@ -38,6 +40,8 @@ public class Loan {
      */
     public Loan(ResultSet resultSet) throws SQLException {
         this(resultSet.getLong("id"), resultSet.getLong("customer_id"), resultSet.getLong("media_item_id"), resultSet.getObject("borrowed_at", LocalDate.class), resultSet.getObject("return_by", LocalDate.class), resultSet.getObject("returned_at", LocalDate.class));
+
+        this.setMetadata(new Metadata(resultSet));
     }
 
     public Long getId() {
@@ -62,5 +66,45 @@ public class Loan {
 
     public LocalDate getReturnedAt() {
         return returnedAt;
+    }
+
+    public boolean hasMetadata() {
+        return this.metadata != null;
+    }
+
+    public Metadata getMetadata() {
+        return metadata;
+    }
+
+    private void setMetadata(Metadata metadata) {
+        this.metadata = metadata;
+    }
+
+    /**
+     * Metadata content for loan.
+     */
+    class Metadata {
+        private String mediaTitle;
+
+        /**
+         * Creates a new metadata instance.
+         */
+        private Metadata(String mediaTitle) {
+            this.mediaTitle = mediaTitle;
+        }
+
+        /**
+         * Creates a new metadata instance from a result set.
+         *
+         * @param resultSet A ResultSet instance.
+         * @throws SQLException if the ResultSet instance methods throw an exception.
+         */
+        protected Metadata(ResultSet resultSet) throws SQLException {
+            this(resultSet.getString("title"));
+        }
+
+        public String getMediaTitle() {
+            return mediaTitle;
+        }
     }
 }
