@@ -22,7 +22,6 @@ public class AccountManager {
     private static final String SELECT_ALL_CUSTOMER_TYPES_STATEMENT = "SELECT * FROM customer_type";
 
     private final BCrypt.Hasher hasher = BCrypt.with(BCrypt.Version.VERSION_2B);
-    private final BCrypt.Verifyer verifier = BCrypt.verifyer(BCrypt.Version.VERSION_2B);
 
     private final Database database;
 
