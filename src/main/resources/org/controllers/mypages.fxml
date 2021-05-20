@@ -6,7 +6,7 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity"
             minWidth="-Infinity"
             prefHeight="400.0" prefWidth="600.0" stylesheets="@stylesheet.css"
-            xmlns="http://javafx.com/javafx/16" fx:controller="org.controllers.MyPagesController">
+            xmlns="http://javafx.com/javafx/13" fx:controller="org.controllers.MyPagesController">
     <left>
         <BorderPane prefHeight="351.0" prefWidth="182.0" BorderPane.alignment="CENTER">
             <left>
