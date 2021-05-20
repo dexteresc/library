@@ -31,6 +31,7 @@ public class AdminController implements Initializable {
     TextArea titleArea;
     VBox authorVBox;
     TextArea descriptionArea;
+    String description;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -38,7 +39,6 @@ public class AdminController implements Initializable {
         // get adminModel
         adminModel = App.getAppModel().getAdminModel();
         informationVBox.getChildren().clear();
-        adminModel.setMedia(null);
 
         // Back Button
         backButton.setOnAction(actionEvent -> {
@@ -69,22 +69,26 @@ public class AdminController implements Initializable {
 
         // Authors
 
+        HBox authorHBox = new HBox();
         authorVBox = new VBox();
-
-        informationVBox.getChildren().add(new Label("Authors:"));
+        authorVBox.getChildren().add(new Label("Authors:"));
+        authorHBox.getChildren().add(authorVBox);
+        informationVBox.getChildren().add(authorHBox);
+        VBox authorNewVBox = new VBox();
         HBox authorNewHBox = new HBox();
-        informationVBox.getChildren().add(authorVBox);
-        informationVBox.getChildren().add(new Label("New author:"));
+        authorNewVBox.getChildren().add(new Label("New author:"));
+        authorNewVBox.getChildren().add(authorNewHBox);
         authorNewHBox.getChildren().add(new Label("Given name:"));
         TextField givenNameField = new TextField();
         authorNewHBox.getChildren().add(givenNameField);
         authorNewHBox.getChildren().add(new Label("Family: name"));
         TextField familyNameField = new TextField();
         authorNewHBox.getChildren().add(familyNameField);
-        informationVBox.getChildren().add(authorNewHBox);
+        informationVBox.getChildren().add(authorNewVBox);
 
         // Save Button
         saveButton.setOnAction(actionEvent -> {
+            if (!(descriptionArea.textProperty().getValue().equals(description)))
             if (!(titleArea.textProperty().getValue().equals(title))) {
                 // TODO: 5/19/2021 Change title
             }
@@ -105,8 +109,8 @@ public class AdminController implements Initializable {
     public void editMedia() {
 
         Media media = adminModel.getMedia();
-
-        titleArea.setText(media.getTitle());
+        title = media.getTitle();
+        titleArea.setText(title);
         descriptionArea.setText(media.getSummary());
         if (media instanceof Book) {
             authorList = ((Book) media).getAuthors();
