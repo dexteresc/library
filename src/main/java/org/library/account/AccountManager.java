@@ -7,6 +7,9 @@ import org.library.util.Database;
 
 import java.util.List;
 
+/**
+ * Manager for account types.
+ */
 public class AccountManager {
     private static final Logger logger = LogManager.getLogger();
 
@@ -25,6 +28,11 @@ public class AccountManager {
 
     private final Database database;
 
+    /**
+     * Creates a new account manager instance.
+     *
+     * @param database A database instance.
+     */
     public AccountManager(Database database) {
         this.database = database;
     }
@@ -34,6 +42,7 @@ public class AccountManager {
      *
      * @param account  Account to set password for.
      * @param password The new password.
+     * @implNote This is a blocking operation.
      */
     public void updateAccountPassword(Account account, String password) throws Exception {
         logger.info("Updating account password...");
@@ -43,6 +52,13 @@ public class AccountManager {
                 .execute();
     }
 
+    /**
+     * Get a customer by id.
+     *
+     * @return A customer instance (if one exists for the provided id)
+     * @throws Exception if the customer was not found, or if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public Customer getCustomerById(Long id) throws Exception {
         logger.info("Getting customer by id...");
         return database.select(SELECT_CUSTOMER_BY_ID_STATEMENT, Customer.class)
@@ -50,6 +66,13 @@ public class AccountManager {
                 .fetch(Customer::new);
     }
 
+    /**
+     * Get a staff member by id.
+     *
+     * @return A staff instance (if one exists for the provided id)
+     * @throws Exception if the staff member was not found, or if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public Staff getStaffById(Long id) throws Exception {
         logger.info("Getting staff by id...");
         return database.select(SELECT_STAFF_BY_ID_STATEMENT, Staff.class)
@@ -58,10 +81,13 @@ public class AccountManager {
     }
 
     /**
-     * Create an account.
+     * Creates an account.
      *
-     * @param account  Account to create.
-     * @param password the requested account password.
+     * @param account  Account instance to create.
+     * @param password Requested account password.
+     * @throws Exception if the account violates unique constraints, or if a general database error occurs.
+     * @implNote This is a blocking operation.
+     * @implNote Modifies account instance by setting the generated id.
      */
     private void createAccount(Account account, String password) throws Exception {
         logger.info("Creating account...");
@@ -72,6 +98,14 @@ public class AccountManager {
         account.setId(id);
     }
 
+    /**
+     * Creates a customer account.
+     *
+     * @param customer A customer instance to create.
+     * @param password A password to set for the customer account.
+     * @throws Exception if the account violates unique constraints, or if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public void createCustomerAccount(Customer customer, String password) throws Exception {
         logger.info("Creating customer account...");
         this.createAccount(customer, password);
@@ -86,6 +120,12 @@ public class AccountManager {
                 .execute();
     }
 
+    /**
+     * Updates an existing account.
+     * @param account Account instance to update.
+     * @throws Exception if the account instance violates database constraints, or if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public void updateAccount(Account account) throws Exception {
         logger.info("Updating account...");
         database.update(UPDATE_ACCOUNT_STATEMENT)
@@ -93,22 +133,26 @@ public class AccountManager {
                 .execute();
     }
 
+    /**
+     * @return A list of customer types.
+     * @throws Exception if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public List<CustomerType> getCustomerTypes() throws Exception {
         return database.select(SELECT_ALL_CUSTOMER_TYPES_STATEMENT, CustomerType.class)
                 .fetchAll(CustomerType::new);
     }
 
+    /**
+     * Deletes an existing account.
+     * @param account Account instance to delete.
+     * @throws Exception if the account cannot be found, or if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public void deleteAccount(Account account) throws Exception {
         logger.info("Deleting account...");
         database.delete(DELETE_ACCOUNT_BY_ID_STATEMENT)
                 .configure(account.getId())
-                .execute();
-    }
-
-    public void deleteAccountByEmail(String email) throws Exception {
-        logger.info("Deleting account by email...");
-        database.delete(DELETE_ACCOUNT_BY_EMAIL_STATEMENT)
-                .configure(email)
                 .execute();
     }
 }
