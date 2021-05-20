@@ -112,3 +112,7 @@
 .maxHeight {
     -fx-fit-to-height: true;
 }
+
+.loanView BorderPane HBox{
+    -fx-spacing: 5;
+}
