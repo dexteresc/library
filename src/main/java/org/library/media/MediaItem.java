@@ -1,12 +1,22 @@
 package org.library.media;
 
+/**
+ * Media item representing a physical (or digital) copy of a given work (media) in a specific format (media type).
+ *
+ * @see Media
+ *
+ */
 public class MediaItem {
     private Long id;
     private Media media;
     private MediaType mediaType;
     private Boolean currentlyOnLoan;
     private Status status;
-    public MediaItem(Long id, Media media, MediaType mediaType, Boolean currentlyOnLoan, Status status) {
+
+    /**
+     * Creates a new media item instance.
+     */
+    protected MediaItem(Long id, Media media, MediaType mediaType, Boolean currentlyOnLoan, Status status) {
         this.id = id;
         this.media = media;
         this.mediaType = mediaType;
