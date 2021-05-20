@@ -79,8 +79,8 @@ public class AccountManager {
         this.createAccount(customer, password);
 
         if (customer.getCustomerType() == null) {
-            logger.warn("Customer type is null, defaulting to customer type 1.");
-            customer.setCustomerType(new CustomerType((long) 1, "", 0));
+            logger.error("Customer type has not been set.");
+            throw new Exception("Customer type has not been set.");
         }
 
         this.database.insert(CREATE_CUSTOMER_STATEMENT)
