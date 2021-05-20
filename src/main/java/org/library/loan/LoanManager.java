@@ -46,7 +46,7 @@ public class LoanManager {
      * @return A loan instance referencing the customer and loaned media item.
      * @throws Exception if the customer exceeds the maximum number of loans for their customer type, or if a general database error occurs.
      * @implNote This is a blocking operation.
-     * @implNote Modifies customer instance by incrementing the active loans field.
+     * @implNote Modifies media instance by decrementing number of available items field.
      */
     private Loan createLoan(Customer customer, MediaItem mediaItem) throws Exception {
         logger.info("Creating loan for media item... (customer: " + customer.getId() + ", media item: " + mediaItem.getId() + ")");
@@ -55,7 +55,9 @@ public class LoanManager {
         Long loanId = database.insert(CREATE_LOAN_STATEMENT)
                 .configure(customer.getId(), mediaItem.getId(), borrowedAt, returnBy)
                 .executeQuery();
-        customer.setNumberOfActiveLoans(customer.getNumberOfActiveLoans() + 1);
+
+        // Update computed values
+        mediaItem.getMedia().setNumberOfLoanableItems(mediaItem.getMedia().getNumberOfLoanableItems() - 1);
         return new Loan(loanId, customer.getId(), mediaItem.getId(), borrowedAt, returnBy, null);
     }
 

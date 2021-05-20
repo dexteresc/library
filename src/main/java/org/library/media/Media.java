@@ -85,6 +85,10 @@ public abstract class Media {
         return numberOfLoanableItems;
     }
 
+    public void setNumberOfLoanableItems(Long numberOfLoanableItems) {
+        this.numberOfLoanableItems = numberOfLoanableItems;
+    }
+
     public boolean hasItemsAvailableForLoan() {
         return numberOfLoanableItems > 0;
     }

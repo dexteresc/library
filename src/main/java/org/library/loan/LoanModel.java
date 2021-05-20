@@ -29,6 +29,10 @@ public class LoanModel {
             throw new Exception("Cannot borrow an item that is already on loan.");
         }
 
+        if (mediaItemList.stream().anyMatch(item -> item.getId().equals(mediaItem.getId()))) {
+            throw new Exception("Cannot borrow the same media item twice.");
+        }
+
         // Check that the item can be loaned
         if (mediaItem.getMediaType().getLoanPeriod() < 1) {
             throw new Exception("Cannot borrow an item that has a loan period of less than 1 day.");
@@ -55,6 +59,11 @@ public class LoanModel {
         if (this.customer == null) {
             throw new Exception("You need to be logged in to loan items.");
         }
+
+        // Update number of active loans for customer in case it has become desynchronized
+        this.customer.setNumberOfActiveLoans(
+            this.loanManager.getNumberOfActiveCustomerLoans(this.customer.getId())
+        );
 
         // Check if the new loan would exceed the number of items that the customer has loaned
         if (this.customer.getNumberOfActiveLoans() + this.mediaItemList.size() > this.customer.getCustomerType().getMaxNumberLoans()) {
