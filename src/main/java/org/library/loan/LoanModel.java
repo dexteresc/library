@@ -69,7 +69,7 @@ public class LoanModel {
         this.validate();
 
         // Create loans
-        List<Loan> loanList = loanManager.createLoan(this.customer.getId(), this.mediaItemList);
+        List<Loan> loanList = loanManager.createLoan(this.customer, this.mediaItemList);
     }
 
     public Customer getCustomer() {
