@@ -45,13 +45,6 @@ public class AccountManager {
                 .execute();
     }
 
-    public Account getAccountById(Long id) throws Exception {
-        logger.info("Getting account by id...");
-        return database.select(SELECT_ACCOUNT_BY_ID_STATEMENT, Account.class)
-                .configure(id)
-                .fetch(Account::new);
-    }
-
     public Customer getCustomerById(Long id) throws Exception {
         logger.info("Getting customer by id...");
         return database.select(SELECT_CUSTOMER_BY_ID_STATEMENT, Customer.class)

@@ -3,8 +3,7 @@ package org.library.account;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Account {
-
+public abstract class Account {
     private Long id;
     private String givenName;
     private String familyName;
