@@ -25,6 +25,7 @@ public class MediaManager {
                 .executeQuery();
         media.setId(id);
     }
+
     protected void updateMedia(Media media) throws Exception {
         logger.info("Updating media...");
         database.update(UPDATE_MEDIA_STATEMENT)

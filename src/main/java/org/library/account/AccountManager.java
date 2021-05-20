@@ -33,7 +33,8 @@ public class AccountManager {
 
     /**
      * Update password for account.
-     * @param account Account to set password for.
+     *
+     * @param account  Account to set password for.
      * @param password The new password.
      */
     public void updateAccountPassword(Account account, String password) throws Exception {
@@ -67,7 +68,8 @@ public class AccountManager {
 
     /**
      * Create an account.
-     * @param account Account to create.
+     *
+     * @param account  Account to create.
      * @param password the requested account password.
      */
     private void createAccount(Account account, String password) throws Exception {

@@ -32,28 +32,28 @@ public class Movie extends Media {
         return director;
     }
 
-    public String getAgeRating() {
-        return ageRating;
-    }
-
-    public String getProductionCountry() {
-        return productionCountry;
-    }
-
-    public List<Actor> getActors() {
-        return actors;
-    }
-
     public void setDirector(String director) {
         this.director = director;
+    }
+
+    public String getAgeRating() {
+        return ageRating;
     }
 
     public void setAgeRating(String ageRating) {
         this.ageRating = ageRating;
     }
 
+    public String getProductionCountry() {
+        return productionCountry;
+    }
+
     public void setProductionCountry(String productionCountry) {
         this.productionCountry = productionCountry;
+    }
+
+    public List<Actor> getActors() {
+        return actors;
     }
 
     public void setActors(List<Actor> actors) {

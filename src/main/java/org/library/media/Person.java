@@ -8,7 +8,8 @@ public abstract class Person {
     private String givenName;
     private String familyName;
 
-    public Person() {}
+    public Person() {
+    }
 
     public Person(Long id, String givenName, String familyName) {
         this.givenName = givenName;
@@ -23,20 +24,20 @@ public abstract class Person {
         return id;
     }
 
-    public String getGivenName() {
-        return givenName;
-    }
-
-    public String getFamilyName() {
-        return familyName;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
 
+    public String getGivenName() {
+        return givenName;
+    }
+
     public void setGivenName(String givenName) {
         this.givenName = givenName;
+    }
+
+    public String getFamilyName() {
+        return familyName;
     }
 
     public void setFamilyName(String familyName) {

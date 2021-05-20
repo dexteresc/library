@@ -2,10 +2,10 @@ package org.library.loan;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.library.account.Customer;
 import org.library.media.Media;
 import org.library.media.MediaItem;
 import org.library.media.MediaItemManager;
-import org.library.account.Customer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,12 +76,12 @@ public class LoanModel {
         return customer;
     }
 
-    public boolean hasCustomer() {
-        return this.customer != null;
-    }
-
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public boolean hasCustomer() {
+        return this.customer != null;
     }
 
     public void reset() {

@@ -16,7 +16,8 @@ public abstract class Media {
     private LocalDate publishingDate;
     private Long numberOfLoanableItems;
 
-    public Media() {}
+    public Media() {
+    }
 
     public Media(Long id, String title, String classification, String summary, String location, LocalDate publishingDate, Long numberOfLoanableItems) {
         this.id = id;
@@ -36,52 +37,52 @@ public abstract class Media {
         return id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public String getClassification() {
-        return classification;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public LocalDate getPublishingDate() {
-        return publishingDate;
-    }
-
-    public Long getNumberOfLoanableItems() {
-        return numberOfLoanableItems;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getClassification() {
+        return classification;
     }
 
     public void setClassification(String classification) {
         this.classification = classification;
     }
 
+    public String getSummary() {
+        return summary;
+    }
+
     public void setSummary(String summary) {
         this.summary = summary;
     }
 
+    public LocalDate getPublishingDate() {
+        return publishingDate;
+    }
+
     public void setPublishingDate(LocalDate publishingDate) {
         this.publishingDate = publishingDate;
+    }
+
+    public Long getNumberOfLoanableItems() {
+        return numberOfLoanableItems;
     }
 
     public boolean hasItemsAvailableForLoan() {

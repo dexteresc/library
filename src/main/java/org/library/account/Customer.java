@@ -28,12 +28,12 @@ public class Customer extends Account {
         return customerType;
     }
 
-    public Long getNumberOfActiveLoans() {
-        return numberOfActiveLoans;
-    }
-
     public void setCustomerType(CustomerType customerType) {
         this.customerType = customerType;
+    }
+
+    public Long getNumberOfActiveLoans() {
+        return numberOfActiveLoans;
     }
 
     public void setNumberOfActiveLoans(Long numberOfActiveLoans) {

@@ -6,21 +6,12 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 
 public class Query {
-    /**
-     * A lambda expression used to configure a reference-type (e.g. ResultSet).
-     * @param <Input> The reference type to configure.
-     */
-    public interface Configuration<Input> {
-        void apply(Input input) throws Exception;
-    }
-
     protected static final Logger logger = LogManager.getLogger();
-
     protected String statement;
     protected Connection connection;
+    protected Configuration<PreparedStatement> configuration = preparedStatement -> {
+    };
     private Boolean async = false;
-
-    protected Configuration<PreparedStatement> configuration = preparedStatement -> {};
 
     public Query(String statement, Connection connection) {
         this.statement = statement;
@@ -40,7 +31,7 @@ public class Query {
         return this;
     }
 
-    public Query configure(Object ...parameters) throws Exception {
+    public Query configure(Object... parameters) throws Exception {
         this.configure(preparedStatement -> {
             for (int i = 0; i < parameters.length; i++) {
                 Object parameter = parameters[i];
@@ -58,14 +49,29 @@ public class Query {
                         .toLowerCase();
 
                 switch (parameterTypeName) {
-                    case "string": preparedStatement.setString(parameterIndex, (String) parameter); break;
-                    case "long": preparedStatement.setLong(parameterIndex, (Long) parameter); break;
-                    case "integer": preparedStatement.setInt(parameterIndex, (Integer) parameter); break;
-                    case "float": preparedStatement.setFloat(parameterIndex, (Float) parameter); break;
-                    case "double": preparedStatement.setDouble(parameterIndex, (Double) parameter); break;
-                    case "boolean": preparedStatement.setBoolean(parameterIndex, (Boolean) parameter); break;
-                    case "localdate": preparedStatement.setObject(parameterIndex, parameter); break;
-                    default: throw new Exception("Invalid parameter for prepared statement with value of type: " + parameterTypeName);
+                    case "string":
+                        preparedStatement.setString(parameterIndex, (String) parameter);
+                        break;
+                    case "long":
+                        preparedStatement.setLong(parameterIndex, (Long) parameter);
+                        break;
+                    case "integer":
+                        preparedStatement.setInt(parameterIndex, (Integer) parameter);
+                        break;
+                    case "float":
+                        preparedStatement.setFloat(parameterIndex, (Float) parameter);
+                        break;
+                    case "double":
+                        preparedStatement.setDouble(parameterIndex, (Double) parameter);
+                        break;
+                    case "boolean":
+                        preparedStatement.setBoolean(parameterIndex, (Boolean) parameter);
+                        break;
+                    case "localdate":
+                        preparedStatement.setObject(parameterIndex, parameter);
+                        break;
+                    default:
+                        throw new Exception("Invalid parameter for prepared statement with value of type: " + parameterTypeName);
                 }
             }
         });
@@ -128,5 +134,14 @@ public class Query {
                 connection.close();
             }
         }
+    }
+
+    /**
+     * A lambda expression used to configure a reference-type (e.g. ResultSet).
+     *
+     * @param <Input> The reference type to configure.
+     */
+    public interface Configuration<Input> {
+        void apply(Input input) throws Exception;
     }
 }

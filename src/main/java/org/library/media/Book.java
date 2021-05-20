@@ -42,20 +42,20 @@ public class Book extends Media {
         return isbn;
     }
 
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public List<Author> getAuthors() {
-        return authors;
-    }
-
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
+    public String getPublisher() {
+        return publisher;
+    }
+
     public void setPublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    public List<Author> getAuthors() {
+        return authors;
     }
 
     public void setAuthors(List<Author> authors) {

@@ -3,18 +3,15 @@ package org.library.util;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.library.util.EntityQuery;
-import org.library.util.Query;
 
 import java.sql.Connection;
 
 public class Database {
-    private ComboPooledDataSource pooledDataSource;
     private static final Logger logger = LogManager.getLogger();
-
     private final String host;
     private final String user;
     private final String password;
+    private ComboPooledDataSource pooledDataSource;
 
     public Database(String host, String user, String password) {
         this.host = host;

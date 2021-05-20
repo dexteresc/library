@@ -26,6 +26,7 @@ public class AuthenticationModel {
 
     /**
      * Creates a new instance of AuthenticationModel.
+     *
      * @param accountManager An instance of AccountManager for managing accounts.
      */
     public AuthenticationModel(Database database, AccountManager accountManager) {
@@ -35,7 +36,8 @@ public class AuthenticationModel {
 
     /**
      * Attempt login with a given username and password.
-     * @param email Username of the Account that is being logged into.
+     *
+     * @param email    Username of the Account that is being logged into.
      * @param password Password of the Account that is being logged into.
      */
     public void login(String email, String password) throws Exception {

@@ -8,21 +8,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class EntityQuery<T> extends Query {
-    /**
-     * A lambda expression that transforms a value (commonly used as a method parameter).
-     * @param <Input> The input type (e.g. ResultSet).
-     * @param <Output> The output type (e.g. Account).
-     */
-    public interface Transformation<Input, Output> {
-        /**
-         * Transforms the provided input value into the output type.
-         * @param input A value of the input type.
-         * @return A value of the output type that was created using the provided input value.
-         * @throws Exception If an exception is thrown during the transformation.
-         */
-        Output materialize(Input input) throws Exception;
-    }
-
     public EntityQuery(String statement, Connection connection) {
         super(statement, connection);
     }
@@ -40,7 +25,7 @@ public class EntityQuery<T> extends Query {
     }
 
     @Override
-    public EntityQuery<T> configure(Object ...parameters) throws Exception {
+    public EntityQuery<T> configure(Object... parameters) throws Exception {
         super.configure(parameters);
         return this;
     }
@@ -133,7 +118,7 @@ public class EntityQuery<T> extends Query {
 
     public CompletableFuture<T> asyncFetch(Transformation<ResultSet, T> transformation) {
         this.setAsync(true);
-        return  CompletableFuture.supplyAsync(() -> {
+        return CompletableFuture.supplyAsync(() -> {
             try {
                 return this.fetch(transformation);
             } catch (Exception exception) {
@@ -145,7 +130,7 @@ public class EntityQuery<T> extends Query {
 
     public CompletableFuture<List<T>> asyncFetchAll(Transformation<ResultSet, T> transformation) {
         this.setAsync(true);
-        return  CompletableFuture.supplyAsync(() -> {
+        return CompletableFuture.supplyAsync(() -> {
             try {
                 return this.fetchAll(transformation);
             } catch (Exception exception) {
@@ -153,5 +138,22 @@ public class EntityQuery<T> extends Query {
                 return List.of();
             }
         });
+    }
+
+    /**
+     * A lambda expression that transforms a value (commonly used as a method parameter).
+     *
+     * @param <Input>  The input type (e.g. ResultSet).
+     * @param <Output> The output type (e.g. Account).
+     */
+    public interface Transformation<Input, Output> {
+        /**
+         * Transforms the provided input value into the output type.
+         *
+         * @param input A value of the input type.
+         * @return A value of the output type that was created using the provided input value.
+         * @throws Exception If an exception is thrown during the transformation.
+         */
+        Output materialize(Input input) throws Exception;
     }
 }

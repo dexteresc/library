@@ -11,7 +11,8 @@ public class Account {
     private String email;
     private String phoneNumber;
 
-    public Account() {}
+    public Account() {
+    }
 
     public Account(Long id, String givenName, String familyName, String email, String phoneNumber) {
         this.id = id;
