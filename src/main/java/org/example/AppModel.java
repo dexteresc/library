@@ -74,4 +74,7 @@ public final class AppModel {
 
     public ReturnsModel getReturnsModel() { return returnsModel; }
 
+    public LoanManager getLoanManager() {
+        return loanManager;
+    }
 }
