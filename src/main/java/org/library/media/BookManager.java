@@ -22,7 +22,6 @@ public class BookManager extends MediaManager {
     private static final String CREATE_AUTHOR_STATEMENT = "INSERT INTO author (given_name, family_name) VALUES (?, ?)";
     private static final String UPDATE_AUTHOR_STATEMENT = "UPDATE author SET given_name = ?, family_name = ? WHERE id = ?";
     private static final String DELETE_AUTHOR_STATEMENT = "DELETE FROM author WHERE id = ?";
-    private static final String SELECT_AUTHOR_BY_ID_STATEMENT = "SELECT * FROM author WHERE id = ?";
     private static final String SELECT_FIRST_AUTHOR_BY_NAME_STATEMENT = "SELECT * FROM author WHERE given_name = ? AND family_name = ? LIMIT 1";
 
     /**
@@ -96,6 +95,18 @@ public class BookManager extends MediaManager {
                 .configure(author.getGivenName(), author.getFamilyName())
                 .executeQuery();
         author.setId(authorId);
+    }
+
+    public void updateAuthor(Author author) throws Exception {
+        database.update(UPDATE_AUTHOR_STATEMENT)
+                .configure(author.getGivenName(), author.getFamilyName(), author.getId())
+                .execute();
+    }
+
+    public void delete(Author author) throws Exception {
+        database.update(DELETE_AUTHOR_STATEMENT)
+                .configure(author.getId())
+                .execute();
     }
 
     public Author getOrCreateAuthor(Author author) throws Exception {
