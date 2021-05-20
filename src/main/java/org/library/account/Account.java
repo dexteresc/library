@@ -3,6 +3,12 @@ package org.library.account;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Account representing a user of the library system.
+ *
+ * @see Customer
+ * @see Staff
+ */
 public abstract class Account {
     private Long id;
     private String givenName;
@@ -10,10 +16,16 @@ public abstract class Account {
     private String email;
     private String phoneNumber;
 
+    /**
+     * Creates a new, empty, account instance.
+     */
     public Account() {
     }
 
-    public Account(Long id, String givenName, String familyName, String email, String phoneNumber) {
+    /**
+     * Creates a new account instance.
+     */
+    protected Account(Long id, String givenName, String familyName, String email, String phoneNumber) {
         this.id = id;
         this.givenName = givenName;
         this.familyName = familyName;
@@ -21,6 +33,12 @@ public abstract class Account {
         this.phoneNumber = phoneNumber;
     }
 
+    /**
+     * Creates a new account instance from a result set.
+     *
+     * @param resultSet A ResultSet instance.
+     * @throws SQLException if the ResultSet instance methods throw an exception.
+     */
     public Account(ResultSet resultSet) throws SQLException {
         this(resultSet.getLong("id"), resultSet.getString("given_name"), resultSet.getString("family_name"), resultSet.getString("email"), resultSet.getString("phone"));
     }
