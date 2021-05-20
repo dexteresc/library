@@ -7,14 +7,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Book type of article
+ * Book representing a literary work.
+ *
+ * @see Media
  */
 public class Book extends Media {
+
     private String isbn;
     private String publisher;
     private List<Author> authors;
 
-    public Book(Long id, String title, String classification, String summary, String location, LocalDate publishingDate, String publisher, String isbn, List<Author> authors) {
+    /**
+     * Creates a new, empty, book instance.
+     */
+    public Book() {
+    }
+
+    /**
+     * Creates a new book instance.
+     */
+    protected Book(Long id, String title, String classification, String summary, String location, LocalDate publishingDate, String publisher, String isbn, List<Author> authors) {
         super(id, title, classification, summary, location, publishingDate, (long) 0);
 
         this.isbn = isbn;
@@ -22,6 +34,12 @@ public class Book extends Media {
         this.authors = authors;
     }
 
+    /**
+     * Creates a new book instance from a result set.
+     *
+     * @param resultSet A ResultSet instance.
+     * @throws SQLException if the ResultSet instance methods throw an exception.
+     */
     public Book(ResultSet resultSet) throws SQLException {
         super(resultSet);
 
@@ -61,4 +79,5 @@ public class Book extends Media {
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
+
 }
