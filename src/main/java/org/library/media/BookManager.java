@@ -45,4 +45,8 @@ public class BookManager extends MediaManager {
                 .configure(book.getIsbn(), book.getPublisher(), book.getId())
                 .execute();
     }
+
+    public void deleteBook(Book book) throws Exception {
+        this.deleteMediaById(book.getId());
+    }
 }

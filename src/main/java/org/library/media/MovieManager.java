@@ -46,4 +46,8 @@ public class MovieManager extends MediaManager {
                 .execute();
     }
 
+    public void deleteMovie(Movie movie) throws Exception {
+        this.deleteMediaById(movie.getId());
+    }
+
 }

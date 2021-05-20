@@ -15,6 +15,7 @@ public class MediaItemManager extends MediaManager {
     private static final String SELECT_FIRST_AVAILABLE_MEDIA_ITEMS_BY_MEDIA_ID_STATEMENT = "SELECT *, (SELECT 0) AS currently_on_loan FROM media_item INNER JOIN media_type ON media_item.media_type_id = media_type.id WHERE media_id = ? AND status IS NULL LIMIT 1";
     private static final String CREATE_MEDIA_ITEM_STATEMENT = "INSERT INTO media_item (media_id, media_type_id, status) VALUES (?, ?, ?)";
     private static final String UPDATE_MEDIA_ITEM_STATEMENT = "UPDATE media_item SET media_type_id = ?, status = ? WHERE id = ?";
+    private static final String DELETE_MEDIA_ITEM_STATEMENT = "DELETE FROM media_item WHERE id = ?";
 
     public MediaItemManager(Database database) {
         super(database);
@@ -54,5 +55,12 @@ public class MediaItemManager extends MediaManager {
                 .configure(mediaItem.getMedia().getId(), mediaItem.getMediaType().getId(), mediaItem.getStatus())
                 .executeQuery();
         mediaItem.setId(id);
+    }
+
+    public void deleteMediaItem(MediaItem mediaItem) throws Exception {
+        logger.info("Deleting media item...");
+        database.delete(DELETE_MEDIA_ITEM_STATEMENT)
+                .configure(mediaItem.getId())
+                .execute();
     }
 }
