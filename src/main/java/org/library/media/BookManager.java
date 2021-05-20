@@ -23,7 +23,7 @@ public class BookManager extends MediaManager {
     private static final String UPDATE_AUTHOR_STATEMENT = "UPDATE author SET given_name = ?, family_name = ? WHERE id = ?";
     private static final String DELETE_AUTHOR_STATEMENT = "DELETE FROM author WHERE id = ?";
     private static final String SELECT_AUTHOR_BY_ID_STATEMENT = "SELECT * FROM author WHERE id = ?";
-    private static final String SEARCH_AUTHOR_STATEMENT = "SELECT * FROM author WHERE MATCH(given_name, family_name) AGAINST(? IN NATURAL LANGUAGE MODE)";
+    private static final String SELECT_FIRST_AUTHOR_BY_NAME_STATEMENT = "SELECT * FROM author WHERE given_name = ? AND family_name = ? LIMIT 1";
 
     /**
      * Creates a new book manager instance.
@@ -79,7 +79,32 @@ public class BookManager extends MediaManager {
      * @implNote This is a blocking operation.
      */
     public void deleteBook(Book book) throws Exception {
+        logger.info("Deleting book...");
         this.deleteMedia(book);
+    }
+
+    // Author
+
+    public Author getAuthor(Author author) throws Exception {
+        return database.select(SELECT_FIRST_AUTHOR_BY_NAME_STATEMENT, Author.class)
+                .configure(author.getGivenName(), author.getFamilyName())
+                .fetch(Author::new);
+    }
+
+    public void createAuthor(Author author) throws Exception {
+        Long authorId = database.insert(CREATE_AUTHOR_STATEMENT)
+                .configure(author.getGivenName(), author.getFamilyName())
+                .executeQuery();
+        author.setId(authorId);
+    }
+
+    public Author getOrCreateAuthor(Author author) throws Exception {
+        try {
+            return this.getAuthor(author);
+        } catch (Exception exception) {
+            this.createAuthor(author);
+            return author;
+        }
     }
 
     // TODO: Author book relationships
