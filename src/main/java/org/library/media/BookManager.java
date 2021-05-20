@@ -150,7 +150,7 @@ public class BookManager extends MediaManager {
                 .execute();
     }
 
-    public void delete(Author author) throws Exception {
+    public void deleteActor(Author author) throws Exception {
         database.update(DELETE_AUTHOR_STATEMENT)
                 .configure(author.getId())
                 .execute();
