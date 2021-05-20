@@ -104,7 +104,7 @@ public class RegisterController implements Initializable {
             customer.setPhoneNumber(phone);
             customer.setCustomerType(customerType);
             accountModel.createCustomerAccount(customer, password);
-            App.setRoot("Login");
+            App.setRoot("login");
         } else {
             if (!registerBox.getChildren().contains(errorLabel)) {
                 registerBox.getChildren().add(errorLabel);
