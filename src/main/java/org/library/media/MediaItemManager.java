@@ -6,6 +6,12 @@ import org.library.util.Database;
 
 import java.util.List;
 
+/**
+ * Manager for media item instances.
+ *
+ * @see MediaItem
+ * @see MediaManager
+ */
 public class MediaItemManager extends MediaManager {
     private static final Logger logger = LogManager.getLogger();
 
@@ -17,6 +23,11 @@ public class MediaItemManager extends MediaManager {
     private static final String UPDATE_MEDIA_ITEM_STATEMENT = "UPDATE media_item SET media_type_id = ?, status = ? WHERE id = ?";
     private static final String DELETE_MEDIA_ITEM_STATEMENT = "DELETE FROM media_item WHERE id = ?";
 
+    /**
+     * Creates a new media item manager instance.
+     *
+     * @param database A database instance.
+     */
     public MediaItemManager(Database database) {
         super(database);
     }

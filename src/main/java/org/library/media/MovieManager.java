@@ -4,6 +4,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.library.util.Database;
 
+/**
+ * Manager for movie media instances.
+ *
+ * @see Movie
+ * @see MediaManager
+ */
 public class MovieManager extends MediaManager {
     private static final Logger logger = LogManager.getLogger();
 
@@ -19,6 +25,11 @@ public class MovieManager extends MediaManager {
     private static final String SELECT_ACTOR_BY_ID_STATEMENT = "SELECT * FROM actor WHERE id = ?";
     private static final String SEARCH_ACTOR_STATEMENT = "SELECT * FROM actor WHERE MATCH(given_name, family_name) AGAINST(? IN NATURAL LANGUAGE MODE)";
 
+    /**
+     * Creates a new movie manager instance.
+     *
+     * @param database A database instance.
+     */
     public MovieManager(Database database) {
         super(database);
     }
@@ -30,6 +41,13 @@ public class MovieManager extends MediaManager {
                 .fetch(Movie::new);
     }
 
+    /**
+     * Creates a movie.
+     *
+     * @param movie Movie instance to create.
+     * @throws Exception if the movie already exists, or if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public void createMovie(Movie movie) throws Exception {
         logger.info("Creating movie...");
         this.createMedia(movie);
@@ -38,6 +56,13 @@ public class MovieManager extends MediaManager {
                 .execute();
     }
 
+    /**
+     * Updates an existing movie.
+     *
+     * @param movie Movie instance to update.
+     * @throws Exception if the movie cannot be found, or if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public void updateMovie(Movie movie) throws Exception {
         logger.info("Updating movie...");
         this.updateMedia(movie);
@@ -46,8 +71,15 @@ public class MovieManager extends MediaManager {
                 .execute();
     }
 
+    /**
+     * Deletes an existing movie.
+     *
+     * @param movie Movie instance to delete.
+     * @throws Exception if the movie cannot be found, or if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public void deleteMovie(Movie movie) throws Exception {
-        this.deleteMediaById(movie.getId());
+        this.deleteMedia(movie);
     }
 
 }
