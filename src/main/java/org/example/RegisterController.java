@@ -28,7 +28,7 @@ public class RegisterController implements Initializable {
     public TextField firstNameField;
     public ChoiceBox<CustomerType> membershipChoice;
     private AccountModel accountModel;
-    private ObservableList<CustomerType> customerTypes = FXCollections.observableArrayList();
+    private final ObservableList<CustomerType> customerTypes = FXCollections.observableArrayList();
 
     Label errorLabel = new Label("Error, please make sure that everything is answered and that it's answered correctly");
 
@@ -47,6 +47,7 @@ public class RegisterController implements Initializable {
         }
     }
 
+    @FXML
     public void switchToLogin() throws IOException { //behövs för att kunna nå register knappen
         App.setRoot("login");
     }

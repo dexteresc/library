@@ -70,9 +70,6 @@ public class PrimaryController implements Initializable {
         } else {
             promptSearchDecor();
         }
-        // Load Categories
-        // TODO: Implement
-
     }
 
     @FXML
@@ -108,7 +105,7 @@ public class PrimaryController implements Initializable {
         if (authenticationModel.isStaff()) { // USER IS ADMIN??
             borrowButton = new Button("Edit");
         } else {
-            borrowButton = new Button("Låna");
+            borrowButton = new Button("Borrow");
         }
 
 
