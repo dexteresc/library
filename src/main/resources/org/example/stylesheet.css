@@ -97,5 +97,16 @@
     -fx-background-radius: 5;
     -fx-min-width: 100%;
     -fx-padding: 10px;
+    -fx-spacing: 10px;
+}
+.adminView VBox VBox {
+    -fx-background-color: #e7e7e7;
+    -fx-background-radius: 5;
+    -fx-min-width: 100%;
+    -fx-padding: 10px;
+    -fx-spacing: 10px;
+}
+.adminView VBox VBox HBox {
+    -fx-background-color: #f2f2f2;
 
 }
