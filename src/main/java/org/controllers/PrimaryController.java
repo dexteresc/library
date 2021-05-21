@@ -1,5 +1,7 @@
 package org.controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -62,6 +64,9 @@ public class PrimaryController implements Initializable {
 
             this.searchResults = this.searchModel.getSearchResultsList();
             this.searchResults.addListener((ListChangeListener<Media>) change -> {
+                this.updateSearchResults();
+            });
+            this.searchModel.getNoSearchResults().addListener((o, a, b) -> {
                 this.updateSearchResults();
             });
         }

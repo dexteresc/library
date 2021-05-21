@@ -1,6 +1,7 @@
 package org.library.search;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.logging.log4j.LogManager;
@@ -24,6 +25,7 @@ public class SearchModel {
     private Database database;
     private MediaManager mediaManager;
     private ObservableList<Media> searchResultsList = FXCollections.observableList(new ArrayList<>());
+    private SimpleBooleanProperty noSearchResults = new SimpleBooleanProperty();
     private String previousQuery;
 
     public SearchModel(Database database) {
@@ -38,7 +40,10 @@ public class SearchModel {
         this.previousQuery = query;
 
         try {
-            this.searchMedia(query).thenAcceptAsync(result -> Platform.runLater(() -> this.searchResultsList.setAll(result)));
+            this.searchMedia(query).thenAcceptAsync(result -> Platform.runLater(() -> {
+                this.searchResultsList.setAll(result);
+                this.noSearchResults.set(result.size() < 1);
+            }));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,6 +51,10 @@ public class SearchModel {
 
     public ObservableList<Media> getSearchResultsList() {
         return searchResultsList;
+    }
+
+    public SimpleBooleanProperty getNoSearchResults() {
+        return this.noSearchResults;
     }
 
     public String getPreviousQuery() {
