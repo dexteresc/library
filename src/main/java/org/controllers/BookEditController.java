@@ -1,5 +1,6 @@
 package org.controllers;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -104,6 +105,11 @@ public class BookEditController implements EditController {
 
         this.authorsTableView.getColumns().add(givenNameColumn);
         this.authorsTableView.getColumns().add(familyNameColumn);
+
+        this.authorsTableView.setFixedCellSize(25);
+        this.authorsTableView.prefHeightProperty().bind(authorsTableView.fixedCellSizeProperty().multiply(Bindings.size(authorsTableView.getItems()).add(1.15)));
+        this.authorsTableView.minHeightProperty().bind(this.authorsTableView.prefHeightProperty());
+        this.authorsTableView.maxHeightProperty().bind(this.authorsTableView.prefHeightProperty());
     }
 
     public void removeAuthor() {
