@@ -1,5 +1,6 @@
 package org.controllers;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,7 +9,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.library.admin.AdminModel;
 import org.library.media.Author;
 import org.library.media.Book;
 
@@ -16,7 +16,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BookEditController implements EditController {
-    private AdminModel adminModel;
     private Book book;
     private ObservableList<Author> authorList;
 
@@ -80,13 +79,13 @@ public class BookEditController implements EditController {
         this.publisherField.setText(this.book.getPublisher());
 
         // Add listeners
-        this.titleField.textProperty().addListener((o, value, v) -> this.book.setTitle(value));
-        this.summaryField.textProperty().addListener((o, value, v) -> this.book.setSummary(value));
-        this.classificationField.textProperty().addListener((o, value, v) -> this.book.setClassification(value));
-        this.locationField.textProperty().addListener((o, value, v) -> this.book.setLocation(value));
-        this.publishingDatePicker.valueProperty().addListener((o, value, v) -> this.book.setPublishingDate(value));
-        this.isbnField.textProperty().addListener((o, value, v) -> this.book.setIsbn(value));
-        this.publisherField.textProperty().addListener((o, value, v) -> this.book.setPublisher(value));
+        this.titleField.textProperty().addListener((o, v, value) -> this.book.setTitle(value));
+        this.summaryField.textProperty().addListener((o, v, value) -> this.book.setSummary(value));
+        this.classificationField.textProperty().addListener((o, v, value) -> this.book.setClassification(value));
+        this.locationField.textProperty().addListener((o, v, value) -> this.book.setLocation(value));
+        this.publishingDatePicker.valueProperty().addListener((o, v, value) -> this.book.setPublishingDate(value));
+        this.isbnField.textProperty().addListener((o, v, value) -> this.book.setIsbn(value));
+        this.publisherField.textProperty().addListener((o, v, value) -> this.book.setPublisher(value));
 
         // Make author list observable
         this.authorList = FXCollections.observableList(this.book.getAuthors());
@@ -106,6 +105,17 @@ public class BookEditController implements EditController {
 
         this.authorsTableView.getColumns().add(givenNameColumn);
         this.authorsTableView.getColumns().add(familyNameColumn);
+
+        this.authorsTableView.setFixedCellSize(25);
+        this.authorsTableView.prefHeightProperty().bind(authorsTableView.fixedCellSizeProperty().multiply(Bindings.size(authorsTableView.getItems()).add(1.15)));
+        this.authorsTableView.minHeightProperty().bind(this.authorsTableView.prefHeightProperty());
+        this.authorsTableView.maxHeightProperty().bind(this.authorsTableView.prefHeightProperty());
+    }
+
+    public void removeAuthor() {
+        if (!this.authorsTableView.getSelectionModel().isEmpty()) {
+            this.authorList.remove(this.authorsTableView.getSelectionModel().getFocusedIndex());
+        }
     }
 
     public void addAuthor() {
