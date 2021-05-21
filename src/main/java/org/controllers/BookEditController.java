@@ -80,13 +80,13 @@ public class BookEditController implements EditController {
         this.publisherField.setText(this.book.getPublisher());
 
         // Add listeners
-        this.titleField.textProperty().addListener((o, value, v) -> this.book.setTitle(value));
-        this.summaryField.textProperty().addListener((o, value, v) -> this.book.setSummary(value));
-        this.classificationField.textProperty().addListener((o, value, v) -> this.book.setClassification(value));
-        this.locationField.textProperty().addListener((o, value, v) -> this.book.setLocation(value));
-        this.publishingDatePicker.valueProperty().addListener((o, value, v) -> this.book.setPublishingDate(value));
-        this.isbnField.textProperty().addListener((o, value, v) -> this.book.setIsbn(value));
-        this.publisherField.textProperty().addListener((o, value, v) -> this.book.setPublisher(value));
+        this.titleField.textProperty().addListener((o, v, value) -> this.book.setTitle(value));
+        this.summaryField.textProperty().addListener((o, v, value) -> this.book.setSummary(value));
+        this.classificationField.textProperty().addListener((o, v, value) -> this.book.setClassification(value));
+        this.locationField.textProperty().addListener((o, v, value) -> this.book.setLocation(value));
+        this.publishingDatePicker.valueProperty().addListener((o, v, value) -> this.book.setPublishingDate(value));
+        this.isbnField.textProperty().addListener((o, v, value) -> this.book.setIsbn(value));
+        this.publisherField.textProperty().addListener((o, v, value) -> this.book.setPublisher(value));
 
         // Make author list observable
         this.authorList = FXCollections.observableList(this.book.getAuthors());
@@ -106,6 +106,12 @@ public class BookEditController implements EditController {
 
         this.authorsTableView.getColumns().add(givenNameColumn);
         this.authorsTableView.getColumns().add(familyNameColumn);
+    }
+
+    public void removeAuthor() {
+        if (!this.authorsTableView.getSelectionModel().isEmpty()) {
+            this.authorList.remove(this.authorsTableView.getSelectionModel().getFocusedIndex());
+        }
     }
 
     public void addAuthor() {

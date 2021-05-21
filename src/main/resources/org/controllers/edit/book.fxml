@@ -45,6 +45,7 @@
     <VBox>
         <Label>Authors</Label>
         <TableView fx:id="authorsTableView" />
+        <Button fx:id="removeAuthorButton" onAction="#removeAuthor" text="Remove author"/>
         <HBox>
             <TextField fx:id="authorGivenNameField" promptText="Given name" />
             <TextField fx:id="authorFamilyNameField" promptText="Family name" />
