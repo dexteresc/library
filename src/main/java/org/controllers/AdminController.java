@@ -91,4 +91,8 @@ public class AdminController implements Initializable {
     public void save() throws Exception {
         this.adminModel.save();
     }
+
+    public void delete() throws Exception {
+        this.adminModel.delete();
+    }
 }
