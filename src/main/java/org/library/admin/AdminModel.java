@@ -1,7 +1,6 @@
 package org.library.admin;
 
 import org.controllers.EditingMode;
-import org.controllers.MediaItemConfiguration;
 import org.library.media.*;
 
 public class AdminModel {
