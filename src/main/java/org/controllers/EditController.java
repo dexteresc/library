@@ -1,9 +1,10 @@
 package org.controllers;
 
 import javafx.fxml.Initializable;
+import org.library.admin.EditModel;
 
 public interface EditController extends Initializable {
-    void setObjectToEdit(Object object);
+    void setEditModel(EditModel editModel);
 
     void configure();
 }

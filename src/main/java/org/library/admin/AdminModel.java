@@ -1,6 +1,5 @@
 package org.library.admin;
 
-import org.controllers.EditingMode;
 import org.library.media.*;
 
 public class AdminModel {
@@ -8,8 +7,7 @@ public class AdminModel {
     private MovieManager movieManager;
     private MediaItemManager mediaItemManager;
 
-    private Object object;
-    private EditingMode editingMode = EditingMode.CREATE;
+    private EditModel editModel;
 
     public AdminModel(BookManager bookManager, MovieManager movieManager, MediaItemManager mediaItemManager) {
         this.bookManager = bookManager;
@@ -17,54 +15,30 @@ public class AdminModel {
         this.mediaItemManager = mediaItemManager;
     }
 
-    public Object getObject() {
-        return object;
+    public boolean hasEditModel() {
+        return this.editModel != null;
     }
 
-    public void setObject(Object object) {
-        this.object = object;
+    public EditModel getEditModel() {
+        return editModel;
     }
 
-    public Boolean hasObject() {
-        return this.object != null;
-    }
+    public void editBook(Book book) {
+        BookEditModel bookEditModel = new BookEditModel(bookManager);
+        bookEditModel.setBook(book);
 
-    public void setEditingMode(EditingMode editingMode) {
-        this.editingMode = editingMode;
+        this.editModel = bookEditModel;
     }
 
     public void save() throws Exception {
-        if (object instanceof Book) {
-            this.save((Book) object);
-        } else if (object instanceof Movie) {
-            this.save((Movie) object);
-        }
-    }
-
-    private void save(Book book) throws Exception {
-        switch (this.editingMode) {
-            case CREATE: this.bookManager.createBook(book); break;
-            case UPDATE: this.bookManager.updateBook(book); break;
-        }
-    }
-
-    private void save(Movie movie) throws Exception {
-        switch (this.editingMode) {
-            case CREATE: this.movieManager.createMovie(movie); break;
-            case UPDATE: this.movieManager.updateMovie(movie); break;
-        }
+        this.editModel.save();
     }
 
     public void delete() throws Exception {
-        if (object instanceof Book) {
-            this.bookManager.deleteBook((Book) object);
-        } else if (object instanceof Movie) {
-            this.movieManager.deleteMovie((Movie) object);
-        }
+        this.editModel.delete();
     }
 
     public void reset() {
-        this.object = null;
-        this.setEditingMode(EditingMode.CREATE);
+        this.editModel = null;
     }
 }

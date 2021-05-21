@@ -9,6 +9,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.library.admin.BookEditModel;
+import org.library.admin.EditModel;
 import org.library.media.Author;
 import org.library.media.Book;
 
@@ -16,6 +18,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BookEditController implements EditController {
+    private BookEditModel bookEditModel;
     private Book book;
     private ObservableList<Author> authorList;
 
@@ -58,12 +61,14 @@ public class BookEditController implements EditController {
     }
 
     @Override
-    public void setObjectToEdit(Object object) {
-        this.book = (Book) object;
+    public void setEditModel(EditModel editModel) {
+        this.bookEditModel = (BookEditModel) editModel;
     }
 
     @Override
     public void configure() {
+        this.book = this.bookEditModel.getBook();
+
         // Make sure book is not null.
         if (this.book == null) {
             return;

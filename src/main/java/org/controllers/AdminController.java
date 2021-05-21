@@ -14,6 +14,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable {
+    private static String pathToChildNode;
+
     private AdminModel adminModel;
 
     @FXML
@@ -41,11 +43,8 @@ public class AdminController implements Initializable {
         });
 
         // Configure editing mode
-        if (adminModel.hasObject()) {
-            this.adminModel.setEditingMode(EditingMode.UPDATE);
-            this.configureChildNode();
-        } else {
-            this.adminModel.setEditingMode(EditingMode.CREATE);
+        if (adminModel.hasEditModel()) {
+            this.restoreChildNode();
         }
     }
 
@@ -54,38 +53,41 @@ public class AdminController implements Initializable {
         return fxmlLoader.load();
     }
 
-    private void setChild(String path) throws IOException {
-        Node node = this.getNode(path);
-        Object userData = node.getUserData();
+    private void restoreChildNode() {
+        String path = AdminController.pathToChildNode;
 
-        if (userData instanceof EditController) {
-            EditController editController = (EditController) userData;
-            editController.setObjectToEdit(this.adminModel.getObject());
-            editController.configure();
+        if (path != null) {
+            this.configureChildNode(path);
         }
-
-        this.childNode.getChildren().setAll(node);
     }
 
-    private void configureChildNode() {
-        Object object = adminModel.getObject();
-
-        // Cancel configuration if media is null.
-        if (object == null) { return; }
-
+    private void configureChildNode(String path) {
         try {
-            if (object instanceof Book) {
-                // Load BookEditController
-                this.setChild("edit/book");
+            Node node = this.getNode(path);
+            Object userData = node.getUserData();
+
+            if (userData instanceof EditController) {
+                EditController editController = (EditController) userData;
+                editController.setEditModel(this.adminModel.getEditModel());
+                editController.configure();
             }
+
+            this.childNode.getChildren().setAll(node);
+
+            AdminController.pathToChildNode = path;
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
     public void newBook() {
-        this.adminModel.setObject(new Book());
-        this.configureChildNode();
+        this.adminModel.editBook(new Book());
+        this.configureChildNode("edit/book");
+    }
+
+    public void editBook(Book book) {
+        this.adminModel.editBook(book);
+        this.configureChildNode("edit/book");
     }
 
     public void save() throws Exception {

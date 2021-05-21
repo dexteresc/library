@@ -161,7 +161,7 @@ public class PrimaryController implements Initializable {
                 if (authenticationModel.isStaff()) { // USER IS ADMIN?
                     Button editButton = new Button("Edit");
                     editButton.setOnAction(actionEvent1 -> {
-                        adminModel.setObject(media);
+                        adminModel.editBook((Book) media);
                         try {
                             App.setRoot("admin");
                         } catch (IOException e) {
