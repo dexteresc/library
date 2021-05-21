@@ -54,7 +54,7 @@ public abstract class MediaManager {
      * @implNote This is a blocking operation.
      */
     protected void updateMedia(Media media) throws Exception {
-        logger.info("Updating media (" + media.getId() + ")...");
+        logger.info("Updating media with id " + media.getId() + "...");
         database.update(UPDATE_MEDIA_STATEMENT)
                 .configure(media.getTitle(), media.getClassification(), media.getSummary(), media.getLocation(), media.getPublishingDate(), media.getId())
                 .execute();
@@ -68,7 +68,7 @@ public abstract class MediaManager {
      * @implNote This is a blocking operation.
      */
     protected void deleteMedia(Media media) throws Exception {
-        logger.info("Deleting media by id (" + media.getId() + ")...");
+        logger.info("Deleting media with id " + media.getId() + "...");
         database.delete(DELETE_MEDIA_STATEMENT)
                 .configure(media.getId())
                 .execute();

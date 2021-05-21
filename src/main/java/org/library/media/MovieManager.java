@@ -42,7 +42,7 @@ public class MovieManager extends MediaManager {
     }
 
     public Movie getMovieById(Long id) throws Exception {
-        logger.info("Getting movie by id...");
+        logger.info("Getting movie with id " + id + "...");
         return database.select(SELECT_MOVIE_BY_ID_STATEMENT, Movie.class)
                 .configure(id)
                 .fetch(Movie::new);
@@ -81,7 +81,7 @@ public class MovieManager extends MediaManager {
      * @implNote This is a blocking operation.
      */
     public void updateMovie(Movie movie) throws Exception {
-        logger.info("Updating movie...");
+        logger.info("Updating movie with id " + movie.getId() + "...");
         this.updateMedia(movie);
         database.update(UPDATE_MOVIE_STATEMENT)
                 .configure(movie.getDirector(), movie.getAgeRating(), movie.getProductionCountry(), movie.getId())
@@ -125,18 +125,21 @@ public class MovieManager extends MediaManager {
      * @implNote This is a blocking operation.
      */
     public void deleteMovie(Movie movie) throws Exception {
+        logger.info("Deleting movie with id " + movie.getId() + "...");
         this.deleteMedia(movie);
     }
 
     // Actor
 
     public Actor getActor(Actor actor) throws Exception {
+        logger.info("Getting actor (given name: " + actor.getGivenName() + ", family name: " + actor.getFamilyName() + ")...");
         return database.select(SELECT_FIRST_ACTOR_BY_NAME_STATEMENT, Actor.class)
                 .configure(actor.getGivenName(), actor.getFamilyName())
                 .fetch(Actor::new);
     }
 
     public void createActor(Actor actor) throws Exception {
+        logger.info("Creating actor...");
         Long actorId = database.insert(CREATE_ACTOR_STATEMENT)
                 .configure(actor.getGivenName(), actor.getFamilyName())
                 .executeQuery();
@@ -144,18 +147,21 @@ public class MovieManager extends MediaManager {
     }
 
     public void updateActor(Actor actor) throws Exception {
+        logger.info("Updating actor with id " + actor.getId() + "...");
         database.update(UPDATE_ACTOR_STATEMENT)
                 .configure(actor.getGivenName(), actor.getFamilyName(), actor.getId())
                 .execute();
     }
 
     public void deleteActor(Actor actor) throws Exception {
+        logger.info("Deleting actor with id " + actor.getId() + "...");
         database.update(DELETE_ACTOR_STATEMENT)
                 .configure(actor.getId())
                 .execute();
     }
 
     public Actor getOrCreateActor(Actor actor) throws Exception {
+        logger.info("Get or create actor...");
         try {
             return this.getActor(actor);
         } catch (Exception exception) {
@@ -167,18 +173,21 @@ public class MovieManager extends MediaManager {
     // Actor movie relationships
 
     private List<Actor> getAllActorsForMedia(Media media) throws Exception {
+        logger.info("Getting all actors for media with id " + media.getId() + "...");
         return database.select(SELECT_ALL_ACTORS_FOR_MEDIA_STATEMENT, Actor.class)
                 .configure(media.getId())
                 .fetchAll(Actor::new);
     }
 
     private void addActorToMovie(Actor actor, Movie movie) throws Exception {
+        logger.info("Adding actor with id " + actor.getId() + " to movie with id " + movie.getId() + "...");
         database.insert(CREATE_ACTOR_MEDIA_STATEMENT)
                 .configure(actor.getId(), movie.getId())
                 .execute();
     }
 
     private void removeActorFromMovie(Actor actor, Movie movie) throws Exception {
+        logger.info("Adding actor with id " + actor.getId() + " to movie with id " + movie.getId() + "...");
         database.delete(DELETE_ACTOR_MEDIA_STATEMENT)
                 .configure(actor.getId(), movie.getId())
                 .execute();

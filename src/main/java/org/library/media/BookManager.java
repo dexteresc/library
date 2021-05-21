@@ -81,7 +81,7 @@ public class BookManager extends MediaManager {
      * @implNote This is a blocking operation.
      */
     public void updateBook(Book book) throws Exception {
-        logger.info("Updating book...");
+        logger.info("Updating book with id " + book.getId() + "...");
         this.updateMedia(book);
         database.update(UPDATE_BOOK_STATEMENT)
                 .configure(book.getIsbn(), book.getPublisher(), book.getId())
@@ -125,19 +125,21 @@ public class BookManager extends MediaManager {
      * @implNote This is a blocking operation.
      */
     public void deleteBook(Book book) throws Exception {
-        logger.info("Deleting book...");
+        logger.info("Deleting book with id " + book.getId() + "...");
         this.deleteMedia(book);
     }
 
     // Author
 
     public Author getAuthor(Author author) throws Exception {
+        logger.info("Getting author (given name: " + author.getGivenName() + ", family name: " + author.getFamilyName() + ")...");
         return database.select(SELECT_FIRST_AUTHOR_BY_NAME_STATEMENT, Author.class)
                 .configure(author.getGivenName(), author.getFamilyName())
                 .fetch(Author::new);
     }
 
     public void createAuthor(Author author) throws Exception {
+        logger.info("Creating author...");
         Long authorId = database.insert(CREATE_AUTHOR_STATEMENT)
                 .configure(author.getGivenName(), author.getFamilyName())
                 .executeQuery();
@@ -145,18 +147,21 @@ public class BookManager extends MediaManager {
     }
 
     public void updateAuthor(Author author) throws Exception {
+        logger.info("Updating author with id " + author.getId() + "...");
         database.update(UPDATE_AUTHOR_STATEMENT)
                 .configure(author.getGivenName(), author.getFamilyName(), author.getId())
                 .execute();
     }
 
     public void deleteActor(Author author) throws Exception {
+        logger.info("Deleting author with id " + author.getId() + "...");
         database.update(DELETE_AUTHOR_STATEMENT)
                 .configure(author.getId())
                 .execute();
     }
 
     public Author getOrCreateAuthor(Author author) throws Exception {
+        logger.info("Get or create author...");
         try {
             return this.getAuthor(author);
         } catch (Exception exception) {
@@ -168,18 +173,21 @@ public class BookManager extends MediaManager {
     // Author book relationships
 
     private List<Author> getAllAuthorsForMedia(Media media) throws Exception {
+        logger.info("Getting all authors for media with id " + media.getId() + "...");
         return database.select(SELECT_ALL_AUTHORS_FOR_MEDIA_STATEMENT, Author.class)
                 .configure(media.getId())
                 .fetchAll(Author::new);
     }
 
     private void addAuthorToBook(Author author, Book book) throws Exception {
+        logger.info("Adding author with id " + author.getId() + " to book with id " + book.getId() + "...");
         database.insert(CREATE_AUTHOR_MEDIA_STATEMENT)
                 .configure(author.getId(), book.getId())
                 .execute();
     }
 
     private void removeAuthorFromBook(Author author, Book book) throws Exception {
+        logger.info("Removing author with id " + author.getId() + " from book with id " + book.getId() + "...");
         database.delete(DELETE_AUTHOR_MEDIA_STATEMENT)
                 .configure(author.getId(), book.getId())
                 .execute();

@@ -36,42 +36,41 @@ public class MediaItemManager extends MediaManager {
     }
 
     public List<MediaItem> getAllMediaItems(Media media) throws Exception {
-        logger.info("Getting all media items...");
+        logger.info("Getting all media items for media id " + media.getId() + "...");
         return database.select(SELECT_MEDIA_ITEMS_BY_MEDIA_ID_STATEMENT, MediaItem.class)
                 .configure(media.getId())
                 .fetchAll(resultSet -> new MediaItem(resultSet.getLong("id"), media, new MediaType(resultSet), resultSet.getInt("currently_on_loan") == 1, MediaItem.Status.resolve(resultSet.getString("status"))));
     }
 
     public List<MediaItem> getAvailableMediaItems(Media media) throws Exception {
-        logger.info("Getting all available media items...");
+        logger.info("Getting all available media items for media with id " + media.getId() + "...");
         return database.select(SELECT_AVAILABLE_MEDIA_ITEMS_BY_MEDIA_ID_STATEMENT, MediaItem.class)
                 .configure(media.getId())
                 .fetchAll(resultSet -> new MediaItem(resultSet.getLong("id"), media, new MediaType(resultSet), resultSet.getInt("currently_on_loan") == 1, MediaItem.Status.NONE));
     }
 
     public MediaItem getFirstAvailableMediaItem(Media media) throws Exception {
-        logger.info("Getting first available media item...");
+        logger.info("Getting first available media item for media with id " + media.getId() + "...");
         return database.select(SELECT_FIRST_AVAILABLE_MEDIA_ITEMS_BY_MEDIA_ID_STATEMENT, MediaItem.class)
                 .configure(media.getId())
                 .fetch(resultSet -> new MediaItem(resultSet.getLong("id"), media, new MediaType(resultSet), resultSet.getInt("currently_on_loan") == 1, MediaItem.Status.NONE));
     }
 
     public List<MediaType> getAllMediaTypes() throws Exception {
+        logger.info("Getting all media types...");
         return database.select(SELECT_ALL_MEDIA_TYPES_STATEMENT, MediaType.class)
                 .fetchAll(MediaType::new);
     }
 
     public void updateMediaItem(MediaItem mediaItem) throws Exception {
-        logger.info("Updating media item (" + mediaItem.getId() + ")...");
+        logger.info("Updating media item with id " + mediaItem.getId() + "...");
         database.update(UPDATE_MEDIA_ITEM_STATEMENT)
                 .configure(mediaItem.getMediaType().getId(), mediaItem.getStatus().getRawValue(), mediaItem.getId())
                 .execute();
     }
 
     public void updateMediaItems(Media media, List<MediaItem> mediaItems) throws Exception {
-        // Get existing
-        // - Diff
-        // - Add, Update, Delete
+        logger.info("Updating media items...");
 
         // Get media items before update
         List<MediaItem> mediaItemsBeforeUpdate = this.getAllMediaItems(media);
@@ -110,7 +109,7 @@ public class MediaItemManager extends MediaManager {
     }
 
     public void deleteMediaItem(MediaItem mediaItem) throws Exception {
-        logger.info("Deleting media item...");
+        logger.info("Deleting media item with id " + mediaItem.getId() + "...");
         database.delete(DELETE_MEDIA_ITEM_STATEMENT)
                 .configure(mediaItem.getId())
                 .execute();
