@@ -8,7 +8,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.library.admin.AdminModel;
 import org.library.media.Author;
 import org.library.media.Book;
 
@@ -16,7 +15,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BookEditController implements EditController {
-    private AdminModel adminModel;
     private Book book;
     private ObservableList<Author> authorList;
 
