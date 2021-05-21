@@ -7,7 +7,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -27,15 +26,16 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class PrimaryController implements Initializable {
-    public Button registerButton;
-    public Button loginButton;
-    public ListView<String> categoriesView;
+    @FXML
     public VBox libView;
+    @FXML
     public StackPane libStackPane;
+    @FXML
     public BorderPane mainPane;
+    @FXML
     public TextField searchBar;
+    @FXML
     public Button searchButton;
-    public BorderPane headerButtonBox;
 
     private AuthenticationModel authenticationModel;
     private SearchModel searchModel;
@@ -61,7 +61,9 @@ public class PrimaryController implements Initializable {
             this.searchModel = App.getAppModel().getSearchModel();
 
             this.searchResults = this.searchModel.getSearchResultsList();
-            this.searchResults.addListener((ListChangeListener<Media>) change -> this.updateSearchResults());
+            this.searchResults.addListener((ListChangeListener<Media>) change -> {
+                this.updateSearchResults();
+            });
         }
 
         // Configure loan Manager
@@ -93,8 +95,8 @@ public class PrimaryController implements Initializable {
     private void updateSearchResults() {
         libView.getChildren().clear();
 
-        if (searchResults.size() < 1) {
-            promptSearchDecor();
+        if (searchResults.isEmpty()) {
+            promptSearchDecor("No result for: \"" + searchModel.getPreviousQuery() + "\"");
         } else {
             for (Media media : searchResults) {
                 libModuleCreate(media);
