@@ -1,62 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/13"
-            fx:controller="org.controllers.NewLoanController">
-    <ScrollPane hbarPolicy="NEVER" prefHeight="100.0" prefWidth="200.0" styleClass="libraryScrollPane"
-                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                AnchorPane.topAnchor="0.0">
-        <BorderPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                    prefHeight="300.0" prefWidth="300">
-            <top>
-                <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" spacing="40.0"
-                      BorderPane.alignment="TOP_CENTER">
-                    <Label text="Loan">
-                        <font>
-                            <Font name="System Bold" size="20.0"/>
-                        </font>
-                    </Label>
-                </HBox>
-            </top>
-            <center>
-                <HBox alignment="CENTER" fillHeight="false" maxWidth="400">
-                    <VBox prefHeight="100.0" spacing="20.0">
-                        <Label text="Items that will be borrowed."/>
-                        <GridPane fx:id="loanItemsBox" alignment="CENTER_LEFT" gridLinesVisible="true">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                            </rowConstraints>
-                        </GridPane>
-                    </VBox>
-                </HBox>
-            </center>
-            <bottom>
-                <VBox prefHeight="100.0" spacing="20.0" BorderPane.alignment="BOTTOM_CENTER">
-                    <HBox alignment="CENTER" fillHeight="false" spacing="40.0">
-                        <Button onAction="#navigateToHome" text="Add additional items">
-                        </Button>
-                        <Button fx:id="startLoanButton" onAction="#startLoan" text="Start Loan">
-                        </Button>
-                    </HBox>
-                    <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0">
-                        <Label fx:id="errorLabel" styleClass="fieldError"/>
-                    </HBox>
-                    <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0">
-                        <Button fx:id="cancelLoanButton" onAction="#cancelLoan" text="Cancel Loan">
-                        </Button>
-                    </HBox>
-                    <BorderPane.margin>
-                        <Insets top="20.0"/>
-                    </BorderPane.margin>
-                </VBox>
-            </bottom>
-        </BorderPane>
-    </ScrollPane>
-</AnchorPane>
+
+<StackPane prefHeight="490.0" prefWidth="438.0" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/13"
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.controllers.NewLoanController">
+   <BorderPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+               prefWidth="300">
+      <top>
+         <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" spacing="40.0"
+               BorderPane.alignment="TOP_CENTER">
+            <Label styleClass="h1" text="Loan">
+               <font>
+                  <Font name="System Bold" size="20.0"/>
+               </font>
+            </Label>
+         </HBox>
+      </top>
+      <center>
+         <HBox alignment="CENTER" fillHeight="false" maxWidth="400">
+            <VBox prefHeight="400.0" prefWidth="366.0" spacing="20.0">
+               <Label text="Items that will be borrowed."/>
+               <BorderPane>
+                  <right>
+                     <Label styleClass="h2" text="Return date" translateX="-100.0" BorderPane.alignment="CENTER"/>
+                  </right>
+                  <left>
+                     <Label styleClass="h2" text="Title" BorderPane.alignment="CENTER"/>
+                  </left>
+               </BorderPane>
+               <GridPane fx:id="loanItemsBox" alignment="CENTER_LEFT" hgap="10.0" prefHeight="33.0"
+                         prefWidth="365.0" style="-fx-background-color: #e7e7e7; -fx-border-color: #000000;"
+                         vgap="10.0">
+                  <columnConstraints>
+                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                  </columnConstraints>
+                  <rowConstraints>
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                  </rowConstraints>
+                  <padding>
+                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                  </padding>
+               </GridPane>
+               <VBox prefHeight="51.0" prefWidth="438.0" spacing="20.0">
+                  <HBox alignment="CENTER" fillHeight="false" spacing="40.0">
+                     <Button onAction="#navigateToHome" text="Add additional items"/>
+                     <Button fx:id="startLoanButton" onAction="#startLoan" text="Start Loan"/>
+                  </HBox>
+                  <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0">
+                     <Label fx:id="errorLabel" styleClass="fieldError"/>
+                  </HBox>
+                  <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0">
+                     <Button fx:id="cancelLoanButton" onAction="#cancelLoan" text="Cancel Loan"/>
+                  </HBox>
+               </VBox>
+            </VBox>
+         </HBox>
+      </center>
+   </BorderPane>
+</StackPane>
