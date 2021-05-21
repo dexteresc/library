@@ -89,12 +89,7 @@ public class Query {
             configuration.apply(preparedStatement);
 
             // Execute prepared statement
-            boolean isUpdate = statement.contains("UPDATE");
-            boolean successful = isUpdate ? preparedStatement.executeUpdate() > 0 : preparedStatement.execute();
-
-            if (!successful) {
-                throw new Exception("Failed to execute query.");
-            }
+            preparedStatement.execute();
         } finally {
             // Clean up
             if (preparedStatement != null && !preparedStatement.isClosed()) {
