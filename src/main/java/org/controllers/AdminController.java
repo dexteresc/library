@@ -117,4 +117,15 @@ public class AdminController implements Initializable {
     public void delete() throws Exception {
         this.adminModel.delete();
     }
+
+    public void editMediaItems() {
+        if (this.adminModel.hasEditModel()) {
+            EditModel editModel = this.adminModel.getEditModel();
+
+            if (editModel instanceof BookEditModel) {
+                BookEditModel bookEditModel = (BookEditModel) editModel;
+                this.editMediaItems(bookEditModel.getBook());
+            }
+        }
+    }
 }

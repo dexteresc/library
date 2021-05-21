@@ -28,6 +28,7 @@
             <Button fx:id="backButton" mnemonicParsing="false" text="Back"/>
             <Button fx:id="saveButton" mnemonicParsing="false" onAction="#save" text="Save"/>
             <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#delete" text="Delete"/>
+            <Button fx:id="mediaItemsButton" mnemonicParsing="false" onAction="#editMediaItems" text="Media items"/>
         </VBox>
     </left>
 </BorderPane>
