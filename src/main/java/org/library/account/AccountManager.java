@@ -60,7 +60,7 @@ public class AccountManager {
      * @implNote This is a blocking operation.
      */
     public Customer getCustomerById(Long id) throws Exception {
-        logger.info("Getting customer by id...");
+        logger.info("Getting customer by id " + id + "...");
         return database.select(SELECT_CUSTOMER_BY_ID_STATEMENT, Customer.class)
                 .configure(id)
                 .fetch(Customer::new);
@@ -74,7 +74,7 @@ public class AccountManager {
      * @implNote This is a blocking operation.
      */
     public Staff getStaffById(Long id) throws Exception {
-        logger.info("Getting staff by id...");
+        logger.info("Getting staff by id " + id + "...");
         return database.select(SELECT_STAFF_BY_ID_STATEMENT, Staff.class)
                 .configure(id)
                 .fetch(Staff::new);
@@ -128,7 +128,7 @@ public class AccountManager {
      * @implNote This is a blocking operation.
      */
     public void updateAccount(Account account) throws Exception {
-        logger.info("Updating account...");
+        logger.info("Updating account with id " + account.getId() + "...");
         database.update(UPDATE_ACCOUNT_STATEMENT)
                 .configure(account.getGivenName(), account.getFamilyName(), account.getEmail(), account.getPhoneNumber(), account.getId())
                 .execute();
@@ -140,6 +140,7 @@ public class AccountManager {
      * @implNote This is a blocking operation.
      */
     public List<CustomerType> getCustomerTypes() throws Exception {
+        logger.info("Getting customer types...");
         return database.select(SELECT_ALL_CUSTOMER_TYPES_STATEMENT, CustomerType.class)
                 .fetchAll(CustomerType::new);
     }
@@ -152,7 +153,7 @@ public class AccountManager {
      * @implNote This is a blocking operation.
      */
     public void deleteAccount(Account account) throws Exception {
-        logger.info("Deleting account...");
+        logger.info("Deleting account with id " + account.getId() + "...");
         database.delete(DELETE_ACCOUNT_BY_ID_STATEMENT)
                 .configure(account.getId())
                 .execute();

@@ -149,6 +149,7 @@ public class LoanManager {
     }
 
     private Loan getLoanByMediaItemId(Long mediaItemId) throws Exception {
+        logger.info("Getting loan by media item id " + mediaItemId + "...");
         return database.select(SELECT_LOAN_BY_MEDIA_ITEM_ID_STATEMENT, Loan.class)
                 .configure(mediaItemId)
                 .fetch(Loan::new);
