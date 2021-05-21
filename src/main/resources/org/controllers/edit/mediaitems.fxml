@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.controllers.MediaItemEditController"
+            prefHeight="400.0" prefWidth="600.0">
+    <userData>
+        <fx:reference source="controller" />
+    </userData>
+    <VBox>
+        <Label>Media items</Label>
+        <TableView fx:id="mediaItemsTableView" />
+        <HBox fx:id="actionBox" alignment="CENTER_RIGHT">
+            <Button text="Remove media item" onAction="#removeMediaItem" />
+            <Button text="Edit media item" onAction="#editMediaItem" />
+        </HBox>
+        <HBox>
+            <ChoiceBox fx:id="mediaTypeChoiceBox"/>
+            <ChoiceBox fx:id="mediaItemStatusChoiceBox"/>
+            <Button fx:id="addMediaItemButton" text="Add media item" onAction="#addMediaItem" />
+            <Button fx:id="saveMediaItemButton" text="Save media item" onAction="#saveMediaItem" />
+        </HBox>
+    </VBox>
+</AnchorPane>

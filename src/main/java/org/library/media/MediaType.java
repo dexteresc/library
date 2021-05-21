@@ -2,6 +2,7 @@ package org.library.media;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class MediaType {
     private Long id;
@@ -15,7 +16,7 @@ public class MediaType {
     }
 
     public MediaType(ResultSet resultSet) throws SQLException {
-        this(resultSet.getLong("id"), resultSet.getString("type_name"), resultSet.getInt("loan_period"));
+        this(resultSet.getLong("media_type_id"), resultSet.getString("type_name"), resultSet.getInt("loan_period"));
     }
 
     public Long getId() {
@@ -40,5 +41,25 @@ public class MediaType {
 
     public void setLoanPeriod(Integer loanPeriod) {
         this.loanPeriod = loanPeriod;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MediaType)) return false;
+
+        MediaType mediaType = (MediaType) o;
+
+        return Objects.equals(id, mediaType.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

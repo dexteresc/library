@@ -30,6 +30,13 @@ public class AdminModel {
         this.editModel = bookEditModel;
     }
 
+    public void editMediaItems(Media media) {
+        MediaItemsEditModel mediaItemsEditModel = new MediaItemsEditModel(mediaItemManager);
+        mediaItemsEditModel.setMedia(media);
+
+        this.editModel = mediaItemsEditModel;
+    }
+
     public void save() throws Exception {
         this.editModel.save();
     }

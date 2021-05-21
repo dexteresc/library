@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.library.util.Database;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Manager for media item instances.
@@ -22,6 +23,8 @@ public class MediaItemManager extends MediaManager {
     private static final String CREATE_MEDIA_ITEM_STATEMENT = "INSERT INTO media_item (media_id, media_type_id, status) VALUES (?, ?, ?)";
     private static final String UPDATE_MEDIA_ITEM_STATEMENT = "UPDATE media_item SET media_type_id = ?, status = ? WHERE id = ?";
     private static final String DELETE_MEDIA_ITEM_STATEMENT = "DELETE FROM media_item WHERE id = ?";
+
+    private static final String SELECT_ALL_MEDIA_TYPES_STATEMENT = "SELECT id AS media_type_id, type_name, loan_period FROM media_type";
 
     /**
      * Creates a new media item manager instance.
@@ -53,25 +56,55 @@ public class MediaItemManager extends MediaManager {
                 .fetch(resultSet -> new MediaItem(resultSet.getLong("id"), media, new MediaType(resultSet), resultSet.getInt("currently_on_loan") == 1, MediaItem.Status.NONE));
     }
 
+    public List<MediaType> getAllMediaTypes() throws Exception {
+        return database.select(SELECT_ALL_MEDIA_TYPES_STATEMENT, MediaType.class)
+                .fetchAll(MediaType::new);
+    }
+
     public void updateMediaItem(MediaItem mediaItem) throws Exception {
-        logger.info("Updating media item...");
+        logger.info("Updating media item (" + mediaItem.getId() + ")...");
         database.update(UPDATE_MEDIA_ITEM_STATEMENT)
                 .configure(mediaItem.getMediaType().getId(), mediaItem.getStatus().getRawValue(), mediaItem.getId())
                 .execute();
     }
 
-    public void updateMediaItems(List<MediaItem> mediaItems) {
+    public void updateMediaItems(Media media, List<MediaItem> mediaItems) throws Exception {
         // Get existing
         // - Diff
         // - Add, Update, Delete
 
+        // Get media items before update
+        List<MediaItem> mediaItemsBeforeUpdate = this.getAllMediaItems(media);
 
+        // Filter media items to add
+        List<MediaItem> mediaItemsToAdd = mediaItems.stream().filter(mediaItem -> !mediaItemsBeforeUpdate.contains(mediaItem)).collect(Collectors.toList());
+
+        // Filter media items to update
+        List<MediaItem> mediaItemsToUpdate = mediaItems.stream().filter(mediaItemsBeforeUpdate::contains).collect(Collectors.toList());
+
+        // Filter media items to delete
+        List<MediaItem> mediaItemsToDelete = mediaItemsBeforeUpdate.stream().filter(mediaItem -> !mediaItems.contains(mediaItem)).collect(Collectors.toList());
+
+        // Add added media items
+        for (MediaItem mediaItem : mediaItemsToAdd) {
+            this.createMediaItem(mediaItem);
+        }
+
+        // Update modified media items
+        for (MediaItem mediaItem : mediaItemsToUpdate) {
+            this.updateMediaItem(mediaItem);
+        }
+
+        // Delete removed media items
+        for (MediaItem mediaItem : mediaItemsToDelete) {
+            this.deleteMediaItem(mediaItem);
+        }
     }
 
     public void createMediaItem(MediaItem mediaItem) throws Exception {
         logger.info("Creating media item...");
         Long id = database.insert(CREATE_MEDIA_ITEM_STATEMENT)
-                .configure(mediaItem.getMedia().getId(), mediaItem.getMediaType().getId(), mediaItem.getStatus())
+                .configure(mediaItem.getMedia().getId(), mediaItem.getMediaType().getId(), mediaItem.getStatus().getRawValue())
                 .executeQuery();
         mediaItem.setId(id);
     }

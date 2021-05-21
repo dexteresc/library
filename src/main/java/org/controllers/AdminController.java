@@ -7,7 +7,11 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import org.library.admin.AdminModel;
+import org.library.admin.BookEditModel;
+import org.library.admin.EditModel;
+import org.library.admin.MediaItemsEditModel;
 import org.library.media.Book;
+import org.library.media.Media;
 
 import java.io.IOException;
 import java.net.URL;
@@ -58,6 +62,15 @@ public class AdminController implements Initializable {
 
         if (path != null) {
             this.configureChildNode(path);
+        } else if (this.adminModel.hasEditModel()) {
+            // TODO: Reduce magic strings
+            EditModel editModel = this.adminModel.getEditModel();
+
+            if (editModel instanceof BookEditModel) {
+                this.configureChildNode("edit/book");
+            } else if (editModel instanceof MediaItemsEditModel) {
+                this.configureChildNode("edit/mediaitems");
+            }
         }
     }
 
@@ -80,6 +93,8 @@ public class AdminController implements Initializable {
         }
     }
 
+    // New
+
     public void newBook() {
         this.adminModel.editBook(new Book());
         this.configureChildNode("edit/book");
@@ -88,6 +103,11 @@ public class AdminController implements Initializable {
     public void editBook(Book book) {
         this.adminModel.editBook(book);
         this.configureChildNode("edit/book");
+    }
+
+    public void editMediaItems(Media media) {
+        this.adminModel.editMediaItems(media);
+        this.configureChildNode("edit/mediaitems");
     }
 
     public void save() throws Exception {
