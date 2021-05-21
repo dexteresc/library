@@ -11,6 +11,10 @@ public class Movie extends Media {
     private String productionCountry;
     private List<Actor> actors;
 
+    public Movie() {
+        this.actors = new ArrayList<>();
+    }
+
     public Movie(ResultSet resultSet) throws SQLException {
         super(resultSet);
 

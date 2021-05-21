@@ -21,6 +21,7 @@ public class Book extends Media {
      * Creates a new, empty, book instance.
      */
     public Book() {
+        this.authors = new ArrayList<>();
     }
 
     /**
