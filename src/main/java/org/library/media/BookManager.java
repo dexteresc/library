@@ -30,7 +30,7 @@ public class BookManager extends MediaManager {
     // Author media relationship statements
     private static final String CREATE_AUTHOR_MEDIA_STATEMENT = "INSERT INTO media_author (author_id, media_id) VALUES (?, ?)";
     private static final String SELECT_ALL_AUTHORS_FOR_MEDIA_STATEMENT = "SELECT * FROM media_author INNER JOIN author ON author.id = media_author.author_id WHERE media_id = ?";
-    private static final String DELETE_AUTHOR_MEDIA_STATEMENT = "DELETE FROM media_author WHERE author_id = ?, media_id = ?";
+    private static final String DELETE_AUTHOR_MEDIA_STATEMENT = "DELETE FROM media_author WHERE author_id = ? AND media_id = ?";
 
     /**
      * Creates a new book manager instance.
