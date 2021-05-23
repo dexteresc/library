@@ -14,6 +14,7 @@
             <VBox styleClass="adminView" BorderPane.alignment="CENTER">
                 <VBox fx:id="childNode" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
                     <Button onAction="#newBook" text="New Book" />
+                    <Button onAction="#newMovie" text="New Movie" />
                 </VBox>
                 <HBox alignment="BOTTOM_CENTER" spacing="20.0" BorderPane.alignment="CENTER">
                     <Button fx:id="mediaItemsButton" mnemonicParsing="false" onAction="#editMediaItems" text="Media items" />
@@ -36,8 +37,12 @@
    <top>
       <AnchorPane prefHeight="45.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-              <Button fx:id="saveButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#save" text="Save" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
-             <Button fx:id="backButton" text="Back" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0" />
+             <HBox alignment="CENTER_LEFT" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
+                 <Button fx:id="cancelButton" onAction="#cancel" text="Cancel" />
+             </HBox>
+             <HBox alignment="CENTER_RIGHT" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+                 <Button fx:id="saveButton" onAction="#save" text="Save" />
+             </HBox>
          </children>
       </AnchorPane>
    </top>

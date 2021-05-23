@@ -54,12 +54,6 @@ public class BookEditController implements EditController {
     @FXML
     private TextField authorFamilyNameField;
 
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
     @Override
     public void setEditModel(EditModel editModel) {
         this.bookEditModel = (BookEditModel) editModel;

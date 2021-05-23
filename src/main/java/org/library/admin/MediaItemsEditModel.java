@@ -7,9 +7,6 @@ import org.library.media.MediaItem;
 import org.library.media.MediaItemManager;
 import org.library.media.MediaType;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MediaItemsEditModel extends EditModel {
 
     private MediaItemManager mediaItemManager;

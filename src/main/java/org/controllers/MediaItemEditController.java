@@ -117,14 +117,6 @@ public class MediaItemEditController implements EditController {
         this.mediaItemStatusChoiceBox.setValue(MediaItem.Status.NONE);
     }
 
-    /**
-     * Used to update node visibility.
-     */
-    private void setNodeVisible(Node node, boolean visible) {
-        node.setVisible(visible);
-        node.setManaged(visible);
-    }
-
     public void removeMediaItem() {
         if (!this.mediaItemsTableView.getSelectionModel().isEmpty()) {
             this.mediaItemList.remove(this.mediaItemsTableView.getSelectionModel().getSelectedItem());
@@ -167,7 +159,7 @@ public class MediaItemEditController implements EditController {
     }
 
     private void setEditing(Boolean active) {
-        this.setNodeVisible(this.addMediaItemButton, !active);
-        this.setNodeVisible(this.saveMediaItemButton, active);
+        this.setVisible(this.addMediaItemButton, !active);
+        this.setVisible(this.saveMediaItemButton, active);
     }
 }
