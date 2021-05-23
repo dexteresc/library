@@ -131,6 +131,13 @@ public class MovieManager extends MediaManager {
 
     // Actor
 
+    /**
+     * Gets an existing actor.
+     *
+     * @param actor Actor instance to use for searching.
+     * @throws Exception if the actor cannot be found, or if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public Actor getActor(Actor actor) throws Exception {
         logger.info("Getting actor (given name: " + actor.getGivenName() + ", family name: " + actor.getFamilyName() + ")...");
         return database.select(SELECT_FIRST_ACTOR_BY_NAME_STATEMENT, Actor.class)
@@ -138,6 +145,13 @@ public class MovieManager extends MediaManager {
                 .fetch(Actor::new);
     }
 
+    /**
+     * Creates an actor.
+     *
+     * @param actor Actor instance to create.
+     * @throws Exception if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public void createActor(Actor actor) throws Exception {
         logger.info("Creating actor...");
         Long actorId = database.insert(CREATE_ACTOR_STATEMENT)
@@ -146,6 +160,13 @@ public class MovieManager extends MediaManager {
         actor.setId(actorId);
     }
 
+    /**
+     * Updates an existing actor.
+     *
+     * @param actor Actor instance to update.
+     * @throws Exception if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public void updateActor(Actor actor) throws Exception {
         logger.info("Updating actor with id " + actor.getId() + "...");
         database.update(UPDATE_ACTOR_STATEMENT)
@@ -153,6 +174,13 @@ public class MovieManager extends MediaManager {
                 .execute();
     }
 
+    /**
+     * Deletes an existing actor.
+     *
+     * @param actor Actor instance to create.
+     * @throws Exception if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public void deleteActor(Actor actor) throws Exception {
         logger.info("Deleting actor with id " + actor.getId() + "...");
         database.update(DELETE_ACTOR_STATEMENT)
@@ -160,6 +188,13 @@ public class MovieManager extends MediaManager {
                 .execute();
     }
 
+    /**
+     * Checks if an actor matching the provided fields exists, and creates one if it does not.
+     *
+     * @param actor Actor instance to find, or create.
+     * @throws Exception if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public Actor getOrCreateActor(Actor actor) throws Exception {
         logger.info("Get or create actor...");
         try {
@@ -172,6 +207,13 @@ public class MovieManager extends MediaManager {
 
     // Actor movie relationships
 
+    /**
+     * Get all actors for media.
+     *
+     * @param media Media instance to get actors for.
+     * @throws Exception if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     private List<Actor> getAllActorsForMedia(Media media) throws Exception {
         logger.info("Getting all actors for media with id " + media.getId() + "...");
         return database.select(SELECT_ALL_ACTORS_FOR_MEDIA_STATEMENT, Actor.class)
@@ -179,6 +221,14 @@ public class MovieManager extends MediaManager {
                 .fetchAll(Actor::new);
     }
 
+    /**
+     * Associates an actor with a movie.
+     *
+     * @param actor Actor instance to associate with movie.
+     * @param movie Movie instance actor should be associated with.
+     * @throws Exception if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     private void addActorToMovie(Actor actor, Movie movie) throws Exception {
         logger.info("Adding actor with id " + actor.getId() + " to movie with id " + movie.getId() + "...");
         database.insert(CREATE_ACTOR_MEDIA_STATEMENT)
@@ -186,6 +236,14 @@ public class MovieManager extends MediaManager {
                 .execute();
     }
 
+    /**
+     * Disassociates an actor from a movie.
+     *
+     * @param actor Actor instance to disassociate from movie.
+     * @param movie Movie instance actor should be disassociated from.
+     * @throws Exception if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     private void removeActorFromMovie(Actor actor, Movie movie) throws Exception {
         logger.info("Adding actor with id " + actor.getId() + " to movie with id " + movie.getId() + "...");
         database.delete(DELETE_ACTOR_MEDIA_STATEMENT)
