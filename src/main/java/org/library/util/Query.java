@@ -5,32 +5,49 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 
+/**
+ * Database query wrapper.
+ *
+ * Wraps a database query that returns does not return anything (except for a generated value, if requested).
+ */
 public class Query {
     protected static final Logger logger = LogManager.getLogger();
+
     protected String statement;
     protected Connection connection;
     protected Configuration<PreparedStatement> configuration = preparedStatement -> {
     };
     private Boolean async = false;
 
-    public Query(String statement, Connection connection) {
+    protected Query(String statement, Connection connection) {
         this.statement = statement;
         this.connection = connection;
     }
 
-    public void setAsync(Boolean async) {
+    protected void setAsync(Boolean async) {
         this.async = async;
     }
 
-    public Boolean isAsync() {
+    protected Boolean isAsync() {
         return this.async;
     }
 
+    /**
+     * Explicitly configure query prepared statement.
+     *
+     * @param configuration Configuration lambda expression.
+     */
     public Query configure(Configuration<PreparedStatement> configuration) {
         this.configuration = configuration;
         return this;
     }
 
+    /**
+     * Implicitly configure query prepared statement.
+     *
+     * @param parameters Parameters to pass to the prepared statement (in order).
+     * @implNote Supports the following data types: string, long, integer, float (discouraged), double, boolean, localdate and null.
+     */
     public Query configure(Object... parameters) throws Exception {
         this.configure(preparedStatement -> {
             for (int i = 0; i < parameters.length; i++) {
@@ -78,6 +95,11 @@ public class Query {
         return this;
     }
 
+    /**
+     * Executes the database query.
+     *
+     * @throws Exception if a general database error occurs.
+     */
     public void execute() throws Exception {
         PreparedStatement preparedStatement = null;
 
@@ -102,7 +124,12 @@ public class Query {
         }
     }
 
-    // Used when query returns a generated id.
+    /**
+     * Executes the database query and returns a generated id.
+     *
+     * @throws Exception if a general database error occurs.
+     * @implNote Used when query returns a generated id.
+     */
     public Long executeQuery() throws Exception {
         PreparedStatement preparedStatement = null;
 
