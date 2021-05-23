@@ -5,16 +5,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Book representing a cinematic work.
+ *
+ * @see Media
+ */
 public class Movie extends Media {
+
     private String director;
     private String ageRating;
     private String productionCountry;
     private List<Actor> actors;
 
+    /**
+     * Creates a new, empty, movie instance.
+     */
     public Movie() {
         this.actors = new ArrayList<>();
     }
 
+    /**
+     * Creates a new movie instance from a result set.
+     *
+     * @param resultSet A ResultSet instance.
+     * @throws SQLException if the ResultSet instance methods throw an exception.
+     */
     public Movie(ResultSet resultSet) throws SQLException {
         super(resultSet);
 
@@ -63,4 +78,5 @@ public class Movie extends Media {
     public void setActors(List<Actor> actors) {
         this.actors = actors;
     }
+
 }
