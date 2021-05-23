@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 
 /**
  * Navigation Bar Controller
- * <p>
+ * 
  * Provides a shared navigation bar that is state-aware.
  */
 public class NavigationBarController implements Controller {
