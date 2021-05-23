@@ -1,6 +1,5 @@
 package org.library.media;
 
-import java.sql.ResultSet;
 import java.util.Objects;
 
 /**
