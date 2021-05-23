@@ -57,6 +57,7 @@ public class AdminController implements Controller {
 
             if (userData instanceof EditController) {
                 EditController editController = (EditController) userData;
+                editController.setAdminController(this);
                 editController.setEditModel(this.adminModel.getEditModel());
                 editController.configure();
             }
@@ -70,12 +71,19 @@ public class AdminController implements Controller {
     // New
 
     public void newBook() {
-        this.adminModel.editBook(new Book());
-        this.restoreChildNode();
+        this.edit(new Book());
     }
 
     public void newMovie() {
-        this.adminModel.editMovie(new Movie());
+        this.edit(new Movie());
+    }
+
+    public void edit(Media media) {
+        if (media instanceof Book) {
+            this.adminModel.editBook((Book) media);
+        } else if (media instanceof Movie) {
+            this.adminModel.editMovie((Movie) media);
+        }
         this.restoreChildNode();
     }
 
@@ -84,30 +92,30 @@ public class AdminController implements Controller {
         this.restoreChildNode();
     }
 
-    public void save() throws Exception {
-        this.adminModel.save();
+    public void save() {
+        try {
+            this.adminModel.save();
+        } catch (Exception exception) {
+            this.receiveException(exception);
+        }
     }
 
-    public void delete() throws Exception {
-        this.adminModel.delete();
+    public void delete() {
+        try {
+            this.adminModel.delete();
+            this.adminModel.reset();
+            App.setRoot("admin");
+        } catch (Exception exception) {
+            this.receiveException(exception);
+        }
     }
 
-    public void cancel() throws Exception {
-        this.adminModel.reset();
-        App.setRoot("admin");
-    }
-
-    public void editMediaItems() {
-        if (this.adminModel.hasEditModel()) {
-            EditModel editModel = this.adminModel.getEditModel();
-
-            if (editModel instanceof BookEditModel) {
-                BookEditModel bookEditModel = (BookEditModel) editModel;
-                this.editMediaItems(bookEditModel.getBook());
-            } else if (editModel instanceof MovieEditModel) {
-                MovieEditModel movieEditModel = (MovieEditModel) editModel;
-                this.editMediaItems(movieEditModel.getMovie());
-            }
+    public void cancel() {
+        try {
+            this.adminModel.reset();
+            App.setRoot("admin");
+        } catch (Exception exception) {
+            this.receiveException(exception);
         }
     }
 }

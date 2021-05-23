@@ -45,10 +45,14 @@ public class AdminModel {
     }
 
     public void save() throws Exception {
+        if (this.editModel == null) { return; }
+
         this.editModel.save();
     }
 
     public void delete() throws Exception {
+        if (this.editModel == null) { return; }
+
         this.editModel.delete();
     }
 

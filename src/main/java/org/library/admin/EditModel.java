@@ -1,12 +1,9 @@
 package org.library.admin;
 
-public abstract class EditModel {
+public interface EditModel {
 
-    public EditModel() {
-    }
+    void save() throws Exception;
 
-    public abstract void save() throws Exception;
-
-    public abstract void delete() throws Exception;
+    void delete() throws Exception;
 
 }

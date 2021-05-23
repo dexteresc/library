@@ -3,7 +3,7 @@ package org.library.admin;
 import org.library.media.Book;
 import org.library.media.BookManager;
 
-public class BookEditModel extends EditModel {
+public class BookEditModel implements EditModel {
 
     private BookManager bookManager;
     private Book book;
@@ -32,8 +32,8 @@ public class BookEditModel extends EditModel {
     }
 
     @Override
-    public void delete() {
-
+    public void delete() throws Exception {
+        this.bookManager.deleteBook(book);
     }
 
 }

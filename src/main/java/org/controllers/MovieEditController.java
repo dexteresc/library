@@ -1,22 +1,20 @@
 package org.controllers;
 
-import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import org.library.admin.EditModel;
 import org.library.admin.MovieEditModel;
 import org.library.media.Actor;
 import org.library.media.Movie;
 
 public class MovieEditController implements EditController {
+    private AdminController adminController;
     private MovieEditModel movieEditModel;
     private Movie movie;
     private ObservableList<Actor> actorList;
@@ -55,6 +53,16 @@ public class MovieEditController implements EditController {
 
     @FXML
     private TextField actorFamilyNameField;
+
+    // Empty table
+
+    @FXML
+    private HBox emptyTableIndicator;
+
+    @Override
+    public void setAdminController(AdminController adminController) {
+        this.adminController = adminController;
+    }
 
     @Override
     public void setEditModel(EditModel editModel) {
@@ -117,10 +125,12 @@ public class MovieEditController implements EditController {
         // Hide table view if it has no items
         this.actorList.addListener((ListChangeListener<Actor>) (change) -> {
             this.setVisible(this.actorsTableView, change.getList().size() > 0);
+            this.setVisible(this.emptyTableIndicator, change.getList().size() < 1);
         });
 
         // Set if table view should be visible initially
         this.setVisible(this.actorsTableView, actorList.size() > 0);
+        this.setVisible(this.emptyTableIndicator, actorList.size() < 1);
     }
 
     public void removeActor() {
@@ -143,5 +153,9 @@ public class MovieEditController implements EditController {
     private void clearNewActorFields() {
         this.actorGivenNameField.setText("");
         this.actorFamilyNameField.setText("");
+    }
+
+    public void editMediaItems() {
+        this.adminController.editMediaItems(this.movie);
     }
 }

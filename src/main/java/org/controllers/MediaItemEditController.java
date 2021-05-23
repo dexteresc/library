@@ -7,10 +7,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import org.library.admin.EditModel;
@@ -24,6 +21,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MediaItemEditController implements EditController {
+    private AdminController adminController;
     private MediaItemsEditModel mediaItemsEditModel;
     private ObservableList<MediaItem> mediaItemList;
     private ObservableList<MediaType> mediaTypeList;
@@ -44,12 +42,19 @@ public class MediaItemEditController implements EditController {
     @FXML
     private Button saveMediaItemButton;
 
+    // Empty table
+
     @FXML
-    private HBox actionBox;
+    private HBox emptyTableIndicator;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setEditing(false);
+    }
+
+    @Override
+    public void setAdminController(AdminController adminController) {
+        this.adminController = adminController;
     }
 
     @Override
@@ -108,10 +113,12 @@ public class MediaItemEditController implements EditController {
         // Hide table view if it has no items
         this.mediaItemList.addListener((ListChangeListener<MediaItem>) (change) -> {
             this.setVisible(this.mediaItemsTableView, change.getList().size() > 0);
+            this.setVisible(this.emptyTableIndicator, change.getList().size() < 1);
         });
 
         // Set if table view should be visible initially
         this.setVisible(this.mediaItemsTableView, mediaItemList.size() > 0);
+        this.setVisible(this.emptyTableIndicator, mediaItemList.size() < 1);
     }
 
     private void configureMediaTypeChoiceBox() {
@@ -171,5 +178,9 @@ public class MediaItemEditController implements EditController {
     private void setEditing(Boolean active) {
         this.setVisible(this.addMediaItemButton, !active);
         this.setVisible(this.saveMediaItemButton, active);
+    }
+
+    public void backToMedia() {
+        this.adminController.edit(this.mediaItemsEditModel.getMedia());
     }
 }

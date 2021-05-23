@@ -15,6 +15,9 @@
     </userData>
     <VBox>
         <Label>Media items</Label>
+        <HBox fx:id="emptyTableIndicator">
+            <Label text="No media items in table." />
+        </HBox>
         <TableView fx:id="mediaItemsTableView" />
         <HBox fx:id="actionBox" alignment="CENTER_RIGHT">
             <Button text="Remove media item" onAction="#removeMediaItem" />
@@ -26,5 +29,8 @@
             <Button fx:id="addMediaItemButton" text="Add media item" onAction="#addMediaItem" />
             <Button fx:id="saveMediaItemButton" text="Save media item" onAction="#saveMediaItem" />
         </HBox>
+        <VBox>
+            <Button text="Back" onAction="#backToMedia" />
+        </VBox>
     </VBox>
 </AnchorPane>

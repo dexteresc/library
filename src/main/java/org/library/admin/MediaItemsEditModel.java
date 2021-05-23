@@ -7,7 +7,7 @@ import org.library.media.MediaItem;
 import org.library.media.MediaItemManager;
 import org.library.media.MediaType;
 
-public class MediaItemsEditModel extends EditModel {
+public class MediaItemsEditModel implements EditModel {
 
     private MediaItemManager mediaItemManager;
     private Media media;
@@ -57,7 +57,7 @@ public class MediaItemsEditModel extends EditModel {
     }
 
     @Override
-    public void delete() {
+    public void delete() throws Exception {
         // Can't delete.
     }
 

@@ -44,6 +44,9 @@
     </VBox>
     <VBox>
         <Label>Authors</Label>
+        <HBox fx:id="emptyTableIndicator">
+            <Label text="No authors in table." />
+        </HBox>
         <TableView fx:id="authorsTableView" />
         <Button fx:id="removeAuthorButton" onAction="#removeAuthor" text="Remove author"/>
         <HBox>
@@ -51,6 +54,9 @@
             <TextField fx:id="authorFamilyNameField" promptText="Family name" />
             <Button text="Add author" onAction="#addAuthor" />
         </HBox>
+    </VBox>
+    <VBox alignment="CENTER">
+        <Button text="Edit media items" onAction="#editMediaItems" />
     </VBox>
 </VBox>
 </AnchorPane>

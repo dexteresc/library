@@ -5,21 +5,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import org.library.admin.BookEditModel;
 import org.library.admin.EditModel;
-import org.library.media.Actor;
 import org.library.media.Author;
 import org.library.media.Book;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 public class BookEditController implements EditController {
+    private AdminController adminController;
     private BookEditModel bookEditModel;
     private Book book;
     private ObservableList<Author> authorList;
@@ -55,6 +50,16 @@ public class BookEditController implements EditController {
 
     @FXML
     private TextField authorFamilyNameField;
+
+    // Empty table
+
+    @FXML
+    private HBox emptyTableIndicator;
+
+    @Override
+    public void setAdminController(AdminController adminController) {
+        this.adminController = adminController;
+    }
 
     @Override
     public void setEditModel(EditModel editModel) {
@@ -115,10 +120,12 @@ public class BookEditController implements EditController {
         // Hide table view if it has no items
         this.authorList.addListener((ListChangeListener<Author>) (change) -> {
             this.setVisible(this.authorsTableView, change.getList().size() > 0);
+            this.setVisible(this.emptyTableIndicator, change.getList().size() < 1);
         });
 
         // Set if table view should be visible initially
         this.setVisible(this.authorsTableView, authorList.size() > 0);
+        this.setVisible(this.emptyTableIndicator, authorList.size() < 1);
     }
 
     public void removeAuthor() {
@@ -141,5 +148,9 @@ public class BookEditController implements EditController {
     private void clearNewAuthorFields() {
         this.authorGivenNameField.setText("");
         this.authorFamilyNameField.setText("");
+    }
+
+    public void editMediaItems() {
+        this.adminController.editMediaItems(this.book);
     }
 }

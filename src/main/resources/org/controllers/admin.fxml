@@ -12,12 +12,13 @@
     <center>
         <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" styleClass="libraryScrollPane" BorderPane.alignment="CENTER">
             <VBox styleClass="adminView" BorderPane.alignment="CENTER">
-                <VBox fx:id="childNode" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
-                    <Button onAction="#newBook" text="New Book" />
-                    <Button onAction="#newMovie" text="New Movie" />
+                <VBox fx:id="childNode" prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
+                    <HBox spacing="20.0" alignment="CENTER" BorderPane.alignment="CENTER">
+                        <Button onAction="#newBook" text="New Book" />
+                        <Button onAction="#newMovie" text="New Movie" />
+                    </HBox>
                 </VBox>
                 <HBox alignment="BOTTOM_CENTER" spacing="20.0" BorderPane.alignment="CENTER">
-                    <Button fx:id="mediaItemsButton" mnemonicParsing="false" onAction="#editMediaItems" text="Media items" />
                     <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#delete" text="Delete" />
                <VBox.margin>
                   <Insets top="20.0" />

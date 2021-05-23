@@ -3,7 +3,7 @@ package org.library.admin;
 import org.library.media.Movie;
 import org.library.media.MovieManager;
 
-public class MovieEditModel extends EditModel {
+public class MovieEditModel implements EditModel {
 
     private MovieManager movieManager;
     private Movie movie;
@@ -32,8 +32,8 @@ public class MovieEditModel extends EditModel {
     }
 
     @Override
-    public void delete() {
-
+    public void delete() throws Exception {
+        this.movieManager.deleteMovie(movie);
     }
 
 }

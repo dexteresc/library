@@ -48,6 +48,9 @@
         </VBox>
         <VBox>
             <Label>Actors</Label>
+            <HBox fx:id="emptyTableIndicator">
+                <Label text="No actors in table." />
+            </HBox>
             <TableView fx:id="actorsTableView" />
             <Button fx:id="removeActorButton" onAction="#removeActor" text="Remove actor"/>
             <HBox>
@@ -55,6 +58,9 @@
                 <TextField fx:id="actorFamilyNameField" promptText="Family name" />
                 <Button text="Add actor" onAction="#addActor" />
             </HBox>
+        </VBox>
+        <VBox alignment="CENTER">
+            <Button text="Edit media items" onAction="#editMediaItems" />
         </VBox>
     </VBox>
 </AnchorPane>
