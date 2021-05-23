@@ -131,6 +131,13 @@ public class BookManager extends MediaManager {
 
     // Author
 
+    /**
+     * Gets an existing author.
+     *
+     * @param author Author instance to use for searching.
+     * @throws Exception if the author cannot be found, or if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public Author getAuthor(Author author) throws Exception {
         logger.info("Getting author (given name: " + author.getGivenName() + ", family name: " + author.getFamilyName() + ")...");
         return database.select(SELECT_FIRST_AUTHOR_BY_NAME_STATEMENT, Author.class)
@@ -138,6 +145,13 @@ public class BookManager extends MediaManager {
                 .fetch(Author::new);
     }
 
+    /**
+     * Creates an author.
+     *
+     * @param author Author instance to create.
+     * @throws Exception if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public void createAuthor(Author author) throws Exception {
         logger.info("Creating author...");
         Long authorId = database.insert(CREATE_AUTHOR_STATEMENT)
@@ -146,6 +160,13 @@ public class BookManager extends MediaManager {
         author.setId(authorId);
     }
 
+    /**
+     * Updates an existing author.
+     *
+     * @param author Author instance to update.
+     * @throws Exception if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public void updateAuthor(Author author) throws Exception {
         logger.info("Updating author with id " + author.getId() + "...");
         database.update(UPDATE_AUTHOR_STATEMENT)
@@ -153,6 +174,13 @@ public class BookManager extends MediaManager {
                 .execute();
     }
 
+    /**
+     * Deletes an existing author.
+     *
+     * @param author Author instance to create.
+     * @throws Exception if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public void deleteActor(Author author) throws Exception {
         logger.info("Deleting author with id " + author.getId() + "...");
         database.update(DELETE_AUTHOR_STATEMENT)
@@ -160,6 +188,13 @@ public class BookManager extends MediaManager {
                 .execute();
     }
 
+    /**
+     * Checks if an author matching the provided fields exists, and creates one if it does not.
+     *
+     * @param author Author instance to find, or create.
+     * @throws Exception if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     public Author getOrCreateAuthor(Author author) throws Exception {
         logger.info("Get or create author...");
         try {
@@ -172,6 +207,13 @@ public class BookManager extends MediaManager {
 
     // Author book relationships
 
+    /**
+     * Get all authors for media.
+     *
+     * @param media Media instance to get authors for.
+     * @throws Exception if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     private List<Author> getAllAuthorsForMedia(Media media) throws Exception {
         logger.info("Getting all authors for media with id " + media.getId() + "...");
         return database.select(SELECT_ALL_AUTHORS_FOR_MEDIA_STATEMENT, Author.class)
@@ -179,6 +221,14 @@ public class BookManager extends MediaManager {
                 .fetchAll(Author::new);
     }
 
+    /**
+     * Associates an author with a book.
+     *
+     * @param author Author instance to associate with book.
+     * @param book Book instance author should be associated with.
+     * @throws Exception if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     private void addAuthorToBook(Author author, Book book) throws Exception {
         logger.info("Adding author with id " + author.getId() + " to book with id " + book.getId() + "...");
         database.insert(CREATE_AUTHOR_MEDIA_STATEMENT)
@@ -186,6 +236,14 @@ public class BookManager extends MediaManager {
                 .execute();
     }
 
+    /**
+     * Disassociates an author from a book.
+     *
+     * @param author Author instance to disassociate from book.
+     * @param book Book instance author should be disassociated from.
+     * @throws Exception if a general database error occurs.
+     * @implNote This is a blocking operation.
+     */
     private void removeAuthorFromBook(Author author, Book book) throws Exception {
         logger.info("Removing author with id " + author.getId() + " from book with id " + book.getId() + "...");
         database.delete(DELETE_AUTHOR_MEDIA_STATEMENT)
