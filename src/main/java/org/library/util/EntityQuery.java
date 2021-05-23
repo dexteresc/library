@@ -7,8 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Entity query wrapper.
+ *
+ * Wraps a database query that returns one or more entities.
+ *
+ * @param <T> The entity type that should be returned.
+ */
 public class EntityQuery<T> extends Query {
-    public EntityQuery(String statement, Connection connection) {
+    protected EntityQuery(String statement, Connection connection) {
         super(statement, connection);
     }
 
@@ -18,18 +25,36 @@ public class EntityQuery<T> extends Query {
         logger.warn("execute() should not be called for EntityQuery.");
     }
 
+    /**
+     * Explicitly configure query prepared statement.
+     *
+     * @param configuration Configuration lambda expression.
+     */
     @Override
     public EntityQuery<T> configure(Configuration<PreparedStatement> configuration) {
         super.configure(configuration);
         return this;
     }
 
+    /**
+     * Implicitly configure query prepared statement.
+     *
+     * @param parameters Parameters to pass to the prepared statement (in order).
+     * @implNote Supports the following data types: string, long, integer, float (discouraged), double, boolean, localdate and null.
+     */
     @Override
     public EntityQuery<T> configure(Object... parameters) throws Exception {
         super.configure(parameters);
         return this;
     }
 
+    /**
+     * Executes the database query and passes the result into the provided transformation.
+     *
+     * @param transformation Transformation that consumes a ResultSet to return the requested entity type T.
+     * @return Entity of type T.
+     * @throws Exception if the transformation throws an error, or if a general database error occurs.
+     */
     public T fetch(Transformation<ResultSet, T> transformation) throws Exception {
         if (!this.isAsync()) {
             logger.warn("Avoid running synchronous calls on the main thread. Use async methods if possible.");
@@ -74,6 +99,13 @@ public class EntityQuery<T> extends Query {
         }
     }
 
+    /**
+     * Executes the database query and passes the result into the provided transformation.
+     *
+     * @param transformation Transformation that consumes a ResultSet to return the requested entity type T.
+     * @return A list of entities of type T.
+     * @throws Exception if the transformation throws an error, or if a general database error occurs.
+     */
     public List<T> fetchAll(Transformation<ResultSet, T> transformation) throws Exception {
         if (!this.isAsync()) {
             logger.warn("Avoid running synchronous calls on the main thread. Use async methods if possible.");
@@ -116,6 +148,12 @@ public class EntityQuery<T> extends Query {
         }
     }
 
+    /**
+     * Executes the database query asynchronously.
+     *
+     * @return Completable future that wraps the fetch operation.
+     * @see EntityQuery#fetch(Transformation)
+     */
     public CompletableFuture<T> asyncFetch(Transformation<ResultSet, T> transformation) {
         this.setAsync(true);
         return CompletableFuture.supplyAsync(() -> {
@@ -128,6 +166,12 @@ public class EntityQuery<T> extends Query {
         });
     }
 
+    /**
+     * Executes the database query asynchronously.
+     *
+     * @return Completable future that wraps the fetchAll operation.
+     * @see EntityQuery#fetchAll(Transformation)
+     */
     public CompletableFuture<List<T>> asyncFetchAll(Transformation<ResultSet, T> transformation) {
         this.setAsync(true);
         return CompletableFuture.supplyAsync(() -> {
