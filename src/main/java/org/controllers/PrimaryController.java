@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class PrimaryController implements Initializable {
+public class PrimaryController implements Controller {
     @FXML
     public VBox libView;
     @FXML

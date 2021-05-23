@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 /**
  * Controller for the login page
  */
-public class LoginController implements Initializable {
+public class LoginController implements Controller {
     public Button registerButton;
     public Button loginButton;
     public PasswordField passwordField;

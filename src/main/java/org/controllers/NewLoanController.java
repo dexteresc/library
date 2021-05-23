@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class NewLoanController implements Initializable {
+public class NewLoanController implements Controller {
 
     private LoanModel loanModel;
 

@@ -2,8 +2,6 @@ package org.controllers;
 
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +18,7 @@ import java.util.ResourceBundle;
  * <p>
  * Provides a shared navigation bar that is state-aware.
  */
-public class NavigationBarController implements Initializable {
+public class NavigationBarController implements Controller {
     private static final Logger logger = LogManager.getLogger();
 
     private RootController rootController;
@@ -70,7 +68,7 @@ public class NavigationBarController implements Initializable {
         this.loanModel.getMediaItemList().addListener((ListChangeListener<MediaItem>) change -> this.updateLoanButton(true));
     }
 
-    private void navigateTo(Destination destination) {
+    public void navigateTo(Destination destination) {
         logger.info("Navigating to " + destination.name() + "...");
 
         try {
@@ -79,14 +77,6 @@ public class NavigationBarController implements Initializable {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-    }
-
-    /**
-     * Used to update node visibility.
-     */
-    private void setNodeVisible(Node node, boolean visible) {
-        node.setVisible(visible);
-        node.setManaged(visible);
     }
 
     /**
@@ -100,13 +90,13 @@ public class NavigationBarController implements Initializable {
         boolean isStaff = this.authenticationModel.isStaff();
         boolean onlyPrevious = activeDestination == Destination.LOGIN || activeDestination == Destination.REGISTER || activeDestination == Destination.RETURNS;
 
-        this.setNodeVisible(this.registerButton, !isAuthenticated && !onlyPrevious);
-        this.setNodeVisible(this.loginButton, !isAuthenticated && !onlyPrevious);
-        this.setNodeVisible(this.myPagesButton, isAuthenticated && !onlyPrevious);
-        this.setNodeVisible(this.adminButton, isAuthenticated && isStaff && !onlyPrevious);
-        this.setNodeVisible(this.logoutButton, isAuthenticated && !onlyPrevious);
-        this.setNodeVisible(this.returnsButton, activeDestination != Destination.NEW_LOAN && !isStaff && !onlyPrevious);
-        this.setNodeVisible(this.previousButton, onlyPrevious);
+        this.setVisible(this.registerButton, !isAuthenticated && !onlyPrevious);
+        this.setVisible(this.loginButton, !isAuthenticated && !onlyPrevious);
+        this.setVisible(this.myPagesButton, isAuthenticated && !onlyPrevious);
+        this.setVisible(this.adminButton, isAuthenticated && isStaff && !onlyPrevious);
+        this.setVisible(this.logoutButton, isAuthenticated && !onlyPrevious);
+        this.setVisible(this.returnsButton, activeDestination != Destination.NEW_LOAN && !isStaff && !onlyPrevious);
+        this.setVisible(this.previousButton, onlyPrevious);
 
         this.updateLoanButton(!onlyPrevious);
     }
@@ -121,7 +111,7 @@ public class NavigationBarController implements Initializable {
             this.loanButton.setText("New Loan (" + mediaItemList.size() + ")");
         }
 
-        this.setNodeVisible(loanButton, mediaItemList.size() > 0 && canBeVisible);
+        this.setVisible(loanButton, mediaItemList.size() > 0 && canBeVisible);
     }
 
     // NOTE: Should only be called from RootController.

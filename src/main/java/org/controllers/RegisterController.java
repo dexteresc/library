@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class RegisterController implements Initializable {
+public class RegisterController implements Controller {
 
     private final ObservableList<CustomerType> customerTypes = FXCollections.observableArrayList();
     public Button register;

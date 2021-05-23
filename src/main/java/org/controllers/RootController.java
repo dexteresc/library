@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
  * <p>
  * Wraps the active content controller (e.g. PrimaryController) to include a shared navigation bar.
  */
-public class RootController implements Initializable {
+public class RootController implements Controller {
 
     private Destination previousDestination;
 

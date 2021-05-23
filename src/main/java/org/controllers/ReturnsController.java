@@ -11,7 +11,7 @@ import org.library.loan.ReturnsModel;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ReturnsController implements Initializable {
+public class ReturnsController implements Controller {
 
     private ReturnsModel returnsModel;
 

@@ -13,7 +13,7 @@ import org.library.security.AuthenticationModel;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MyPagesController implements Initializable {
+public class MyPagesController implements Controller {
     public Label firstName;
     public Label lastName;
     public Label phoneNumber;

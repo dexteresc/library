@@ -35,6 +35,10 @@ public class App extends Application {
         launch();
     }
 
+    public static RootController getRootController() {
+        return App.rootController;
+    }
+
     public static void setRootController(RootController rootController) {
         App.rootController = rootController;
     }
