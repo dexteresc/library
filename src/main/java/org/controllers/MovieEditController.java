@@ -1,7 +1,9 @@
 package org.controllers;
 
+import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
@@ -111,6 +113,14 @@ public class MovieEditController implements EditController {
         this.actorsTableView.prefHeightProperty().bind(actorsTableView.fixedCellSizeProperty().multiply(Bindings.size(actorsTableView.getItems()).add(1.15)));
         this.actorsTableView.minHeightProperty().bind(this.actorsTableView.prefHeightProperty());
         this.actorsTableView.maxHeightProperty().bind(this.actorsTableView.prefHeightProperty());
+
+        // Hide table view if it has no items
+        this.actorList.addListener((ListChangeListener<Actor>) (change) -> {
+            this.setVisible(this.actorsTableView, change.getList().size() > 0);
+        });
+
+        // Set if table view should be visible initially
+        this.setVisible(this.actorsTableView, actorList.size() > 0);
     }
 
     public void removeActor() {

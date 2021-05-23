@@ -3,6 +3,7 @@ package org.controllers;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -14,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import org.library.admin.EditModel;
 import org.library.admin.MediaItemsEditModel;
+import org.library.media.Author;
 import org.library.media.MediaItem;
 import org.library.media.MediaType;
 
@@ -102,6 +104,14 @@ public class MediaItemEditController implements EditController {
         this.mediaItemsTableView.prefHeightProperty().bind(mediaItemsTableView.fixedCellSizeProperty().multiply(Bindings.size(mediaItemsTableView.getItems()).add(1.15)));
         this.mediaItemsTableView.minHeightProperty().bind(this.mediaItemsTableView.prefHeightProperty());
         this.mediaItemsTableView.maxHeightProperty().bind(this.mediaItemsTableView.prefHeightProperty());
+
+        // Hide table view if it has no items
+        this.mediaItemList.addListener((ListChangeListener<MediaItem>) (change) -> {
+            this.setVisible(this.mediaItemsTableView, change.getList().size() > 0);
+        });
+
+        // Set if table view should be visible initially
+        this.setVisible(this.mediaItemsTableView, mediaItemList.size() > 0);
     }
 
     private void configureMediaTypeChoiceBox() {

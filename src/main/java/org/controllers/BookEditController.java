@@ -2,6 +2,7 @@ package org.controllers;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
@@ -11,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.library.admin.BookEditModel;
 import org.library.admin.EditModel;
+import org.library.media.Actor;
 import org.library.media.Author;
 import org.library.media.Book;
 
@@ -109,6 +111,14 @@ public class BookEditController implements EditController {
         this.authorsTableView.prefHeightProperty().bind(authorsTableView.fixedCellSizeProperty().multiply(Bindings.size(authorsTableView.getItems()).add(1.15)));
         this.authorsTableView.minHeightProperty().bind(this.authorsTableView.prefHeightProperty());
         this.authorsTableView.maxHeightProperty().bind(this.authorsTableView.prefHeightProperty());
+
+        // Hide table view if it has no items
+        this.authorList.addListener((ListChangeListener<Author>) (change) -> {
+            this.setVisible(this.authorsTableView, change.getList().size() > 0);
+        });
+
+        // Set if table view should be visible initially
+        this.setVisible(this.authorsTableView, authorList.size() > 0);
     }
 
     public void removeAuthor() {
