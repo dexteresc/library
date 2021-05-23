@@ -6,13 +6,27 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 
+/**
+ * Database utility for managing database connection and building database queries.
+ *
+ * @see Query
+ * @see EntityQuery
+ */
 public class Database {
     private static final Logger logger = LogManager.getLogger();
+
     private final String host;
     private final String user;
     private final String password;
     private ComboPooledDataSource pooledDataSource;
 
+    /**
+     * Creates a new database instance.
+     *
+     * @param host     Hostname of the remote database server.
+     * @param user     Username for the remote database server.
+     * @param password Password for authenticating the provided username with the remote server.
+     */
     public Database(String host, String user, String password) {
         this.host = host;
         this.user = user;
@@ -38,27 +52,52 @@ public class Database {
         return this.pooledDataSource.getConnection();
     }
 
-    // Used when T can't be determined implicitly.
+    /**
+     * Creates a new entity query builder instance for a select statement.
+     *
+     * @param statement Statement to pass to the new entity query builder instance.
+     * @implNote Used when generic parameter T cannot be determined implicitly.
+     */
     public <T> EntityQuery<T> select(String statement, Class<T> _class) throws Exception {
         logger.debug("Getting entity query for select statement.");
         return new EntityQuery<>(statement, this.getConnection());
     }
 
+    /**
+     * Creates a new entity query builder instance for a select statement.
+     *
+     * @param statement Statement to pass to the new entity query builder instance.
+     */
     public <T> EntityQuery<T> select(String statement) throws Exception {
         logger.debug("Getting entity query for select statement.");
         return new EntityQuery<>(statement, this.getConnection());
     }
 
+    /**
+     * Creates a new query builder instance for an insert statement.
+     *
+     * @param statement Statement to pass to the new query builder instance.
+     */
     public Query insert(String statement) throws Exception {
         logger.debug("Getting entity query for insert statement.");
         return new Query(statement, this.getConnection());
     }
 
+    /**
+     * Creates a new query builder instance for an update statement.
+     *
+     * @param statement Statement to pass to the new query builder instance.
+     */
     public Query update(String statement) throws Exception {
         logger.debug("Getting entity query for update statement.");
         return new Query(statement, this.getConnection());
     }
 
+    /**
+     * Creates a new query builder instance for a delete statement.
+     *
+     * @param statement Statement to pass to the new query builder instance.
+     */
     public Query delete(String statement) throws Exception {
         logger.debug("Getting entity query for delete statement.");
         return new Query(statement, this.getConnection());
