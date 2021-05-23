@@ -39,7 +39,7 @@ public abstract class Media {
     }
 
     /**
-     * Creates a new book instance from a result set.
+     * Creates a new media instance from a result set.
      *
      * @param resultSet A ResultSet instance.
      * @throws SQLException if the ResultSet instance methods throw an exception.
