@@ -20,8 +20,8 @@ public class AuthenticationModel {
     private final BCrypt.Hasher hasher = BCrypt.with(BCrypt.Version.VERSION_2B);
     private final BCrypt.Verifyer verifier = BCrypt.verifyer(BCrypt.Version.VERSION_2B);
 
-    private Database database;
-    private AccountManager accountManager;
+    private final Database database;
+    private final AccountManager accountManager;
     private Account account;
 
     /**

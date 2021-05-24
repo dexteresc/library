@@ -13,9 +13,9 @@ import java.util.Optional;
 
 public class LoanModel {
 
-    private LoanManager loanManager;
-    private MediaItemManager mediaItemManager;
-    private ObservableList<MediaItem> mediaItemList = FXCollections.observableList(new ArrayList<>());
+    private final LoanManager loanManager;
+    private final MediaItemManager mediaItemManager;
+    private final ObservableList<MediaItem> mediaItemList = FXCollections.observableList(new ArrayList<>());
     private Customer customer;
 
     public LoanModel(LoanManager loanManager, MediaItemManager mediaItemManager) {

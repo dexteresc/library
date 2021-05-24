@@ -11,12 +11,12 @@ import java.time.LocalDate;
  * @see org.library.account.Customer
  */
 public class Loan {
-    private Long id;
-    private Long customerId;
-    private Long mediaItemId;
-    private LocalDate borrowedAt;
-    private LocalDate returnBy;
-    private LocalDate returnedAt;
+    private final Long id;
+    private final Long customerId;
+    private final Long mediaItemId;
+    private final LocalDate borrowedAt;
+    private final LocalDate returnBy;
+    private final LocalDate returnedAt;
 
     private Metadata metadata;
 
@@ -84,7 +84,7 @@ public class Loan {
      * Metadata content for loan.
      */
     class Metadata {
-        private String mediaTitle;
+        private final String mediaTitle;
 
         /**
          * Creates a new metadata instance.

@@ -9,7 +9,7 @@ import org.library.media.MediaType;
 
 public class MediaItemsEditModel implements EditModel {
 
-    private MediaItemManager mediaItemManager;
+    private final MediaItemManager mediaItemManager;
     private Media media;
     private ObservableList<MediaItem> mediaItemList;
     private ObservableList<MediaType> mediaTypeList;

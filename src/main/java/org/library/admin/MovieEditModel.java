@@ -5,7 +5,7 @@ import org.library.media.MovieManager;
 
 public class MovieEditModel implements EditModel {
 
-    private MovieManager movieManager;
+    private final MovieManager movieManager;
     private Movie movie;
 
     public MovieEditModel(MovieManager movieManager) {

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class AccountModel {
 
-    private AccountManager accountManager;
+    private final AccountManager accountManager;
 
     public AccountModel(AccountManager accountManager) {
         this.accountManager = accountManager;

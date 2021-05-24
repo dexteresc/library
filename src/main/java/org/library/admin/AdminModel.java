@@ -3,9 +3,9 @@ package org.library.admin;
 import org.library.media.*;
 
 public class AdminModel {
-    private BookManager bookManager;
-    private MovieManager movieManager;
-    private MediaItemManager mediaItemManager;
+    private final BookManager bookManager;
+    private final MovieManager movieManager;
+    private final MediaItemManager mediaItemManager;
 
     private EditModel editModel;
 

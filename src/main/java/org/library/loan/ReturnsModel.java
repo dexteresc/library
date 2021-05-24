@@ -2,7 +2,7 @@ package org.library.loan;
 
 public class ReturnsModel {
 
-    private LoanManager loanManager;
+    private final LoanManager loanManager;
 
     public ReturnsModel(LoanManager loanManager) {
         this.loanManager = loanManager;

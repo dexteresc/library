@@ -11,7 +11,7 @@ public class MediaItem {
     private Long id;
     private Media media;
     private MediaType mediaType;
-    private Boolean currentlyOnLoan;
+    private final Boolean currentlyOnLoan;
     private Status status;
 
     /**

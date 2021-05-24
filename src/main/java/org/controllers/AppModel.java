@@ -15,22 +15,22 @@ import org.library.util.Database;
 
 public final class AppModel {
 
-    private Database database;
+    private final Database database;
 
     // Managers
-    private AccountManager accountManager;
-    private LoanManager loanManager;
-    private BookManager bookManager;
-    private MovieManager movieManager;
-    private MediaItemManager mediaItemManager;
+    private final AccountManager accountManager;
+    private final LoanManager loanManager;
+    private final BookManager bookManager;
+    private final MovieManager movieManager;
+    private final MediaItemManager mediaItemManager;
 
     // Models
-    private AuthenticationModel authenticationModel;
-    private SearchModel searchModel;
-    private LoanModel loanModel;
-    private AdminModel adminModel;
-    private AccountModel accountModel;
-    private ReturnsModel returnsModel;
+    private final AuthenticationModel authenticationModel;
+    private final SearchModel searchModel;
+    private final LoanModel loanModel;
+    private final AdminModel adminModel;
+    private final AccountModel accountModel;
+    private final ReturnsModel returnsModel;
 
     public AppModel(Database database) {
         this.database = database;

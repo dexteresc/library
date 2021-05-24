@@ -5,7 +5,7 @@ import org.library.media.BookManager;
 
 public class BookEditModel implements EditModel {
 
-    private BookManager bookManager;
+    private final BookManager bookManager;
     private Book book;
 
     public BookEditModel(BookManager bookManager) {
