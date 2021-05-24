@@ -13,7 +13,7 @@
     <userData>
         <fx:reference source="controller" />
     </userData>
-    <VBox>
+    <VBox AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <Label>Media items</Label>
         <HBox fx:id="emptyTableIndicator">
             <Label text="No media items in table." />

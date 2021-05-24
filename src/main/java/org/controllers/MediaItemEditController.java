@@ -137,7 +137,7 @@ public class MediaItemEditController implements EditController {
 
     public void removeMediaItem() {
         if (!this.mediaItemsTableView.getSelectionModel().isEmpty()) {
-            this.mediaItemList.remove(this.mediaItemsTableView.getSelectionModel().getSelectedItem());
+            this.mediaItemList.remove(this.mediaItemsTableView.getSelectionModel().getFocusedIndex());
         }
     }
 
