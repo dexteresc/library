@@ -225,7 +225,7 @@ public class BookManager extends MediaManager {
      * Associates an author with a book.
      *
      * @param author Author instance to associate with book.
-     * @param book Book instance author should be associated with.
+     * @param book   Book instance author should be associated with.
      * @throws Exception if a general database error occurs.
      * @implNote This is a blocking operation.
      */
@@ -240,7 +240,7 @@ public class BookManager extends MediaManager {
      * Disassociates an author from a book.
      *
      * @param author Author instance to disassociate from book.
-     * @param book Book instance author should be disassociated from.
+     * @param book   Book instance author should be disassociated from.
      * @throws Exception if a general database error occurs.
      * @implNote This is a blocking operation.
      */

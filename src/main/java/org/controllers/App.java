@@ -17,9 +17,9 @@ import java.io.IOException;
 public class App extends Application {
 
     private static final Logger logger = LogManager.getLogger();
+    private static final AppModel appModel = new AppModel(new Database("jdbc:mysql://ec2-23-20-145-129.compute-1.amazonaws.com:3306/library", "admin", "cbq6LQzci9c"));
     private static Scene scene;
     private static RootController rootController;
-    private static final AppModel appModel = new AppModel(new Database("jdbc:mysql://ec2-23-20-145-129.compute-1.amazonaws.com:3306/library", "admin", "cbq6LQzci9c"));
 
     static void setRoot(String fxml) throws IOException {
         logger.warn("Using static navigation method.");

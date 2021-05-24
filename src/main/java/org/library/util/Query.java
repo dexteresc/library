@@ -7,7 +7,7 @@ import java.sql.*;
 
 /**
  * Database query wrapper.
- *
+ * <p>
  * Wraps a database query that returns does not return anything (except for a generated value, if requested).
  */
 public class Query {

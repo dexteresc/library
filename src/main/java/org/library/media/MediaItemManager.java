@@ -97,7 +97,7 @@ public class MediaItemManager extends MediaManager {
     /**
      * Updates media items for the provided media.
      *
-     * @param media Media that the media items belong to.
+     * @param media      Media that the media items belong to.
      * @param mediaItems New list of media items for the media.
      * @throws Exception if a general database error occurs.
      * @implNote This is a blocking operation.

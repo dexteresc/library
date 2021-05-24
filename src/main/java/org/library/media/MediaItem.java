@@ -100,15 +100,15 @@ public class MediaItem {
             this.rawValue = rawValue;
         }
 
-        public String getRawValue() {
-            return rawValue;
-        }
-
         public static Status resolve(String rawValue) {
-            if (rawValue == null) { return Status.NONE; }
+            if (rawValue == null) {
+                return Status.NONE;
+            }
 
             for (Status status : Status.values()) {
-                if (status.rawValue == null) { continue; }
+                if (status.rawValue == null) {
+                    continue;
+                }
 
                 if (status.rawValue.equals(rawValue)) {
                     return status;
@@ -116,6 +116,10 @@ public class MediaItem {
             }
 
             return Status.NONE;
+        }
+
+        public String getRawValue() {
+            return rawValue;
         }
     }
 }

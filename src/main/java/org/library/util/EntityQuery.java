@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
 
 /**
  * Entity query wrapper.
- *
+ * <p>
  * Wraps a database query that returns one or more entities.
  *
  * @param <T> The entity type that should be returned.
