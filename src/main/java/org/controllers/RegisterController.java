@@ -71,7 +71,7 @@ public class RegisterController implements Controller {
         } else {
             lastNameField.getStyleClass().remove("fieldError");
         }
-        if (email.contains("@") || email.equals("")) {
+        if (!email.contains("@")) {
             emailField.getStyleClass().add("fieldError");
         } else {
             emailField.getStyleClass().remove("fieldError");
