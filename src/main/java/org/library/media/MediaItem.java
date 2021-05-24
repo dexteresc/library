@@ -3,7 +3,8 @@ package org.library.media;
 import java.util.Objects;
 
 /**
- * Media item representing a physical (or digital) copy of a given work (media) in a specific format (media type).
+ * Media item representing a physical (or digital) copy of a given work (media) in a specific format
+ * (media type).
  *
  * @see Media
  */
@@ -14,17 +15,14 @@ public class MediaItem {
     private final Boolean currentlyOnLoan;
     private Status status;
 
-    /**
-     * Creates a new, empty, media item instance.
-     */
+    /** Creates a new, empty, media item instance. */
     public MediaItem() {
         this.currentlyOnLoan = false;
     }
 
-    /**
-     * Creates a new media item instance.
-     */
-    protected MediaItem(Long id, Media media, MediaType mediaType, Boolean currentlyOnLoan, Status status) {
+    /** Creates a new media item instance. */
+    protected MediaItem(
+            Long id, Media media, MediaType mediaType, Boolean currentlyOnLoan, Status status) {
         this.id = id;
         this.media = media;
         this.mediaType = mediaType;

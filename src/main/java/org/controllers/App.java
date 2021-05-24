@@ -1,5 +1,6 @@
 package org.controllers;
 
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,15 +10,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.library.util.Database;
 
-import java.io.IOException;
-
-/**
- * JavaFX App
- */
+/** JavaFX App */
 public class App extends Application {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final AppModel appModel = new AppModel(new Database("jdbc:mysql://ec2-23-20-145-129.compute-1.amazonaws.com:3306/library", "admin", "cbq6LQzci9c"));
+    private static final AppModel appModel =
+            new AppModel(
+                    new Database(
+                            "jdbc:mysql://ec2-23-20-145-129.compute-1.amazonaws.com:3306/library",
+                            "admin",
+                            "cbq6LQzci9c"));
     private static Scene scene;
     private static RootController rootController;
 

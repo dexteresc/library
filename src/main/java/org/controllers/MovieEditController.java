@@ -22,45 +22,33 @@ public class MovieEditController implements EditController {
     private Movie movie;
     private ObservableList<Actor> actorList;
 
-    @FXML
-    private TextField titleField;
+    @FXML private TextField titleField;
 
-    @FXML
-    private TextField summaryField;
+    @FXML private TextField summaryField;
 
-    @FXML
-    private TextField classificationField;
+    @FXML private TextField classificationField;
 
-    @FXML
-    private TextField locationField;
+    @FXML private TextField locationField;
 
-    @FXML
-    private DatePicker publishingDatePicker;
+    @FXML private DatePicker publishingDatePicker;
 
-    @FXML
-    private TextField ageRatingField;
+    @FXML private TextField ageRatingField;
 
-    @FXML
-    private TextField productionCountryField;
+    @FXML private TextField productionCountryField;
 
-    @FXML
-    private TextField directorField;
+    @FXML private TextField directorField;
 
-    @FXML
-    private TableView<Actor> actorsTableView;
+    @FXML private TableView<Actor> actorsTableView;
 
     // New actor
 
-    @FXML
-    private TextField actorGivenNameField;
+    @FXML private TextField actorGivenNameField;
 
-    @FXML
-    private TextField actorFamilyNameField;
+    @FXML private TextField actorFamilyNameField;
 
     // Empty table
 
-    @FXML
-    private HBox emptyTableIndicator;
+    @FXML private HBox emptyTableIndicator;
 
     @Override
     public void setAdminController(AdminController adminController) {
@@ -94,12 +82,24 @@ public class MovieEditController implements EditController {
         // Add listeners
         this.titleField.textProperty().addListener((o, v, value) -> this.movie.setTitle(value));
         this.summaryField.textProperty().addListener((o, v, value) -> this.movie.setSummary(value));
-        this.classificationField.textProperty().addListener((o, v, value) -> this.movie.setClassification(value));
-        this.locationField.textProperty().addListener((o, v, value) -> this.movie.setLocation(value));
-        this.publishingDatePicker.valueProperty().addListener((o, v, value) -> this.movie.setPublishingDate(value));
-        this.ageRatingField.textProperty().addListener((o, v, value) -> this.movie.setAgeRating(value));
-        this.productionCountryField.textProperty().addListener((o, v, value) -> this.movie.setProductionCountry(value));
-        this.directorField.textProperty().addListener((o, v, value) -> this.movie.setDirector(value));
+        this.classificationField
+                .textProperty()
+                .addListener((o, v, value) -> this.movie.setClassification(value));
+        this.locationField
+                .textProperty()
+                .addListener((o, v, value) -> this.movie.setLocation(value));
+        this.publishingDatePicker
+                .valueProperty()
+                .addListener((o, v, value) -> this.movie.setPublishingDate(value));
+        this.ageRatingField
+                .textProperty()
+                .addListener((o, v, value) -> this.movie.setAgeRating(value));
+        this.productionCountryField
+                .textProperty()
+                .addListener((o, v, value) -> this.movie.setProductionCountry(value));
+        this.directorField
+                .textProperty()
+                .addListener((o, v, value) -> this.movie.setDirector(value));
 
         // Make author list observable
         this.actorList = FXCollections.observableList(this.movie.getActors());
@@ -121,15 +121,22 @@ public class MovieEditController implements EditController {
         this.actorsTableView.getColumns().add(familyNameColumn);
 
         this.actorsTableView.setFixedCellSize(25);
-        this.actorsTableView.prefHeightProperty().bind(actorsTableView.fixedCellSizeProperty().multiply(Bindings.size(actorsTableView.getItems()).add(1.15)));
+        this.actorsTableView
+                .prefHeightProperty()
+                .bind(
+                        actorsTableView
+                                .fixedCellSizeProperty()
+                                .multiply(Bindings.size(actorsTableView.getItems()).add(1.15)));
         this.actorsTableView.minHeightProperty().bind(this.actorsTableView.prefHeightProperty());
         this.actorsTableView.maxHeightProperty().bind(this.actorsTableView.prefHeightProperty());
 
         // Hide table view if it has no items
-        this.actorList.addListener((ListChangeListener<Actor>) (change) -> {
-            this.setVisible(this.actorsTableView, change.getList().size() > 0);
-            this.setVisible(this.emptyTableIndicator, change.getList().size() < 1);
-        });
+        this.actorList.addListener(
+                (ListChangeListener<Actor>)
+                        (change) -> {
+                            this.setVisible(this.actorsTableView, change.getList().size() > 0);
+                            this.setVisible(this.emptyTableIndicator, change.getList().size() < 1);
+                        });
 
         // Set if table view should be visible initially
         this.setVisible(this.actorsTableView, actorList.size() > 0);

@@ -10,11 +10,8 @@ import java.sql.SQLException;
  */
 public class Actor extends Person {
 
-    /**
-     * Creates a new, empty, actor instance.
-     */
-    public Actor() {
-    }
+    /** Creates a new, empty, actor instance. */
+    public Actor() {}
 
     /**
      * Creates a new actor instance from a result set.
@@ -25,5 +22,4 @@ public class Actor extends Person {
     public Actor(ResultSet resultSet) throws SQLException {
         super(resultSet);
     }
-
 }

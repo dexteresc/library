@@ -1,5 +1,8 @@
 package org.controllers;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,10 +15,6 @@ import org.library.account.AccountModel;
 import org.library.account.Customer;
 import org.library.account.CustomerType;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 public class RegisterController implements Controller {
 
     private final ObservableList<CustomerType> customerTypes = FXCollections.observableArrayList();
@@ -27,7 +26,9 @@ public class RegisterController implements Controller {
     public TextField lastNameField;
     public TextField firstNameField;
     public ChoiceBox<CustomerType> membershipChoice;
-    Label errorLabel = new Label("Error, please make sure that everything is answered and that it's answered correctly");
+    Label errorLabel =
+            new Label(
+                    "Error, please make sure that everything is answered and that it's answered correctly");
     private AccountModel accountModel;
 
     @Override
@@ -46,12 +47,13 @@ public class RegisterController implements Controller {
     }
 
     @FXML
-    public void switchToLogin() throws IOException { //behövs för att kunna nå register knappen
+    public void switchToLogin() throws IOException { // behövs för att kunna nå register knappen
         App.setRoot("login");
     }
 
     @FXML
-    public void register() throws Exception { // detta gör så vi sparar allt som läggs in i databasen
+    public void register()
+            throws Exception { // detta gör så vi sparar allt som läggs in i databasen
         String firstName = firstNameField.textProperty().getValue();
         String lastName = lastNameField.textProperty().getValue();
         String email = emailField.textProperty().getValue();
@@ -86,9 +88,10 @@ public class RegisterController implements Controller {
             passwordField.getStyleClass().remove("fieldError");
         }
 
-
         // REGISTRATION
-        if (!firstName.matches(".*\\d.*") // lite krav av vad som måste ske innan man kan gå vidare till login
+        if (!firstName.matches(
+                        ".*\\d.*") // lite krav av vad som måste ske innan man kan gå vidare till
+                // login
                 && !firstName.equals("")
                 && !lastName.matches(".*\\d.*")
                 && !lastName.equals("")

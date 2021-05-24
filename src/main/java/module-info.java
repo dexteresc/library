@@ -16,6 +16,8 @@ module org.example {
     exports org.library.security;
     exports org.library.util;
 
-    opens org.controllers to javafx.fxml;
+    opens org.controllers to
+            javafx.fxml;
+
     exports org.controllers;
 }

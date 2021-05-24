@@ -11,9 +11,7 @@ import java.sql.SQLException;
 public class Staff extends Account {
     private String role;
 
-    /**
-     * Creates a new, empty, staff instance.
-     */
+    /** Creates a new, empty, staff instance. */
     public Staff() {
         super();
     }
@@ -25,7 +23,12 @@ public class Staff extends Account {
      * @throws SQLException if the ResultSet instance methods throw an exception.
      */
     public Staff(ResultSet resultSet) throws SQLException {
-        super(resultSet.getLong("id"), resultSet.getString("given_name"), resultSet.getString("family_name"), resultSet.getString("email"), resultSet.getString("phone"));
+        super(
+                resultSet.getLong("id"),
+                resultSet.getString("given_name"),
+                resultSet.getString("family_name"),
+                resultSet.getString("email"),
+                resultSet.getString("phone"));
 
         this.role = resultSet.getString("role");
     }

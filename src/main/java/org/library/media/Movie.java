@@ -17,9 +17,7 @@ public class Movie extends Media {
     private String productionCountry;
     private List<Actor> actors;
 
-    /**
-     * Creates a new, empty, movie instance.
-     */
+    /** Creates a new, empty, movie instance. */
     public Movie() {
         this.actors = new ArrayList<>();
     }
@@ -78,5 +76,4 @@ public class Movie extends Media {
     public void setActors(List<Actor> actors) {
         this.actors = actors;
     }
-
 }

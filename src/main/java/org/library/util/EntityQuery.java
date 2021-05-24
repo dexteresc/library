@@ -9,8 +9,8 @@ import java.util.concurrent.CompletableFuture;
 
 /**
  * Entity query wrapper.
- * <p>
- * Wraps a database query that returns one or more entities.
+ *
+ * <p>Wraps a database query that returns one or more entities.
  *
  * @param <T> The entity type that should be returned.
  */
@@ -40,7 +40,8 @@ public class EntityQuery<T> extends Query {
      * Implicitly configure query prepared statement.
      *
      * @param parameters Parameters to pass to the prepared statement (in order).
-     * @implNote Supports the following data types: string, long, integer, float (discouraged), double, boolean, localdate and null.
+     * @implNote Supports the following data types: string, long, integer, float (discouraged),
+     *     double, boolean, localdate and null.
      */
     @Override
     public EntityQuery<T> configure(Object... parameters) throws Exception {
@@ -51,13 +52,16 @@ public class EntityQuery<T> extends Query {
     /**
      * Executes the database query and passes the result into the provided transformation.
      *
-     * @param transformation Transformation that consumes a ResultSet to return the requested entity type T.
+     * @param transformation Transformation that consumes a ResultSet to return the requested entity
+     *     type T.
      * @return Entity of type T.
-     * @throws Exception if the transformation throws an error, or if a general database error occurs.
+     * @throws Exception if the transformation throws an error, or if a general database error
+     *     occurs.
      */
     public T fetch(Transformation<ResultSet, T> transformation) throws Exception {
         if (!this.isAsync()) {
-            logger.warn("Avoid running synchronous calls on the main thread. Use async methods if possible.");
+            logger.warn(
+                    "Avoid running synchronous calls on the main thread. Use async methods if possible.");
         }
 
         // Declare and set to null to ensure that cleanup can occur, even if an exception is thrown.
@@ -102,13 +106,16 @@ public class EntityQuery<T> extends Query {
     /**
      * Executes the database query and passes the result into the provided transformation.
      *
-     * @param transformation Transformation that consumes a ResultSet to return the requested entity type T.
+     * @param transformation Transformation that consumes a ResultSet to return the requested entity
+     *     type T.
      * @return A list of entities of type T.
-     * @throws Exception if the transformation throws an error, or if a general database error occurs.
+     * @throws Exception if the transformation throws an error, or if a general database error
+     *     occurs.
      */
     public List<T> fetchAll(Transformation<ResultSet, T> transformation) throws Exception {
         if (!this.isAsync()) {
-            logger.warn("Avoid running synchronous calls on the main thread. Use async methods if possible.");
+            logger.warn(
+                    "Avoid running synchronous calls on the main thread. Use async methods if possible.");
         }
 
         // Declare and set to null to ensure that cleanup can occur, even if an exception is thrown.
@@ -156,14 +163,15 @@ public class EntityQuery<T> extends Query {
      */
     public CompletableFuture<T> asyncFetch(Transformation<ResultSet, T> transformation) {
         this.setAsync(true);
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                return this.fetch(transformation);
-            } catch (Exception exception) {
-                exception.printStackTrace();
-                return null;
-            }
-        });
+        return CompletableFuture.supplyAsync(
+                () -> {
+                    try {
+                        return this.fetch(transformation);
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                        return null;
+                    }
+                });
     }
 
     /**
@@ -174,20 +182,21 @@ public class EntityQuery<T> extends Query {
      */
     public CompletableFuture<List<T>> asyncFetchAll(Transformation<ResultSet, T> transformation) {
         this.setAsync(true);
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                return this.fetchAll(transformation);
-            } catch (Exception exception) {
-                exception.printStackTrace();
-                return List.of();
-            }
-        });
+        return CompletableFuture.supplyAsync(
+                () -> {
+                    try {
+                        return this.fetchAll(transformation);
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                        return List.of();
+                    }
+                });
     }
 
     /**
      * A lambda expression that transforms a value (commonly used as a method parameter).
      *
-     * @param <Input>  The input type (e.g. ResultSet).
+     * @param <Input> The input type (e.g. ResultSet).
      * @param <Output> The output type (e.g. Account).
      */
     public interface Transformation<Input, Output> {

@@ -16,16 +16,12 @@ public abstract class Account {
     private String email;
     private String phoneNumber;
 
-    /**
-     * Creates a new, empty, account instance.
-     */
-    public Account() {
-    }
+    /** Creates a new, empty, account instance. */
+    public Account() {}
 
-    /**
-     * Creates a new account instance.
-     */
-    protected Account(Long id, String givenName, String familyName, String email, String phoneNumber) {
+    /** Creates a new account instance. */
+    protected Account(
+            Long id, String givenName, String familyName, String email, String phoneNumber) {
         this.id = id;
         this.givenName = givenName;
         this.familyName = familyName;
@@ -40,7 +36,12 @@ public abstract class Account {
      * @throws SQLException if the ResultSet instance methods throw an exception.
      */
     public Account(ResultSet resultSet) throws SQLException {
-        this(resultSet.getLong("id"), resultSet.getString("given_name"), resultSet.getString("family_name"), resultSet.getString("email"), resultSet.getString("phone"));
+        this(
+                resultSet.getLong("id"),
+                resultSet.getString("given_name"),
+                resultSet.getString("family_name"),
+                resultSet.getString("email"),
+                resultSet.getString("phone"));
     }
 
     public Long getId() {

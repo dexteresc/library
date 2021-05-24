@@ -15,15 +15,10 @@ public abstract class Person {
     private String givenName;
     private String familyName;
 
-    /**
-     * Create a new, empty, person instance.
-     */
-    public Person() {
-    }
+    /** Create a new, empty, person instance. */
+    public Person() {}
 
-    /**
-     * Creates a new person instance.
-     */
+    /** Creates a new person instance. */
     protected Person(Long id, String givenName, String familyName) {
         this.id = id;
         this.givenName = givenName;
@@ -37,7 +32,10 @@ public abstract class Person {
      * @throws SQLException if the ResultSet instance methods throw an exception.
      */
     public Person(ResultSet resultSet) throws SQLException {
-        this(resultSet.getLong("id"), resultSet.getString("given_name"), resultSet.getString("family_name"));
+        this(
+                resultSet.getLong("id"),
+                resultSet.getString("given_name"),
+                resultSet.getString("family_name"));
     }
 
     public Long getId() {

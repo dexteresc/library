@@ -1,15 +1,14 @@
 package org.controllers;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public interface Controller extends Initializable {
     Logger logger = LogManager.getLogger();
@@ -22,9 +21,7 @@ public interface Controller extends Initializable {
         this.initialize(appModel);
     }
 
-    default void initialize(AppModel appModel) {
-
-    }
+    default void initialize(AppModel appModel) {}
 
     // Navigation
 
@@ -66,10 +63,11 @@ public interface Controller extends Initializable {
     }
 
     default void handleException(Exception exception) {
-        this.alert(alert -> {
-            alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setContentText(exception.getMessage());
-        });
+        this.alert(
+                alert -> {
+                    alert.setAlertType(Alert.AlertType.ERROR);
+                    alert.setContentText(exception.getMessage());
+                });
     }
 
     // Internal types

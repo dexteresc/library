@@ -1,10 +1,9 @@
 package org.library.util;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import java.sql.Connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.sql.Connection;
 
 /**
  * Database utility for managing database connection and building database queries.
@@ -23,8 +22,8 @@ public class Database {
     /**
      * Creates a new database instance.
      *
-     * @param host     Hostname of the remote database server.
-     * @param user     Username for the remote database server.
+     * @param host Hostname of the remote database server.
+     * @param user Username for the remote database server.
      * @param password Password for authenticating the provided username with the remote server.
      */
     public Database(String host, String user, String password) {

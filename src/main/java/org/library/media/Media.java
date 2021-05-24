@@ -19,16 +19,18 @@ public abstract class Media {
     private LocalDate publishingDate;
     private Long numberOfLoanableItems;
 
-    /**
-     * Creates a new, empty, media instance.
-     */
-    public Media() {
-    }
+    /** Creates a new, empty, media instance. */
+    public Media() {}
 
-    /**
-     * Creates a new media instance.
-     */
-    protected Media(Long id, String title, String classification, String summary, String location, LocalDate publishingDate, Long numberOfLoanableItems) {
+    /** Creates a new media instance. */
+    protected Media(
+            Long id,
+            String title,
+            String classification,
+            String summary,
+            String location,
+            LocalDate publishingDate,
+            Long numberOfLoanableItems) {
         this.id = id;
         this.title = title;
         this.classification = classification;
@@ -45,7 +47,14 @@ public abstract class Media {
      * @throws SQLException if the ResultSet instance methods throw an exception.
      */
     protected Media(ResultSet resultSet) throws SQLException {
-        this(resultSet.getLong("id"), resultSet.getString("title"), resultSet.getString("classification"), resultSet.getString("summary"), resultSet.getString("location"), resultSet.getObject("publishing_date", LocalDate.class), resultSet.getLong("loanable_item_count"));
+        this(
+                resultSet.getLong("id"),
+                resultSet.getString("title"),
+                resultSet.getString("classification"),
+                resultSet.getString("summary"),
+                resultSet.getString("location"),
+                resultSet.getObject("publishing_date", LocalDate.class),
+                resultSet.getLong("loanable_item_count"));
     }
 
     public Long getId() {
@@ -107,5 +116,4 @@ public abstract class Media {
     public boolean hasItemsAvailableForLoan() {
         return numberOfLoanableItems > 0;
     }
-
 }

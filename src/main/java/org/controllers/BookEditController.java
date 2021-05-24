@@ -22,42 +22,31 @@ public class BookEditController implements EditController {
     private Book book;
     private ObservableList<Author> authorList;
 
-    @FXML
-    private TextField titleField;
+    @FXML private TextField titleField;
 
-    @FXML
-    private TextField summaryField;
+    @FXML private TextField summaryField;
 
-    @FXML
-    private TextField classificationField;
+    @FXML private TextField classificationField;
 
-    @FXML
-    private TextField locationField;
+    @FXML private TextField locationField;
 
-    @FXML
-    private DatePicker publishingDatePicker;
+    @FXML private DatePicker publishingDatePicker;
 
-    @FXML
-    private TextField isbnField;
+    @FXML private TextField isbnField;
 
-    @FXML
-    private TextField publisherField;
+    @FXML private TextField publisherField;
 
-    @FXML
-    private TableView<Author> authorsTableView;
+    @FXML private TableView<Author> authorsTableView;
 
     // New author
 
-    @FXML
-    private TextField authorGivenNameField;
+    @FXML private TextField authorGivenNameField;
 
-    @FXML
-    private TextField authorFamilyNameField;
+    @FXML private TextField authorFamilyNameField;
 
     // Empty table
 
-    @FXML
-    private HBox emptyTableIndicator;
+    @FXML private HBox emptyTableIndicator;
 
     @Override
     public void setAdminController(AdminController adminController) {
@@ -90,11 +79,19 @@ public class BookEditController implements EditController {
         // Add listeners
         this.titleField.textProperty().addListener((o, v, value) -> this.book.setTitle(value));
         this.summaryField.textProperty().addListener((o, v, value) -> this.book.setSummary(value));
-        this.classificationField.textProperty().addListener((o, v, value) -> this.book.setClassification(value));
-        this.locationField.textProperty().addListener((o, v, value) -> this.book.setLocation(value));
-        this.publishingDatePicker.valueProperty().addListener((o, v, value) -> this.book.setPublishingDate(value));
+        this.classificationField
+                .textProperty()
+                .addListener((o, v, value) -> this.book.setClassification(value));
+        this.locationField
+                .textProperty()
+                .addListener((o, v, value) -> this.book.setLocation(value));
+        this.publishingDatePicker
+                .valueProperty()
+                .addListener((o, v, value) -> this.book.setPublishingDate(value));
         this.isbnField.textProperty().addListener((o, v, value) -> this.book.setIsbn(value));
-        this.publisherField.textProperty().addListener((o, v, value) -> this.book.setPublisher(value));
+        this.publisherField
+                .textProperty()
+                .addListener((o, v, value) -> this.book.setPublisher(value));
 
         // Make author list observable
         this.authorList = FXCollections.observableList(this.book.getAuthors());
@@ -116,15 +113,22 @@ public class BookEditController implements EditController {
         this.authorsTableView.getColumns().add(familyNameColumn);
 
         this.authorsTableView.setFixedCellSize(25);
-        this.authorsTableView.prefHeightProperty().bind(authorsTableView.fixedCellSizeProperty().multiply(Bindings.size(authorsTableView.getItems()).add(1.15)));
+        this.authorsTableView
+                .prefHeightProperty()
+                .bind(
+                        authorsTableView
+                                .fixedCellSizeProperty()
+                                .multiply(Bindings.size(authorsTableView.getItems()).add(1.15)));
         this.authorsTableView.minHeightProperty().bind(this.authorsTableView.prefHeightProperty());
         this.authorsTableView.maxHeightProperty().bind(this.authorsTableView.prefHeightProperty());
 
         // Hide table view if it has no items
-        this.authorList.addListener((ListChangeListener<Author>) (change) -> {
-            this.setVisible(this.authorsTableView, change.getList().size() > 0);
-            this.setVisible(this.emptyTableIndicator, change.getList().size() < 1);
-        });
+        this.authorList.addListener(
+                (ListChangeListener<Author>)
+                        (change) -> {
+                            this.setVisible(this.authorsTableView, change.getList().size() > 0);
+                            this.setVisible(this.emptyTableIndicator, change.getList().size() < 1);
+                        });
 
         // Set if table view should be visible initially
         this.setVisible(this.authorsTableView, authorList.size() > 0);

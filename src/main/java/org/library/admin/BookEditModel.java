@@ -35,5 +35,4 @@ public class BookEditModel implements EditModel {
     public void delete() throws Exception {
         this.bookManager.deleteBook(book);
     }
-
 }

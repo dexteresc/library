@@ -35,5 +35,4 @@ public class MovieEditModel implements EditModel {
     public void delete() throws Exception {
         this.movieManager.deleteMovie(movie);
     }
-
 }

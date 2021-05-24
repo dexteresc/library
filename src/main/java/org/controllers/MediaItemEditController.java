@@ -1,5 +1,8 @@
 package org.controllers;
 
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -17,10 +20,6 @@ import org.library.admin.MediaItemsEditModel;
 import org.library.media.MediaItem;
 import org.library.media.MediaType;
 
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-
 public class MediaItemEditController implements EditController {
     private AdminController adminController;
     private MediaItemsEditModel mediaItemsEditModel;
@@ -28,25 +27,19 @@ public class MediaItemEditController implements EditController {
     private ObservableList<MediaType> mediaTypeList;
     private MediaItem editingMediaItem;
 
-    @FXML
-    private TableView<MediaItem> mediaItemsTableView;
+    @FXML private TableView<MediaItem> mediaItemsTableView;
 
-    @FXML
-    private ChoiceBox<MediaType> mediaTypeChoiceBox;
+    @FXML private ChoiceBox<MediaType> mediaTypeChoiceBox;
 
-    @FXML
-    private ChoiceBox<MediaItem.Status> mediaItemStatusChoiceBox;
+    @FXML private ChoiceBox<MediaItem.Status> mediaItemStatusChoiceBox;
 
-    @FXML
-    private Button addMediaItemButton;
+    @FXML private Button addMediaItemButton;
 
-    @FXML
-    private Button saveMediaItemButton;
+    @FXML private Button saveMediaItemButton;
 
     // Empty table
 
-    @FXML
-    private HBox emptyTableIndicator;
+    @FXML private HBox emptyTableIndicator;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -86,7 +79,12 @@ public class MediaItemEditController implements EditController {
         this.mediaItemsTableView.setItems(this.mediaItemList);
 
         TableColumn<MediaItem, String> idColumn = new TableColumn<>("ID");
-        idColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getId() == null ? "-" : cellData.getValue().getId().toString()));
+        idColumn.setCellValueFactory(
+                cellData ->
+                        new ReadOnlyStringWrapper(
+                                cellData.getValue().getId() == null
+                                        ? "-"
+                                        : cellData.getValue().getId().toString()));
 
         TableColumn<MediaItem, String> mediaTypeColumn = new TableColumn<>("Media type");
         mediaTypeColumn.setCellValueFactory(new PropertyValueFactory<>("mediaType"));
@@ -98,7 +96,11 @@ public class MediaItemEditController implements EditController {
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         TableColumn<MediaItem, String> loanPeriodColumn = new TableColumn<>("Loan period");
-        loanPeriodColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getMediaType().getLoanPeriod().toString() + " day(s)"));
+        loanPeriodColumn.setCellValueFactory(
+                cellData ->
+                        new ReadOnlyStringWrapper(
+                                cellData.getValue().getMediaType().getLoanPeriod().toString()
+                                        + " day(s)"));
 
         this.mediaItemsTableView.getColumns().add(idColumn);
         this.mediaItemsTableView.getColumns().add(mediaTypeColumn);
@@ -107,15 +109,26 @@ public class MediaItemEditController implements EditController {
         this.mediaItemsTableView.getColumns().add(loanPeriodColumn);
 
         this.mediaItemsTableView.setFixedCellSize(25);
-        this.mediaItemsTableView.prefHeightProperty().bind(mediaItemsTableView.fixedCellSizeProperty().multiply(Bindings.size(mediaItemsTableView.getItems()).add(1.15)));
-        this.mediaItemsTableView.minHeightProperty().bind(this.mediaItemsTableView.prefHeightProperty());
-        this.mediaItemsTableView.maxHeightProperty().bind(this.mediaItemsTableView.prefHeightProperty());
+        this.mediaItemsTableView
+                .prefHeightProperty()
+                .bind(
+                        mediaItemsTableView
+                                .fixedCellSizeProperty()
+                                .multiply(Bindings.size(mediaItemsTableView.getItems()).add(1.15)));
+        this.mediaItemsTableView
+                .minHeightProperty()
+                .bind(this.mediaItemsTableView.prefHeightProperty());
+        this.mediaItemsTableView
+                .maxHeightProperty()
+                .bind(this.mediaItemsTableView.prefHeightProperty());
 
         // Hide table view if it has no items
-        this.mediaItemList.addListener((ListChangeListener<MediaItem>) (change) -> {
-            this.setVisible(this.mediaItemsTableView, change.getList().size() > 0);
-            this.setVisible(this.emptyTableIndicator, change.getList().size() < 1);
-        });
+        this.mediaItemList.addListener(
+                (ListChangeListener<MediaItem>)
+                        (change) -> {
+                            this.setVisible(this.mediaItemsTableView, change.getList().size() > 0);
+                            this.setVisible(this.emptyTableIndicator, change.getList().size() < 1);
+                        });
 
         // Set if table view should be visible initially
         this.setVisible(this.mediaItemsTableView, mediaItemList.size() > 0);
@@ -131,13 +144,15 @@ public class MediaItemEditController implements EditController {
     }
 
     private void configureMediaItemStatusChoiceBox() {
-        this.mediaItemStatusChoiceBox.setItems(FXCollections.observableList(List.of(MediaItem.Status.values())));
+        this.mediaItemStatusChoiceBox.setItems(
+                FXCollections.observableList(List.of(MediaItem.Status.values())));
         this.mediaItemStatusChoiceBox.setValue(MediaItem.Status.NONE);
     }
 
     public void removeMediaItem() {
         if (!this.mediaItemsTableView.getSelectionModel().isEmpty()) {
-            this.mediaItemList.remove(this.mediaItemsTableView.getSelectionModel().getSelectedItem());
+            this.mediaItemList.remove(
+                    this.mediaItemsTableView.getSelectionModel().getSelectedItem());
         }
     }
 
@@ -164,7 +179,8 @@ public class MediaItemEditController implements EditController {
     public void saveMediaItem() {
         this.editingMediaItem.setMediaType(this.mediaTypeChoiceBox.getValue());
         this.editingMediaItem.setStatus(this.mediaItemStatusChoiceBox.getValue());
-        this.mediaItemList.set(this.mediaItemList.indexOf(this.editingMediaItem), this.editingMediaItem);
+        this.mediaItemList.set(
+                this.mediaItemList.indexOf(this.editingMediaItem), this.editingMediaItem);
 
         this.editingMediaItem = null;
 

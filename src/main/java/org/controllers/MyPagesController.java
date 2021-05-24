@@ -1,5 +1,7 @@
 package org.controllers;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -8,9 +10,6 @@ import org.library.loan.Loan;
 import org.library.loan.LoanManager;
 import org.library.loan.LoanModel;
 import org.library.security.AuthenticationModel;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class MyPagesController implements Controller {
     public Label firstName;
@@ -63,7 +62,8 @@ public class MyPagesController implements Controller {
             loanView.getChildren().add(mainHBox);
             try {
                 for (Loan loan :
-                        loanManager.getActiveCustomerLoans(authenticationModel.getAccount().getId())) {
+                        loanManager.getActiveCustomerLoans(
+                                authenticationModel.getAccount().getId())) {
                     idVBox.getChildren().add(new Label(String.valueOf(loan.getId())));
                     returnDateVBox.getChildren().add(new Label(String.valueOf(loan.getReturnBy())));
                     // todo title titleVBox.getChildren().add(x)
@@ -93,13 +93,16 @@ public class MyPagesController implements Controller {
                 for (Loan lateLoan : loanManager.getLateLoans()) {
                     idVBox.getChildren().add(new Label(String.valueOf(lateLoan.getId())));
                     // TODO: 5/20/2021 Title vbox add
-                    customerIDVBox.getChildren().add(new Label(String.valueOf(lateLoan.getCustomerId())));
-                    returnDateVBox.getChildren().add(new Label(String.valueOf(lateLoan.getReturnBy())));
+                    customerIDVBox
+                            .getChildren()
+                            .add(new Label(String.valueOf(lateLoan.getCustomerId())));
+                    returnDateVBox
+                            .getChildren()
+                            .add(new Label(String.valueOf(lateLoan.getReturnBy())));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
-
 }

@@ -1,29 +1,27 @@
 package org.controllers;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 /**
  * Application Root Controller
- * <p>
- * Wraps the active content controller (e.g. PrimaryController) to include a shared navigation bar.
+ *
+ * <p>Wraps the active content controller (e.g. PrimaryController) to include a shared navigation
+ * bar.
  */
 public class RootController implements Controller {
 
     private Destination previousDestination;
 
-    @FXML
-    private NavigationBarController navigationBarController;
+    @FXML private NavigationBarController navigationBarController;
 
-    @FXML
-    private BorderPane content;
+    @FXML private BorderPane content;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -53,9 +51,7 @@ public class RootController implements Controller {
         BorderPane.setMargin(node, new Insets(0));
     }
 
-    /**
-     * Sets the FXML-file with the provided resource name to the active content.
-     */
+    /** Sets the FXML-file with the provided resource name to the active content. */
     public void present(Destination destination) throws IOException {
         // Enable navigation to previous destination
         if (destination == Destination.PREVIOUS && this.previousDestination != null) {
@@ -68,13 +64,15 @@ public class RootController implements Controller {
             this.navigationBarController.willSetActiveDestination(destination);
         }
 
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(destination.getResourceName()));
+        FXMLLoader fxmlLoader =
+                new FXMLLoader(App.class.getResource(destination.getResourceName()));
         this.setContent(fxmlLoader.load());
 
         // Set new destination as previous destination
-        if (destination != Destination.LOGIN && destination != Destination.REGISTER && destination != Destination.RETURNS) {
+        if (destination != Destination.LOGIN
+                && destination != Destination.REGISTER
+                && destination != Destination.RETURNS) {
             this.previousDestination = destination;
         }
     }
-
 }

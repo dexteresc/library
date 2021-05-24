@@ -1,5 +1,8 @@
 package org.controllers;
 
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,14 +12,10 @@ import org.library.loan.LoanModel;
 import org.library.media.MediaItem;
 import org.library.security.AuthenticationModel;
 
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-
 /**
  * Navigation Bar Controller
- * <p>
- * Provides a shared navigation bar that is state-aware.
+ *
+ * <p>Provides a shared navigation bar that is state-aware.
  */
 public class NavigationBarController implements Controller {
     private static final Logger logger = LogManager.getLogger();
@@ -27,29 +26,21 @@ public class NavigationBarController implements Controller {
     private AuthenticationModel authenticationModel;
     private LoanModel loanModel;
 
-    @FXML
-    private Button registerButton;
+    @FXML private Button registerButton;
 
-    @FXML
-    private Button loginButton;
+    @FXML private Button loginButton;
 
-    @FXML
-    private Button myPagesButton;
+    @FXML private Button myPagesButton;
 
-    @FXML
-    private Button logoutButton;
+    @FXML private Button logoutButton;
 
-    @FXML
-    private Button adminButton;
+    @FXML private Button adminButton;
 
-    @FXML
-    private Button loanButton;
+    @FXML private Button loanButton;
 
-    @FXML
-    private Button returnsButton;
+    @FXML private Button returnsButton;
 
-    @FXML
-    private Button previousButton;
+    @FXML private Button previousButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -65,7 +56,9 @@ public class NavigationBarController implements Controller {
     }
 
     private void configureLoanListener() {
-        this.loanModel.getMediaItemList().addListener((ListChangeListener<MediaItem>) change -> this.updateLoanButton(true));
+        this.loanModel
+                .getMediaItemList()
+                .addListener((ListChangeListener<MediaItem>) change -> this.updateLoanButton(true));
     }
 
     public void navigateTo(Destination destination) {
@@ -79,31 +72,32 @@ public class NavigationBarController implements Controller {
         }
     }
 
-    /**
-     * Updates the actions available to the user based on the current application state.
-     */
+    /** Updates the actions available to the user based on the current application state. */
     private void updateAvailableActions() {
         logger.debug("Updating available actions...");
 
         boolean isAuthenticated = this.authenticationModel.isAuthenticated();
         boolean isCustomer = this.authenticationModel.isCustomer();
         boolean isStaff = this.authenticationModel.isStaff();
-        boolean onlyPrevious = activeDestination == Destination.LOGIN || activeDestination == Destination.REGISTER || activeDestination == Destination.RETURNS;
+        boolean onlyPrevious =
+                activeDestination == Destination.LOGIN
+                        || activeDestination == Destination.REGISTER
+                        || activeDestination == Destination.RETURNS;
 
         this.setVisible(this.registerButton, !isAuthenticated && !onlyPrevious);
         this.setVisible(this.loginButton, !isAuthenticated && !onlyPrevious);
         this.setVisible(this.myPagesButton, isAuthenticated && !onlyPrevious);
         this.setVisible(this.adminButton, isAuthenticated && isStaff && !onlyPrevious);
         this.setVisible(this.logoutButton, isAuthenticated && !onlyPrevious);
-        this.setVisible(this.returnsButton, activeDestination != Destination.NEW_LOAN && !isStaff && !onlyPrevious);
+        this.setVisible(
+                this.returnsButton,
+                activeDestination != Destination.NEW_LOAN && !isStaff && !onlyPrevious);
         this.setVisible(this.previousButton, onlyPrevious);
 
         this.updateLoanButton(!onlyPrevious);
     }
 
-    /**
-     * Updates the loan button based on the current loan state.
-     */
+    /** Updates the loan button based on the current loan state. */
     private void updateLoanButton(boolean canBeVisible) {
         List<MediaItem> mediaItemList = this.loanModel.getMediaItemList();
 
@@ -174,5 +168,4 @@ public class NavigationBarController implements Controller {
         this.loanModel.setCustomer(null);
         this.navigateToHome();
     }
-
 }

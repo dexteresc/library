@@ -1,5 +1,8 @@
 package org.controllers;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -11,22 +14,15 @@ import org.library.loan.LoanModel;
 import org.library.media.MediaItem;
 import org.library.security.AuthenticationModel;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 public class NewLoanController implements Controller {
 
     private LoanModel loanModel;
 
-    @FXML
-    private GridPane loanItemsBox;
+    @FXML private GridPane loanItemsBox;
 
-    @FXML
-    private Button startLoanButton;
+    @FXML private Button startLoanButton;
 
-    @FXML
-    private Label errorLabel;
+    @FXML private Label errorLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -45,15 +41,16 @@ public class NewLoanController implements Controller {
         loanItemsBox.getChildren().clear();
         for (int i = 0; i < mediaItems.size(); i++) { // Add mediaItems to rows.
             // TODO: 5/18/2021 Add return date and other necessary information
-            loanItemsBox.addRow(i + 1, new Label(mediaItems.get(i).getMedia().getTitle()), new Label(mediaItems.get(i).getStatus().getRawValue()));
+            loanItemsBox.addRow(
+                    i + 1,
+                    new Label(mediaItems.get(i).getMedia().getTitle()),
+                    new Label(mediaItems.get(i).getStatus().getRawValue()));
         }
 
         this.updateStartLoanButton();
     }
 
-    /**
-     * Used to update node visibility.
-     */
+    /** Used to update node visibility. */
     private void setNodeVisible(Node node, boolean visible) {
         node.setVisible(visible);
         node.setManaged(visible);

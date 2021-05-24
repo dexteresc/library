@@ -13,5 +13,4 @@ public class ReturnsModel {
 
         return loan.getMetadata().getMediaTitle() + " was returned successfully.";
     }
-
 }

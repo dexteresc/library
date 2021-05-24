@@ -1,5 +1,8 @@
 package org.library.loan;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.library.account.Customer;
@@ -7,15 +10,12 @@ import org.library.media.Media;
 import org.library.media.MediaItem;
 import org.library.media.MediaItemManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 public class LoanModel {
 
     private final LoanManager loanManager;
     private final MediaItemManager mediaItemManager;
-    private final ObservableList<MediaItem> mediaItemList = FXCollections.observableList(new ArrayList<>());
+    private final ObservableList<MediaItem> mediaItemList =
+            FXCollections.observableList(new ArrayList<>());
     private Customer customer;
 
     public LoanModel(LoanManager loanManager, MediaItemManager mediaItemManager) {
@@ -50,7 +50,10 @@ public class LoanModel {
     }
 
     public void remove(Media media) {
-        Optional<MediaItem> mediaItem = this.mediaItemList.stream().filter(item -> item.getMedia().getId().equals(media.getId())).findFirst();
+        Optional<MediaItem> mediaItem =
+                this.mediaItemList.stream()
+                        .filter(item -> item.getMedia().getId().equals(media.getId()))
+                        .findFirst();
         mediaItem.ifPresent(item -> this.mediaItemList.remove(item));
     }
 
@@ -62,11 +65,11 @@ public class LoanModel {
 
         // Update number of active loans for customer in case it has become desynchronized
         this.customer.setNumberOfActiveLoans(
-                this.loanManager.getNumberOfActiveCustomerLoans(this.customer.getId())
-        );
+                this.loanManager.getNumberOfActiveCustomerLoans(this.customer.getId()));
 
         // Check if the new loan would exceed the number of items that the customer has loaned
-        if (this.customer.getNumberOfActiveLoans() + this.mediaItemList.size() > this.customer.getCustomerType().getMaxNumberLoans()) {
+        if (this.customer.getNumberOfActiveLoans() + this.mediaItemList.size()
+                > this.customer.getCustomerType().getMaxNumberLoans()) {
             throw new Exception("Exceeds number of concurrent loans.");
         }
     }

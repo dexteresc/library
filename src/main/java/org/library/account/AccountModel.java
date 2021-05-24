@@ -17,5 +17,4 @@ public class AccountModel {
     public void createCustomerAccount(Customer customer, String password) throws Exception {
         this.accountManager.createCustomerAccount(customer, password);
     }
-
 }

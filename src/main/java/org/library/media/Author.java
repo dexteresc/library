@@ -3,16 +3,11 @@ package org.library.media;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Author representing an author of a book.
- */
+/** Author representing an author of a book. */
 public class Author extends Person {
 
-    /**
-     * Creates a new, empty, author instance.
-     */
-    public Author() {
-    }
+    /** Creates a new, empty, author instance. */
+    public Author() {}
 
     /**
      * Creates a new author instance from a result set.
@@ -23,5 +18,4 @@ public class Author extends Person {
     public Author(ResultSet resultSet) throws SQLException {
         super(resultSet);
     }
-
 }

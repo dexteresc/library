@@ -1,5 +1,8 @@
 package org.controllers;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -8,13 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import org.library.security.AuthenticationModel;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-/**
- * Controller for the login page
- */
+/** Controller for the login page */
 public class LoginController implements Controller {
     public Button registerButton;
     public Button loginButton;
@@ -64,8 +61,12 @@ public class LoginController implements Controller {
             }
             passwordField.clear(); // Clear password field
         } else {
-            passwordField.getStyleClass().remove("fieldError"); // Remove red border if condition is filled
-            usernameField.getStyleClass().remove("fieldError"); // Remove red border if condition is filled
+            passwordField
+                    .getStyleClass()
+                    .remove("fieldError"); // Remove red border if condition is filled
+            usernameField
+                    .getStyleClass()
+                    .remove("fieldError"); // Remove red border if condition is filled
 
             // Attempt login
             try {
@@ -75,7 +76,9 @@ public class LoginController implements Controller {
             } catch (Exception e) {
                 e.printStackTrace();
                 if (!this.loginBox.getChildren().contains(this.errorLabel)) {
-                    this.loginBox.getChildren().add(errorLabel); // Add error label if it is not already present
+                    this.loginBox
+                            .getChildren()
+                            .add(errorLabel); // Add error label if it is not already present
                 }
                 this.errorLabel.setText(e.getMessage()); // Set the error message
                 this.passwordField.clear();

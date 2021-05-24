@@ -1,5 +1,7 @@
 package org.controllers;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -9,20 +11,14 @@ import org.library.media.Book;
 import org.library.media.Media;
 import org.library.media.Movie;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 public class AdminController implements Controller {
     private AdminModel adminModel;
 
-    @FXML
-    private VBox childNode;
+    @FXML private VBox childNode;
 
-    @FXML
-    private Button cancelButton;
+    @FXML private Button cancelButton;
 
-    @FXML
-    private Button saveButton;
+    @FXML private Button saveButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

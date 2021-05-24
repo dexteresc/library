@@ -30,14 +30,16 @@ public class MediaItemsEditModel implements EditModel {
 
     public ObservableList<MediaItem> getMediaItemList() throws Exception {
         if (this.mediaItemList == null) {
-            this.mediaItemList = FXCollections.observableList(this.mediaItemManager.getAllMediaItems(media));
+            this.mediaItemList =
+                    FXCollections.observableList(this.mediaItemManager.getAllMediaItems(media));
         }
         return this.mediaItemList;
     }
 
     public ObservableList<MediaType> getMediaTypeList() throws Exception {
         if (this.mediaTypeList == null) {
-            this.mediaTypeList = FXCollections.observableList(this.mediaItemManager.getAllMediaTypes());
+            this.mediaTypeList =
+                    FXCollections.observableList(this.mediaItemManager.getAllMediaTypes());
         }
         return this.mediaTypeList;
     }
@@ -60,5 +62,4 @@ public class MediaItemsEditModel implements EditModel {
     public void delete() throws Exception {
         // Can't delete.
     }
-
 }

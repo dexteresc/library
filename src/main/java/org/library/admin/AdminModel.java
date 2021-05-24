@@ -9,7 +9,8 @@ public class AdminModel {
 
     private EditModel editModel;
 
-    public AdminModel(BookManager bookManager, MovieManager movieManager, MediaItemManager mediaItemManager) {
+    public AdminModel(
+            BookManager bookManager, MovieManager movieManager, MediaItemManager mediaItemManager) {
         this.bookManager = bookManager;
         this.movieManager = movieManager;
         this.mediaItemManager = mediaItemManager;

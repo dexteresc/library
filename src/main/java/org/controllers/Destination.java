@@ -2,8 +2,8 @@ package org.controllers;
 
 /**
  * Destination
- * <p>
- * A type-safe representation of FXML resources.
+ *
+ * <p>A type-safe representation of FXML resources.
  */
 public enum Destination {
     HOME("primary"),
@@ -41,9 +41,7 @@ public enum Destination {
         return Destination.CUSTOM(value);
     }
 
-    /**
-     * @return The name of the underlying FXML resource.
-     */
+    /** @return The name of the underlying FXML resource. */
     public String getResourceName() {
         return resourceName + ".fxml";
     }

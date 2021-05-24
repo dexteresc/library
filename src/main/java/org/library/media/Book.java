@@ -17,17 +17,22 @@ public class Book extends Media {
     private String publisher;
     private List<Author> authors;
 
-    /**
-     * Creates a new, empty, book instance.
-     */
+    /** Creates a new, empty, book instance. */
     public Book() {
         this.authors = new ArrayList<>();
     }
 
-    /**
-     * Creates a new book instance.
-     */
-    protected Book(Long id, String title, String classification, String summary, String location, LocalDate publishingDate, String publisher, String isbn, List<Author> authors) {
+    /** Creates a new book instance. */
+    protected Book(
+            Long id,
+            String title,
+            String classification,
+            String summary,
+            String location,
+            LocalDate publishingDate,
+            String publisher,
+            String isbn,
+            List<Author> authors) {
         super(id, title, classification, summary, location, publishingDate, (long) 0);
 
         this.isbn = isbn;
@@ -80,5 +85,4 @@ public class Book extends Media {
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
-
 }

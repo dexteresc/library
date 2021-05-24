@@ -12,9 +12,7 @@ public class Customer extends Account {
     private CustomerType customerType;
     private Long numberOfActiveLoans; // Pre-computed value
 
-    /**
-     * Creates a new, empty, customer instance.
-     */
+    /** Creates a new, empty, customer instance. */
     public Customer() {
         super();
     }
@@ -26,7 +24,12 @@ public class Customer extends Account {
      * @throws SQLException if the ResultSet instance methods throw an exception.
      */
     public Customer(ResultSet resultSet) throws SQLException {
-        super(resultSet.getLong("id"), resultSet.getString("given_name"), resultSet.getString("family_name"), resultSet.getString("email"), resultSet.getString("phone"));
+        super(
+                resultSet.getLong("id"),
+                resultSet.getString("given_name"),
+                resultSet.getString("family_name"),
+                resultSet.getString("email"),
+                resultSet.getString("phone"));
 
         this.customerType = new CustomerType(resultSet);
         this.numberOfActiveLoans = resultSet.getLong("active_loan_count");
