@@ -106,23 +106,8 @@
                         <!-- apply a specific flavor of google-java-format -->
                         <googleJavaFormat>
                             <version>1.8</version>
-                            <style>GOOGLE</style>
+                            <style>AOSP</style>
                         </googleJavaFormat>
-                        <indent>
-                            <tabs>true</tabs>
-                            <spacesPerTab>2</spacesPerTab>
-                        </indent>
-                        <indent>
-                            <spaces>true</spaces>
-                            <spacesPerTab>4</spacesPerTab>
-                        </indent>
-
-                        <!-- make sure every file has the following copyright header.
-                          optionally, Spotless can set copyright years by digging
-                          through git history (see "license" section below) -->
-                        <licenseHeader>
-                            <content>/* (C)$YEAR */</content>  <!-- or <file>${basedir}/license-header</file> -->
-                        </licenseHeader>
                     </java>
                 </configuration>
             </plugin>
