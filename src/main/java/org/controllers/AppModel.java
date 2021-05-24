@@ -8,7 +8,6 @@ import org.library.loan.LoanModel;
 import org.library.loan.ReturnsModel;
 import org.library.media.BookManager;
 import org.library.media.MediaItemManager;
-import org.library.media.MediaManager;
 import org.library.media.MovieManager;
 import org.library.search.SearchModel;
 import org.library.security.AuthenticationModel;
